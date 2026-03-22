@@ -63,6 +63,7 @@ import {
   BarChart,
   MessageSquareQuote,
   Grid2x2,
+  Clock,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -102,6 +103,31 @@ const components: CardData[] = [
         <Zap className="absolute right-8 top-24 h-6 w-6 text-purple-500/[0.08] rotate-45" />
       </>
     ),
+  },
+  {
+    name: "google gemini effect",
+    href: "/docs/components/google-gemini-effect",
+    tier: "Tier 1",
+    tagline: "Scroll Animation",
+    description:" An animated SVG path effect synchronized with scroll progress, creating dynamic wave animations.",
+    deps: ["motion"],
+    gradient: "from-red-600/20 via-pink-600/10 to-transparent",
+    glowColor: "rgba(249,115,22,0.15)",
+    iconBg: "bg-gradient-to-br from-red-500 to-pink-500",
+    accentLine: "from-red-500 to-pink-500",
+    icon: <Waves className="h-5 w-5 text-white" />,
+
+  },
+  {
+    name: "Images Badge",
+    href: "/docs/components/images-badge",
+    tier: "Tier 1",
+    tagline: "Animated Folder",
+    description:" An animated folder badge component that displays preview images with a 3D hover effect. Images fan out when hovered, creating an interactive reveal animation.",
+    deps: ["framer-motion"],
+    gradient: "from-yellow-600/20 via-amber-600/10 to-transparent",
+    glowColor: "rgba(245,158,11,0.15)",
+    iconBg: "bg-gradient-to-br from-yellow-500 to-amber-500",
   },
   {
     name: "3D Hover Card",
@@ -1280,23 +1306,23 @@ const components: CardData[] = [
     ),
   },
   {
-    name: "Progress Ring",
-    href: "/docs/components/progress-ring",
+    name: "Timeline",
+    href: "/docs/components/timeline",
     tier: "Tier 1",
-    tagline: "Data Viz",
+    tagline: "Scroll Animation",
     description:
-      "An SVG circular progress ring with animated stroke-dashoffset, gradient stroke, rounded line caps, and a center content slot. Animates on scroll into view.",
+      "An animated vertical timeline with scroll-triggered progress, perfect for displaying chronological events, milestones, and journey stories.",
     deps: ["framer-motion"],
-    gradient: "from-emerald-600/20 via-teal-600/10 to-transparent",
-    glowColor: "rgba(16,185,129,0.15)",
-    iconBg: "bg-gradient-to-br from-emerald-500 to-teal-500",
-    accentLine: "from-emerald-500 to-teal-500",
-    icon: <CircleDot className="h-5 w-5 text-white" />,
+    gradient: "from-blue-600/20 via-cyan-600/10 to-transparent",
+    glowColor: "rgba(59,130,246,0.15)",
+    iconBg: "bg-gradient-to-br from-blue-500 to-cyan-500",
+    accentLine: "from-blue-500 to-cyan-500",
+    icon: <Clock className="h-5 w-5 text-white" />,
     decorativeIcons: (
       <>
-        <CircleDot className="absolute right-6 top-6 h-16 w-16 text-emerald-500/[0.07] rotate-12" />
-        <Sparkles className="absolute right-20 top-14 h-8 w-8 text-teal-500/[0.1] -rotate-12" />
-        <Zap className="absolute right-10 top-24 h-6 w-6 text-green-500/[0.08] rotate-45" />
+        <Clock className="absolute right-6 top-6 h-16 w-16 text-blue-500/[0.07] rotate-12" />
+        <Sparkles className="absolute right-20 top-14 h-8 w-8 text-cyan-500/[0.1] -rotate-12" />
+        <Zap className="absolute right-10 top-24 h-6 w-6 text-blue-500/[0.08] rotate-45" />
       </>
     ),
   },

@@ -48,6 +48,7 @@ const sidebarSections: { heading: string; items: SidebarItem[] }[] = [
       { title: "Ripple Button", href: "/docs/components/ripple-button", icon: <Droplet className="h-4 w-4" /> },
       { title: "Gradient Border", href: "/docs/components/gradient-border-button", icon: <Square className="h-4 w-4" /> },
       { title: "Confetti Button", href: "/docs/components/confetti-button", icon: <PartyPopper className="h-4 w-4" /> },
+      { title: "Google gemini effect", href: "/docs/components/google-gemini-effect", icon: <Globe className="h-4 w-4" /> },
     ],
   },
   {
@@ -93,6 +94,7 @@ const sidebarSections: { heading: string; items: SidebarItem[] }[] = [
     heading: "Scroll Effects",
     items: [
       { title: "Parallax Scroll", href: "/docs/components/parallax-scroll", icon: <ArrowUpDown className="h-4 w-4" /> },
+      { title: "timeline", href: "/docs/components/timeline", icon: <Layout className="h-4 w-4" /> },
       { title: "Sticky Reveal", href: "/docs/components/sticky-scroll-reveal", icon: <Pin className="h-4 w-4" /> },
       { title: "Scroll Progress", href: "/docs/components/scroll-progress", icon: <BarChart3 className="h-4 w-4" /> },
       { title: "Fade on Scroll", href: "/docs/components/fade-on-scroll", icon: <Eye className="h-4 w-4" /> },

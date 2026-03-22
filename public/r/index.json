@@ -308,6 +308,18 @@
       "type": "registry:ui",
       "description": "A macOS Spotlight / Raycast-style search dialog with keyboard navigation, category grouping, and spring animations.",
       "url": "https://flexui.dev/r/search-spotlight.json"
+    },
+    {
+      "name": "images-badge",
+      "type": "registry:ui",
+      "description": "An animated folder badge component that displays images with a 3D hover effect, fanning images out on interaction.",
+      "url": "https://flexui.dev/r/images-badge.json"
+    },
+    {
+      "name": "google-gemini-effect",
+      "type": "registry:ui",
+      "description": "An animated SVG path effect synchronized with scroll progress, creating dynamic wave animations with multiple colored strokes.",
+      "url": "https://flexui.dev/r/google-gemini-effect.json"
     }
   ]
 }

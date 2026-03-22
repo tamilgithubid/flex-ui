@@ -779,6 +779,34 @@ const COMPONENTS: RegistryComponent[] = [
     registryDependencies: [],
     files: [{ path: "components/flexui/search-spotlight.tsx", target: "components/flexui/search-spotlight.tsx" }],
   },
+  {
+    name: "images-badge",
+    type: "registry:ui",
+    title: "Images Badge",
+    description: "An animated folder badge component that displays images with a 3D hover effect, fanning images out on interaction.",
+    dependencies: ["motion"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "components/ui/images-badge.tsx",
+        target: "components/ui/images-badge.tsx",
+      },
+    ],
+  },
+  {
+    name: "google-gemini-effect",
+    type: "registry:ui",
+    title: "Google Gemini Effect",
+    description: "An animated SVG path effect synchronized with scroll progress, creating dynamic wave animations with multiple colored strokes.",
+    dependencies: ["motion"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "components/ui/google-gemini-effect.tsx",
+        target: "components/ui/google-gemini-effect.tsx",
+      },
+    ],
+  },
 ];
 
 // ─── Build Logic ────────────────────────────────────────────────────────────

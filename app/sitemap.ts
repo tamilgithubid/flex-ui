@@ -24,6 +24,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/docs/components/expandable-card",
     "/docs/components/reflective-card",
     "/docs/components/morphing-card",
+    // Badges
+    "/docs/components/images-badge",
+    "/docs/components/google-gemini-effect",
     // Text Animations
     "/docs/components/text-reveal",
     "/docs/components/number-ticker",
