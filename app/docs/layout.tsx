@@ -10,7 +10,7 @@ export default function DocsLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-background text-foreground">
       <Navbar />
       <CommandPalette />
       <div className="mx-auto flex max-w-7xl px-6 pt-16">
@@ -18,7 +18,7 @@ export default function DocsLayout({
         <main className="min-w-0 flex-1 py-8 lg:pl-10">
           <MobileSidebar />
           <div className="flex gap-8">
-            <article className="prose-invert min-w-0 max-w-3xl flex-1">
+            <article className="prose-invert min-w-0 max-w-7xl flex-1">
               {children}
             </article>
             <TableOfContents />
