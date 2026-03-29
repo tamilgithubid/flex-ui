@@ -1,7 +1,7 @@
 {
   "name": "flexui",
   "version": "0.1.0",
-  "totalComponents": 157,
+  "totalComponents": 153,
   "components": [
     { "name": "accordion", "label": "Accordion", "tier": 1, "category": "layout", "tags": ["disclosure", "collapse", "expandable"], "description": "Animated accordion with spring physics expand/collapse.", "dependencies": ["framer-motion"] },
     { "name": "ambient-tilt", "label": "AmbientTilt", "tier": 3, "category": "effect", "tags": ["3d", "tilt", "gyroscope", "parallax"], "description": "Device gyroscope / cursor-driven parallax tilt effect.", "dependencies": ["framer-motion"] },
@@ -149,7 +149,13 @@
     { "name": "typewriter-text", "label": "TypewriterText", "tier": 1, "category": "text", "tags": ["typewriter", "text", "typing", "cursor"], "description": "Classic typewriter typing animation with cursor.", "dependencies": ["framer-motion"] },
     { "name": "wavy-background", "label": "WavyBackground", "tier": 2, "category": "background", "tags": ["wavy", "waves", "animated", "background"], "description": "Animated wavy gradient background.", "dependencies": [] },
     { "name": "wavy-text", "label": "WavyText", "tier": 1, "category": "text", "tags": ["text", "wavy", "wave", "animated"], "description": "Text with per-character wave animation.", "dependencies": ["framer-motion"] },
-    { "name": "wobble-card", "label": "WobbleCard", "tier": 2, "category": "card", "tags": ["card", "wobble", "spring", "hover"], "description": "Card with spring-physics wobble on hover.", "dependencies": ["framer-motion"] }
+    { "name": "wobble-card", "label": "WobbleCard", "tier": 2, "category": "card", "tags": ["card", "wobble", "spring", "hover"], "description": "Card with spring-physics wobble on hover.", "dependencies": ["framer-motion"] },
+    { "name": "preloader", "label": "Preloader", "tier": 2, "category": "effect", "tags": ["preloader", "loading", "image", "strip", "cinematic"], "description": "Cinematic image strip preloader with staggered reveal animation.", "dependencies": ["framer-motion"] },
+    { "name": "theme-provider", "label": "ThemeProvider", "tier": 1, "category": "layout", "tags": ["theme", "context", "provider", "css-variables", "dark-mode"], "description": "React context provider for FlexUI multi-theme system with localStorage persistence and CSS variable injection.", "dependencies": [] },
+    { "name": "three-hover-card", "label": "ThreeHoverCard", "tier": 2, "category": "card", "tags": ["3d", "card", "hover", "tilt", "spring"], "description": "Interactive 3D hover card with spring-physics tilt, spotlight glow, and zoom effects.", "dependencies": ["framer-motion"] },
+    { "name": "voice-command", "label": "VoiceCommand", "tier": 2, "category": "form", "tags": ["voice", "speech", "command", "recognition", "accessibility"], "description": "Voice command palette using Web Speech API for hands-free interaction.", "dependencies": ["framer-motion"] },
+    { "name": "voice-input", "label": "VoiceInput", "tier": 2, "category": "form", "tags": ["voice", "input", "speech-to-text", "waveform", "microphone"], "description": "Speech-to-text input field with waveform visualization.", "dependencies": ["framer-motion"] },
+    { "name": "voice-search", "label": "VoiceSearch", "tier": 2, "category": "navigation", "tags": ["voice", "search", "speech", "cmd-k", "modal"], "description": "Cmd+K search modal with voice recognition support.", "dependencies": ["framer-motion"] }
   ],
   "categories": [
     "animation", "background", "block", "button", "card", "cursor", "data",
