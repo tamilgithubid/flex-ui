@@ -5,12 +5,16 @@ import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Menu, X, Github } from "lucide-react";
+import { ThemeSwitcher } from "@/components/docs/theme-switcher";
 
 const navLinks = [
   { href: "/docs/introduction", label: "Docs" },
   { href: "/docs/components", label: "Components" },
+  { href: "/templates", label: "Templates", badge: "New" },
   { href: "/docs/installation", label: "Installation" },
-  { href: "/docs/changelog", label: "Changelog" },
+  { href: "/studio", label: "Studio", badge: "AI" },
+  { href: "/blog", label: "Blog" },
+  { href: "/showcase", label: "Showcase" },
 ];
 
 export function Navbar() {
@@ -28,7 +32,7 @@ export function Navbar() {
       className={cn(
         "fixed left-0 right-0 top-0 z-50 transition-all duration-300",
         scrolled
-          ? "border-b border-white/[0.06] bg-black/80 backdrop-blur-xl"
+          ? "border-b border-border bg-background/80 backdrop-blur-xl"
           : "bg-transparent"
       )}
     >
@@ -56,14 +60,20 @@ export function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className="rounded-lg px-3 py-2 text-sm text-zinc-400 transition-colors hover:text-white"
+              className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm text-zinc-400 transition-colors hover:text-white"
             >
               {link.label}
+              {"badge" in link && link.badge && (
+                <span className="rounded bg-gradient-to-r from-blue-500/20 to-cyan-500/20 px-1.5 py-0.5 text-[10px] font-semibold leading-none text-cyan-400 ring-1 ring-cyan-500/20">
+                  {link.badge}
+                </span>
+              )}
             </Link>
           ))}
-          <div className="mx-3 h-4 w-px bg-white/10" />
+          <div className="mx-2 h-4 w-px bg-white/10" />
+          <ThemeSwitcher />
           <Link
-            href="https://github.com"
+            href="https://github.com/flexui/flexui"
             target="_blank"
             className="rounded-lg p-2 text-zinc-400 transition-colors hover:text-white"
           >
@@ -74,6 +84,8 @@ export function Navbar() {
         {/* Mobile toggle */}
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label={mobileOpen ? "Close menu" : "Open menu"}
+          aria-expanded={mobileOpen}
           className="rounded-lg p-2 text-zinc-400 transition-colors hover:text-white md:hidden"
         >
           {mobileOpen ? (
@@ -86,16 +98,21 @@ export function Navbar() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="border-t border-white/[0.06] bg-black/95 backdrop-blur-xl md:hidden">
+        <div className="border-t border-border bg-background/95 backdrop-blur-xl md:hidden">
           <div className="flex flex-col gap-1 px-6 py-4">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
-                className="rounded-lg px-3 py-2.5 text-sm text-zinc-400 transition-colors hover:text-white"
+                className="flex items-center gap-1.5 rounded-lg px-3 py-2.5 text-sm text-zinc-400 transition-colors hover:text-white"
               >
                 {link.label}
+                {"badge" in link && link.badge && (
+                  <span className="rounded bg-gradient-to-r from-blue-500/20 to-cyan-500/20 px-1.5 py-0.5 text-[10px] font-semibold leading-none text-cyan-400 ring-1 ring-cyan-500/20">
+                    {link.badge}
+                  </span>
+                )}
               </Link>
             ))}
           </div>

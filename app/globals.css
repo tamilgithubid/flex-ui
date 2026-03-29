@@ -1,19 +1,471 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-background: #000000;
-  --color-foreground: #ededed;
+  --color-background: var(--flexui-background, #000000);
+  --color-foreground: var(--flexui-foreground, #ededed);
+
+  /* Surface layers */
+  --color-surface: var(--flexui-surface, rgba(24, 24, 27, 0.8));
+  --color-surface-hover: var(--flexui-surface-hover, rgba(39, 39, 42, 0.6));
+  --color-surface-active: var(--flexui-surface-active, rgba(39, 39, 42, 0.8));
+
+  /* Borders */
+  --color-border: var(--flexui-border, rgba(255, 255, 255, 0.08));
+  --color-border-hover: var(--flexui-border-hover, rgba(255, 255, 255, 0.15));
+  --color-border-focus: var(--flexui-border-focus, rgba(139, 92, 246, 0.5));
+
+  /* Accent / brand */
+  --color-accent: var(--flexui-accent, #8B5CF6);
+  --color-accent-foreground: var(--flexui-accent-foreground, #ffffff);
+  --color-accent-hover: var(--flexui-accent-hover, #7C3AED);
+  --color-accent-glow: var(--flexui-accent-glow, rgba(139, 92, 246, 0.3));
+
+  /* Secondary */
+  --color-secondary: var(--flexui-secondary, #3B82F6);
+  --color-secondary-foreground: var(--flexui-secondary-foreground, #ffffff);
+
+  /* Muted */
+  --color-muted: var(--flexui-muted, rgba(255, 255, 255, 0.03));
+  --color-muted-foreground: var(--flexui-muted-foreground, #71717A);
+
+  /* Status */
+  --color-success: var(--flexui-success, #10B981);
+  --color-warning: var(--flexui-warning, #F59E0B);
+  --color-error: var(--flexui-error, #EF4444);
+  --color-info: var(--flexui-info, #3B82F6);
+
+  /* Typography */
+  --color-heading: var(--flexui-heading, #ffffff);
+  --color-body: var(--flexui-body, #A1A1AA);
+  --color-caption: var(--flexui-caption, #71717A);
+
+  /* Fonts */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
+/* FlexUI Semantic Design Tokens — defaults (Midnight theme) */
+:root {
+  /* Core surfaces */
+  --flexui-background: #09090b;
+  --flexui-foreground: #fafafa;
+  --flexui-surface: rgba(17, 17, 21, 0.75);
+  --flexui-surface-hover: rgba(28, 28, 35, 0.65);
+  --flexui-surface-active: rgba(40, 40, 50, 0.6);
+
+  /* Borders */
+  --flexui-border: rgba(139, 92, 246, 0.06);
+  --flexui-border-hover: rgba(139, 92, 246, 0.14);
+  --flexui-border-focus: rgba(167, 139, 250, 0.6);
+
+  /* Accent */
+  --flexui-accent: #A78BFA;
+  --flexui-accent-foreground: #09090b;
+  --flexui-accent-hover: #C4B5FD;
+  --flexui-accent-glow: rgba(167, 139, 250, 0.35);
+
+  /* Secondary */
+  --flexui-secondary: #818CF8;
+  --flexui-secondary-foreground: #09090b;
+
+  /* Muted */
+  --flexui-muted: rgba(139, 92, 246, 0.04);
+  --flexui-muted-foreground: #6b6b80;
+
+  /* Status */
+  --flexui-success: #6EE7B7;
+  --flexui-warning: #FDE68A;
+  --flexui-error: #FCA5A5;
+  --flexui-info: #93C5FD;
+
+  /* Effects */
+  --flexui-glow-primary: 167, 139, 250;
+  --flexui-glow-secondary: 129, 140, 248;
+  --flexui-shimmer: rgba(167, 139, 250, 0.15);
+  --flexui-spotlight: rgba(167, 139, 250, 0.08);
+
+  /* Typography */
+  --flexui-heading: #fafafa;
+  --flexui-body: #a1a1aa;
+  --flexui-caption: #52525b;
+
+  /* Radii */
+  --flexui-radius-sm: 0.5rem;
+  --flexui-radius-md: 0.75rem;
+  --flexui-radius-lg: 1rem;
+  --flexui-radius-xl: 1.5rem;
+
+  /* Shadows */
+  --flexui-shadow-sm: 0 1px 3px rgba(0,0,0,0.5), 0 0 1px rgba(139,92,246,0.05);
+  --flexui-shadow-md: 0 4px 16px rgba(0,0,0,0.4), 0 0 8px rgba(139,92,246,0.04);
+  --flexui-shadow-lg: 0 16px 48px rgba(0,0,0,0.5), 0 0 24px rgba(139,92,246,0.06);
+  --flexui-shadow-glow: 0 0 20px rgba(167,139,250,0.2), 0 0 80px rgba(139,92,246,0.1), 0 0 120px rgba(139,92,246,0.05);
+}
+
 body {
-  background: var(--color-background);
-  color: var(--color-foreground);
+  background: var(--flexui-background);
+  color: var(--flexui-foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
 }
 
 ::selection {
-  background-color: rgba(120, 119, 198, 0.3);
+  background-color: var(--flexui-accent-glow, rgba(120, 119, 198, 0.3));
   color: white;
+}
+
+/* Marquee animations */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-reverse {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@utility animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+@utility animate-marquee-reverse {
+  animation: marquee-reverse 30s linear infinite;
+}
+
+/* Marquee scroll (used by Marquee component) */
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Shimmer animation */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@utility animate-shimmer {
+  animation: shimmer 2s linear infinite;
+}
+
+/* Typewriter cursor blink */
+@keyframes typewriter-blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Gradient text shift */
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+@utility animate-gradient-shift {
+  animation: gradient-shift 3s linear infinite;
+}
+
+/* Beam sweep animation */
+@keyframes beam-sweep {
+  0% {
+    transform: translateX(-100%) rotate(var(--tw-rotate, 0deg));
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(200%) rotate(var(--tw-rotate, 0deg));
+    opacity: 0;
+  }
+}
+
+@utility animate-beam-sweep {
+  animation: beam-sweep 8s linear infinite;
+}
+
+/* Star twinkle animation */
+@keyframes star-twinkle {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@utility animate-star-twinkle {
+  animation: star-twinkle 3s ease-in-out infinite;
+}
+
+/* Mesh gradient blob animations */
+@keyframes mesh-blob-1 {
+  0% {
+    transform: translate(-50%, -50%) translate(0, 0);
+  }
+  100% {
+    transform: translate(-50%, -50%) translate(80px, 60px);
+  }
+}
+
+@keyframes mesh-blob-2 {
+  0% {
+    transform: translate(-50%, -50%) translate(0, 0);
+  }
+  100% {
+    transform: translate(-50%, -50%) translate(-60px, 80px);
+  }
+}
+
+@keyframes mesh-blob-3 {
+  0% {
+    transform: translate(-50%, -50%) translate(0, 0);
+  }
+  100% {
+    transform: translate(-50%, -50%) translate(70px, -50px);
+  }
+}
+
+@keyframes mesh-blob-4 {
+  0% {
+    transform: translate(-50%, -50%) translate(0, 0);
+  }
+  100% {
+    transform: translate(-50%, -50%) translate(-50px, -70px);
+  }
+}
+
+/* Wavy background drift animation */
+@keyframes wave-drift {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Aurora background shift */
+@keyframes aurora-shift {
+  0% {
+    transform: translate(0%, 0%) rotate(0deg) scale(1);
+  }
+  25% {
+    transform: translate(10%, -15%) rotate(5deg) scale(1.05);
+  }
+  50% {
+    transform: translate(-5%, 10%) rotate(-3deg) scale(0.95);
+  }
+  75% {
+    transform: translate(-10%, -5%) rotate(4deg) scale(1.02);
+  }
+  100% {
+    transform: translate(0%, 0%) rotate(0deg) scale(1);
+  }
+}
+
+@utility animate-aurora-shift {
+  animation: aurora-shift 8s ease-in-out infinite;
+}
+
+/* Particle drift */
+@keyframes particle-drift {
+  0% {
+    transform: translateY(0px) translateX(0px);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-60px) translateX(20px);
+    opacity: 0;
+  }
+}
+
+@utility animate-particle-drift {
+  animation: particle-drift 6s ease-in-out infinite;
+}
+
+/* Glow button pulse */
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px var(--glow-color), 0 0 60px var(--glow-color-soft);
+  }
+  50% {
+    box-shadow: 0 0 30px var(--glow-color-intense), 0 0 80px var(--glow-color);
+  }
+}
+
+/* Ripple button expand */
+@keyframes ripple-expand {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+/* Gradient border rotation */
+@keyframes border-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Disintegration particle */
+@keyframes disintegrate-particle {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--dx), var(--dy)) rotate(var(--rot)) scale(0);
+  }
+}
+
+/* Confetti burst */
+@keyframes confetti-burst {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--confetti-tx), var(--confetti-ty)) rotate(var(--confetti-rot));
+    opacity: 0;
+  }
+}
+
+/* Animated beam travel */
+@keyframes beam-travel {
+  0% {
+    stroke-dashoffset: 2060;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@utility animate-beam-travel {
+  animation: beam-travel 3s linear infinite;
+}
+
+/* Orbit animations */
+@keyframes orbit-cw {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbit-ccw {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
+@utility animate-orbit-cw {
+  animation: orbit-cw 20s linear infinite;
+}
+
+@utility animate-orbit-ccw {
+  animation: orbit-ccw 20s linear infinite;
+}
+
+/* Smoke divider drift */
+@keyframes smoke-drift {
+  0% {
+    transform: translateX(-200px) translateY(0px);
+  }
+  100% {
+    transform: translateX(calc(100vw + 200px)) translateY(0px);
+  }
+}
+
+@keyframes smoke-float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* Glitch flicker */
+@keyframes glitch-flicker {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Retro grid scroll */
+@keyframes retro-grid-scroll {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 40px;
+  }
+}
+
+/* Neon pulse glow */
+@keyframes neon-pulse {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.15);
+  }
+}
+
+.neon-pulse {
+  animation: neon-pulse 3s ease-in-out infinite;
 }
