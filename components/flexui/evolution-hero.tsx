@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -61,13 +60,10 @@ export function EvolutionHero({
         }}
         transition={{ type: "spring", stiffness: 50, damping: 20 }}
       >
-        <Image
+        <img
           src={imageSrc}
           alt="Evolution Scene"
-          fill
-          className="object-cover object-center"
-          priority
-          unoptimized
+          className="absolute inset-0 w-full h-full object-cover object-center"
         />
         {/* Slight zoom to hide parallax edges */}
         <div className="absolute inset-[-20px]" />
