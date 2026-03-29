@@ -68,7 +68,7 @@ const NEEDS_ANIMATIONS = new Set([
   "gradient-border-button", "confetti-button", "disintegration-effect",
   "smoke-divider", "glitch-transition", "retro-grid", "neon-glow-card",
   "border-beam", "moving-border", "morphing-border-card", "typewriter-text",
-  "testimonials-block",
+  "testimonials-block", "pulse-button", "orbit-animation", "glow-text",
 ]);
 
 // ─── Components that need useReducedMotion ─────────────────────────────────
