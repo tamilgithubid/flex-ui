@@ -10,6 +10,16 @@ export const metadata: Metadata = {
 
 const posts = [
   {
+    slug: "flexui-registry-launch",
+    title: "FlexUI is Live: 150+ Cinematic Components, One Command Away",
+    date: "2026-03-29",
+    excerpt: "FlexUI is now production-ready and deployed. Install 150+ animated React components with a single CLI command. Works with Next.js, Vite, and any React framework.",
+    readTime: "8 min",
+    category: "Launch",
+    categoryColor: "bg-emerald-500/10 text-emerald-400 ring-emerald-500/20",
+    gradient: "from-emerald-500/20 via-teal-500/10 to-transparent",
+  },
+  {
     slug: "introducing-flexui",
     title: "Introducing FlexUI: 130+ Cinematic React Components",
     date: "2026-03-15",
