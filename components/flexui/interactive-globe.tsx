@@ -1,13 +1,11 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
-import dynamic from "next/dynamic";
+import React, { Suspense, useEffect, useMemo, useState } from "react";
 import type { GlobeConfig } from "@/components/ui/globe";
 import { cn } from "@/lib/utils";
 
-const World = dynamic(
-  () => import("@/components/ui/globe").then((m) => m.World),
-  { ssr: false }
+const World = React.lazy(() =>
+  import("@/components/ui/globe").then((m) => ({ default: m.World }))
 );
 
 /** A single arc connecting two lat/lng points on the globe */
@@ -264,7 +262,11 @@ export function InteractiveGlobe({
         className="relative z-0 w-full"
         style={{ height: 380, touchAction: "none" }}
       >
-        <World data={arcs} globeConfig={globeConfig} />
+        {mounted && (
+          <Suspense fallback={null}>
+            <World data={arcs} globeConfig={globeConfig} />
+          </Suspense>
+        )}
       </div>
     </div>
   );

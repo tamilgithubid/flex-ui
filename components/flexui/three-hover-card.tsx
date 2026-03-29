@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useRef, useState, useCallback } from "react";
-import Image from "next/image";
 import {
   motion,
   useMotionValue,
@@ -132,12 +131,10 @@ export function ThreeHoverCard({
           animate={{ scale: isHovered ? 1.08 : 1 }}
           transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
         >
-          <Image
+          <img
             src={imageSrc}
             alt={imageAlt}
-            fill
-            className="object-cover"
-            unoptimized
+            className="absolute inset-0 w-full h-full object-cover"
           />
         </motion.div>
 

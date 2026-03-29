@@ -1,40 +1,20 @@
 "use client";
-import React, { useMemo } from "react";
-import dynamic from "next/dynamic";
+import React, { Suspense, useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-// ── Lazy background imports (ssr: false for canvas-based ones) ──
-const ParticleField = dynamic(
-  () =>
-    import("@/components/flexui/particle-field").then((m) => ({
-      default: m.ParticleField,
-    })),
-  { ssr: false }
+// ── Lazy background imports ──
+const ParticleField = React.lazy(() =>
+  import("@/components/flexui/particle-field").then((m) => ({ default: m.ParticleField }))
 );
-
-const GridPattern = dynamic(
-  () =>
-    import("@/components/flexui/grid-pattern").then((m) => ({
-      default: m.GridPattern,
-    })),
-  { ssr: true }
+const GridPattern = React.lazy(() =>
+  import("@/components/flexui/grid-pattern").then((m) => ({ default: m.GridPattern }))
 );
-
-const StarsBackground = dynamic(
-  () =>
-    import("@/components/flexui/stars-background").then((m) => ({
-      default: m.StarsBackground,
-    })),
-  { ssr: false }
+const StarsBackground = React.lazy(() =>
+  import("@/components/flexui/stars-background").then((m) => ({ default: m.StarsBackground }))
 );
-
-const AuroraBackground = dynamic(
-  () =>
-    import("@/components/flexui/aurora-background").then((m) => ({
-      default: m.AuroraBackground,
-    })),
-  { ssr: true }
+const AuroraBackground = React.lazy(() =>
+  import("@/components/flexui/aurora-background").then((m) => ({ default: m.AuroraBackground }))
 );
 
 interface CinematicHeroProps {
@@ -132,6 +112,10 @@ export function CinematicHero({
   className,
   children,
 }: CinematicHeroProps) {
+  const [mounted, setMounted] = useState(false);
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => { setMounted(true); }, []);
+
   return (
     <section
       className={cn(
@@ -140,7 +124,11 @@ export function CinematicHero({
       )}
     >
       {/* Background */}
-      <BackgroundLayer variant={background} />
+      {mounted && (
+        <Suspense fallback={null}>
+          <BackgroundLayer variant={background} />
+        </Suspense>
+      )}
 
       {/* Radial vignette overlay */}
       <div
