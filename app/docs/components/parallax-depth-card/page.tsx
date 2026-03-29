@@ -54,7 +54,7 @@ export default function ParallaxDepthCardDoc() {
           cli={
             <div className="space-y-3">
               <CodeBlock
-                code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/parallax-depth-card.json"
+                code="npx shadcn@latest add @flexui/parallax-depth-card"
                 filename="Terminal"
               />
               <p className="text-sm text-zinc-500">

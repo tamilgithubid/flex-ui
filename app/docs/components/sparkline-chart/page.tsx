@@ -19,7 +19,7 @@ import { cn } from "@/lib/utils";
 
 // Pure SVG sparkline with cubic bezier curves,
 // optional gradient area fill, and stroke-dashoffset animation.
-// Full source: npx shadcn@latest add https://flex-ui-wine.vercel.app/r/sparkline-chart.json`;
+// Full source: npx shadcn@latest add @flexui/sparkline-chart`;
 
 export default function SparklineChartDoc() {
   return (
@@ -62,7 +62,7 @@ export default function SparklineChartDoc() {
           cli={
             <div className="space-y-3">
               <CodeBlock
-                code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/sparkline-chart.json"
+                code="npx shadcn@latest add @flexui/sparkline-chart"
                 filename="Terminal"
               />
               <p className="text-sm text-zinc-500">

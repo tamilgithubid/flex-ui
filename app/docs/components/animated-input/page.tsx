@@ -20,7 +20,7 @@ import { cn } from "@/lib/utils";
 
 // AnimatedInputProps interface
 // Floating label + expanding underline + glassmorphic input
-// Full source: npx shadcn@latest add https://flex-ui-wine.vercel.app/r/animated-input.json`;
+// Full source: npx shadcn@latest add @flexui/animated-input`;
 
 export default function AnimatedInputDoc() {
   return (
@@ -63,7 +63,7 @@ export default function AnimatedInputDoc() {
           cli={
             <div className="space-y-3">
               <CodeBlock
-                code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/animated-input.json"
+                code="npx shadcn@latest add @flexui/animated-input"
                 filename="Terminal"
               />
               <p className="text-sm text-zinc-500">

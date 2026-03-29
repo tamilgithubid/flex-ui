@@ -23,7 +23,7 @@ interface PhoneFrameProps {
 }
 
 // ... PhoneFrame component
-// Full source: npx shadcn@latest add https://flex-ui-wine.vercel.app/r/phone-frame.json`;
+// Full source: npx shadcn@latest add @flexui/phone-frame`;
 
 export default function PhoneFrameDoc() {
   return (
@@ -66,7 +66,7 @@ export default function PhoneFrameDoc() {
           cli={
             <div className="space-y-3">
               <CodeBlock
-                code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/phone-frame.json"
+                code="npx shadcn@latest add @flexui/phone-frame"
                 filename="Terminal"
               />
               <p className="text-sm text-zinc-500">

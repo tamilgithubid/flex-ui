@@ -4,6 +4,18 @@
   "homepage": "https://flexui.dev",
   "items": [
     {
+      "name": "flexui-animations",
+      "type": "registry:style",
+      "description": "CSS keyframes and utility classes required by FlexUI components that use CSS animations.",
+      "url": "https://flex-ui-wine.vercel.app/r/flexui-animations.json"
+    },
+    {
+      "name": "use-reduced-motion",
+      "type": "registry:hook",
+      "description": "React hook that detects the user's prefers-reduced-motion setting for accessible animations.",
+      "url": "https://flex-ui-wine.vercel.app/r/use-reduced-motion.json"
+    },
+    {
       "name": "magnetic-button",
       "type": "registry:ui",
       "description": "A button that uses Framer Motion spring physics to magnetically pull toward the cursor on hover with a glowing spotlight border effect.",

@@ -53,7 +53,7 @@ export default function BlobCursorDoc() {
           cli={
             <div className="space-y-3">
               <CodeBlock
-                code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/blob-cursor.json"
+                code="npx shadcn@latest add @flexui/blob-cursor"
                 filename="Terminal"
               />
               <p className="text-sm text-zinc-500">

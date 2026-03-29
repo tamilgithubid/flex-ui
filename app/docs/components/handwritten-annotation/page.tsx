@@ -33,7 +33,7 @@ interface HandwrittenAnnotationProps {
 }
 
 // ... wobbly path generators for each annotation type
-// Full source: npx shadcn@latest add https://flex-ui-wine.vercel.app/r/handwritten-annotation.json`;
+// Full source: npx shadcn@latest add @flexui/handwritten-annotation`;
 
 export default function HandwrittenAnnotationDoc() {
   return (
@@ -76,7 +76,7 @@ export default function HandwrittenAnnotationDoc() {
           cli={
             <div className="space-y-3">
               <CodeBlock
-                code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/handwritten-annotation.json"
+                code="npx shadcn@latest add @flexui/handwritten-annotation"
                 filename="Terminal"
               />
               <p className="text-sm text-zinc-500">

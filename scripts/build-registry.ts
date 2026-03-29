@@ -7,33 +7,76 @@ const BASE_URL = "https://flex-ui-wine.vercel.app";
 
 // ─── Registry Component Definitions ─────────────────────────────────────────
 
+type RegistryType = "registry:ui" | "registry:style" | "registry:hook" | "registry:lib";
+
 interface RegistryFile {
   path: string;
   content: string;
-  type: "registry:ui";
+  type: RegistryType;
   target?: string;
 }
 
 interface RegistryComponent {
   name: string;
-  type: "registry:ui";
+  type: RegistryType;
   title: string;
   description: string;
   dependencies: string[];
   registryDependencies: string[];
-  files: { path: string; target: string }[];
+  files: { path: string; target: string; type?: RegistryType }[];
 }
 
 interface RegistryOutput {
   $schema: string;
   name: string;
-  type: "registry:ui";
+  type: RegistryType;
   title: string;
   description: string;
   dependencies: string[];
   registryDependencies: string[];
   files: RegistryFile[];
 }
+
+// ─── Shared Registry Items ──────────────────────────────────────────────────
+
+const SHARED: RegistryComponent[] = [
+  {
+    name: "flexui-animations",
+    type: "registry:style",
+    title: "FlexUI Animations",
+    description: "CSS keyframes and utility classes required by FlexUI components that use CSS animations.",
+    dependencies: [],
+    registryDependencies: [],
+    files: [{ path: "styles/flexui-animations.css", target: "styles/flexui-animations.css", type: "registry:style" }],
+  },
+  {
+    name: "use-reduced-motion",
+    type: "registry:hook",
+    title: "useReducedMotion Hook",
+    description: "React hook that detects the user's prefers-reduced-motion setting for accessible animations.",
+    dependencies: [],
+    registryDependencies: [],
+    files: [{ path: "hooks/use-reduced-motion.ts", target: "hooks/use-reduced-motion.ts", type: "registry:hook" }],
+  },
+];
+
+// ─── Components that need CSS animations ───────────────────────────────────
+const NEEDS_ANIMATIONS = new Set([
+  "shimmer-button", "marquee", "gradient-text", "animated-beam", "stars-background",
+  "aurora-background", "particle-field", "data-orbit", "beams-background",
+  "mesh-gradient", "wavy-background", "glow-button", "ripple-button",
+  "gradient-border-button", "confetti-button", "disintegration-effect",
+  "smoke-divider", "glitch-transition", "retro-grid", "neon-glow-card",
+  "border-beam", "moving-border", "morphing-border-card", "typewriter-text",
+  "testimonials-block",
+]);
+
+// ─── Components that need useReducedMotion ─────────────────────────────────
+const NEEDS_REDUCED_MOTION = new Set([
+  "shimmer-button", "marquee", "glow-button", "flip-words", "text-reveal",
+  "toast", "drawer", "expandable-card", "typewriter-text", "fade-on-scroll",
+  "countdown", "notification-badge", "stepper",
+]);
 
 // ─── Component Configuration ────────────────────────────────────────────────
 
@@ -1363,10 +1406,34 @@ function buildComponent(component: RegistryComponent): RegistryOutput {
     return {
       path: file.target,
       content,
-      type: "registry:ui" as const,
+      type: (file.type ?? component.type) as RegistryType,
       target: file.target,
     };
   });
+
+  // Auto-inject shared files directly into the component
+  if (NEEDS_ANIMATIONS.has(component.name)) {
+    const animPath = path.join(ROOT, "styles/flexui-animations.css");
+    if (fs.existsSync(animPath)) {
+      files.push({
+        path: "styles/flexui-animations.css",
+        content: fs.readFileSync(animPath, "utf-8"),
+        type: "registry:ui" as RegistryType,
+        target: "styles/flexui-animations.css",
+      });
+    }
+  }
+  if (NEEDS_REDUCED_MOTION.has(component.name)) {
+    const hookPath = path.join(ROOT, "hooks/use-reduced-motion.ts");
+    if (fs.existsSync(hookPath)) {
+      files.push({
+        path: "hooks/use-reduced-motion.ts",
+        content: fs.readFileSync(hookPath, "utf-8"),
+        type: "registry:ui" as RegistryType,
+        target: "hooks/use-reduced-motion.ts",
+      });
+    }
+  }
 
   return {
     $schema: "https://ui.shadcn.com/schema/registry-item.json",
@@ -1386,6 +1453,27 @@ function main() {
 
   const index: { name: string; type: string; description: string; url: string }[] = [];
 
+  // Build shared items first
+  for (const shared of SHARED) {
+    try {
+      const output = buildComponent(shared);
+      const outPath = path.join(OUT_DIR, `${shared.name}.json`);
+      fs.writeFileSync(outPath, JSON.stringify(output, null, 2));
+      console.log(`  ✓ ${shared.name}.json (shared)`);
+
+      index.push({
+        name: shared.name,
+        type: shared.type,
+        description: shared.description,
+        url: `${BASE_URL}/r/${shared.name}.json`,
+      });
+    } catch (err) {
+      console.error(`  ✗ ${shared.name}: ${(err as Error).message}`);
+      process.exit(1);
+    }
+  }
+
+  // Build components
   for (const component of COMPONENTS) {
     try {
       const output = buildComponent(component);
@@ -1421,7 +1509,7 @@ function main() {
     )
   );
   console.log(`  ✓ index.json`);
-  console.log(`\n✅ Registry built successfully (${COMPONENTS.length} components)\n`);
+  console.log(`\n✅ Registry built successfully (${SHARED.length} shared + ${COMPONENTS.length} components)\n`);
 }
 
 main();

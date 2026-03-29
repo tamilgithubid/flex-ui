@@ -17,7 +17,7 @@ import React from "react";
 import { cn } from "@/lib/utils";
 
 // Concentric orbiting rings with counter-rotation.
-// Full source: npx shadcn@latest add https://flex-ui-wine.vercel.app/r/data-orbit.json`;
+// Full source: npx shadcn@latest add @flexui/data-orbit`;
 
 export default function DataOrbitDoc() {
   return (
@@ -61,7 +61,7 @@ export default function DataOrbitDoc() {
           cli={
             <div className="space-y-3">
               <CodeBlock
-                code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/data-orbit.json"
+                code="npx shadcn@latest add @flexui/data-orbit"
                 filename="Terminal"
               />
             </div>

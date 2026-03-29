@@ -17,7 +17,7 @@ import React, { useMemo, useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 // ... SmokeDivider component
-// Full source: npx shadcn@latest add https://flex-ui-wine.vercel.app/r/smoke-divider.json`;
+// Full source: npx shadcn@latest add @flexui/smoke-divider`;
 
 export default function SmokeDividerDoc() {
   return (
@@ -60,7 +60,7 @@ export default function SmokeDividerDoc() {
           cli={
             <div className="space-y-3">
               <CodeBlock
-                code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/smoke-divider.json"
+                code="npx shadcn@latest add @flexui/smoke-divider"
                 filename="Terminal"
               />
               <p className="text-sm text-zinc-500">

@@ -32,7 +32,7 @@ interface TypewriterTerminalProps {
 }
 
 // ... TypewriterTerminal component
-// Full source: npx shadcn@latest add https://flex-ui-wine.vercel.app/r/typewriter-terminal.json`;
+// Full source: npx shadcn@latest add @flexui/typewriter-terminal`;
 
 export default function TypewriterTerminalDoc() {
   return (
@@ -75,7 +75,7 @@ export default function TypewriterTerminalDoc() {
           cli={
             <div className="space-y-3">
               <CodeBlock
-                code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/typewriter-terminal.json"
+                code="npx shadcn@latest add @flexui/typewriter-terminal"
                 filename="Terminal"
               />
               <p className="text-sm text-zinc-500">
