@@ -933,46 +933,16 @@ function GenerateTab() {
               />
             </div>
 
-            {/* Generate button */}
+            {/* Generate button — Coming Soon */}
             <motion.button
-              onClick={handleGenerate}
-              disabled={!prompt.trim() || generating}
-              className={cn(
-                "mt-4 flex w-full items-center justify-center gap-2.5 rounded-xl py-3.5 text-sm font-semibold transition-all",
-                prompt.trim() && !generating
-                  ? "text-white"
-                  : "bg-white/[0.03] text-zinc-600 cursor-not-allowed"
-              )}
-              style={
-                prompt.trim() && !generating
-                  ? {
-                      background: `linear-gradient(135deg, ${accent}, ${accent}cc)`,
-                      boxShadow: `0 0 24px -6px ${accent}50`,
-                    }
-                  : undefined
-              }
-              whileHover={prompt.trim() && !generating ? { scale: 1.01, y: -1 } : undefined}
-              whileTap={prompt.trim() && !generating ? { scale: 0.98 } : undefined}
+              disabled
+              className="mt-4 flex w-full items-center justify-center gap-2.5 rounded-xl py-3.5 text-sm font-semibold bg-white/[0.03] text-zinc-600 cursor-not-allowed border border-white/[0.06]"
             >
-              {generating ? (
-                <span className="flex items-center gap-2.5">
-                  <motion.span
-                    className="flex gap-1"
-                    animate={{ opacity: [0.4, 1, 0.4] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                  >
-                    <span className="h-1.5 w-1.5 rounded-full bg-white" />
-                    <span className="h-1.5 w-1.5 rounded-full bg-white/70" />
-                    <span className="h-1.5 w-1.5 rounded-full bg-white/40" />
-                  </motion.span>
-                  Generating...
-                </span>
-              ) : (
-                <>
-                  <Sparkles className="h-4 w-4" />
-                  Generate Component
-                </>
-              )}
+              <Sparkles className="h-4 w-4" />
+              Generate Component
+              <span className="ml-1 rounded-full bg-purple-500/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-purple-400">
+                Coming Soon
+              </span>
             </motion.button>
 
             <p className="mt-2.5 text-center text-[11px] text-zinc-600">
@@ -1536,26 +1506,13 @@ function AnalyzeTab() {
                 />
               </div>
               <motion.button
-                onClick={handleAnalyze}
-                disabled={!url.trim() || analyzing}
-                className={cn(
-                  "shrink-0 rounded-xl px-6 py-3.5 text-sm font-semibold transition-all",
-                  url.trim() && !analyzing
-                    ? "text-white"
-                    : "bg-white/[0.03] text-zinc-600 cursor-not-allowed"
-                )}
-                style={
-                  url.trim() && !analyzing
-                    ? {
-                        background: `linear-gradient(135deg, ${accent}, ${accent}cc)`,
-                        boxShadow: `0 0 24px -6px ${accent}50`,
-                      }
-                    : undefined
-                }
-                whileHover={url.trim() && !analyzing ? { scale: 1.02 } : undefined}
-                whileTap={url.trim() && !analyzing ? { scale: 0.97 } : undefined}
+                disabled
+                className="shrink-0 rounded-xl px-6 py-3.5 text-sm font-semibold bg-white/[0.03] text-zinc-600 cursor-not-allowed border border-white/[0.06]"
               >
-                {analyzing ? "Analyzing..." : "Analyze"}
+                Analyze
+                <span className="ml-1.5 rounded-full bg-purple-500/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-purple-400">
+                  Soon
+                </span>
               </motion.button>
             </div>
             <p className="mt-3 text-center text-[11px] text-zinc-600">
