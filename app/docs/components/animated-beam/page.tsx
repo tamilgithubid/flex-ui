@@ -17,7 +17,7 @@ import React, { useId } from "react";
 import { cn } from "@/lib/utils";
 
 // Animated SVG light beam that travels along a path.
-// Full source: npx shadcn@latest add @flexui/animated-beam`;
+// Full source: npx shadcn@latest add https://flex-ui-wine.vercel.app/r/animated-beam.json`;
 
 export default function AnimatedBeamDoc() {
   return (
@@ -60,7 +60,7 @@ export default function AnimatedBeamDoc() {
           cli={
             <div className="space-y-3">
               <CodeBlock
-                code="npx shadcn@latest add @flexui/animated-beam"
+                code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/animated-beam.json"
                 filename="Terminal"
               />
             </div>

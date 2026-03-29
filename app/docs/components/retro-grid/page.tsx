@@ -59,7 +59,7 @@ export default function RetroGridDoc() {
           cli={
             <div className="space-y-3">
               <CodeBlock
-                code="npx shadcn@latest add @flexui/retro-grid"
+                code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/retro-grid.json"
                 filename="Terminal"
               />
               <p className="text-sm text-zinc-500">No external dependencies. Add the keyframe to your globals.css.</p>

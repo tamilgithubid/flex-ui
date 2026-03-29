@@ -53,7 +53,7 @@ export default function HeroBlockDoc() {
           cli={
             <div className="space-y-3">
               <CodeBlock
-                code="npx shadcn@latest add @flexui/hero-block"
+                code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/hero-block.json"
                 filename="Terminal"
               />
               <p className="text-sm text-zinc-500">

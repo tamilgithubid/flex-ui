@@ -20,7 +20,7 @@ export default function PortfolioDoc() {
       <DocSection id="preview" title="Preview"><PortfolioPlayground /></DocSection>
       <DocSection id="installation" title="Installation">
         <InstallTabs
-          cli={<div className="space-y-3"><CodeBlock code="npx shadcn@latest add @flexui/page:portfolio" filename="Terminal" /></div>}
+          cli={<div className="space-y-3"><CodeBlock code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/page.json:portfolio" filename="Terminal" /></div>}
           manual={<div className="space-y-2"><p className="text-sm font-medium text-zinc-300">Copy template</p><div className="rounded-xl border border-white/[0.06] bg-zinc-950/50 p-4"><code className="text-xs text-zinc-400">components/flexui/pages/portfolio.tsx</code></div></div>}
         />
       </DocSection>

@@ -62,7 +62,7 @@ export default function PreloaderDoc() {
         <InstallTabs
           cli={
             <div className="space-y-3">
-              <CodeBlock code="npx shadcn@latest add @flexui/preloader" filename="Terminal" />
+              <CodeBlock code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/preloader.json" filename="Terminal" />
               <p className="text-sm text-zinc-500">
                 Installs{" "}
                 <code className="rounded bg-zinc-800 px-1.5 py-0.5 text-zinc-300">framer-motion</code>{" "}

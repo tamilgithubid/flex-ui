@@ -23,7 +23,7 @@ export default function FooterBlockDoc() {
       <DocSection id="examples" title="Examples"><FooterBlockExamples /></DocSection>
       <DocSection id="installation" title="Installation">
         <InstallTabs
-          cli={<div className="space-y-3"><CodeBlock code="npx shadcn@latest add @flexui/footer-block" filename="Terminal" /><p className="text-sm text-zinc-500">No external dependencies required.</p></div>}
+          cli={<div className="space-y-3"><CodeBlock code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/footer-block.json" filename="Terminal" /><p className="text-sm text-zinc-500">No external dependencies required.</p></div>}
           manual={<div className="space-y-2"><p className="text-sm font-medium text-zinc-300">Copy component</p><div className="rounded-xl border border-white/[0.06] bg-zinc-950/50 p-4"><code className="text-xs text-zinc-400">components/flexui/footer-block.tsx</code></div></div>}
         />
       </DocSection>

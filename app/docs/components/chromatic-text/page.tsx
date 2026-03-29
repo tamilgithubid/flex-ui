@@ -67,7 +67,7 @@ export default function ChromaticTextDoc() {
           cli={
             <div className="space-y-3">
               <CodeBlock
-                code="npx shadcn@latest add @flexui/chromatic-text"
+                code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/chromatic-text.json"
                 filename="Terminal"
               />
               <p className="text-sm text-zinc-500">

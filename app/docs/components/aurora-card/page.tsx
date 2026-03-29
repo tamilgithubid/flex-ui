@@ -57,7 +57,7 @@ export default function AuroraCardDoc() {
           cli={
             <div className="space-y-3">
               <CodeBlock
-                code="npx shadcn@latest add @flexui/aurora-card"
+                code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/aurora-card.json"
                 filename="Terminal"
               />
               <p className="text-sm text-zinc-500">

@@ -99,7 +99,7 @@ export default function GlowButtonDoc() {
           cli={
             <div className="space-y-3">
               <CodeBlock
-                code="npx shadcn@latest add @flexui/glow-button"
+                code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/glow-button.json"
                 filename="Terminal"
               />
               <p className="text-sm text-zinc-500">

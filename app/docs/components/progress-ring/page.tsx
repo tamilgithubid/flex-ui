@@ -19,7 +19,7 @@ import { cn } from "@/lib/utils";
 
 // SVG progress ring with animated stroke-dashoffset,
 // gradient stroke, and center content slot.
-// Full source: npx shadcn@latest add @flexui/progress-ring`;
+// Full source: npx shadcn@latest add https://flex-ui-wine.vercel.app/r/progress-ring.json`;
 
 export default function ProgressRingDoc() {
   return (
@@ -62,7 +62,7 @@ export default function ProgressRingDoc() {
           cli={
             <div className="space-y-3">
               <CodeBlock
-                code="npx shadcn@latest add @flexui/progress-ring"
+                code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/progress-ring.json"
                 filename="Terminal"
               />
               <p className="text-sm text-zinc-500">

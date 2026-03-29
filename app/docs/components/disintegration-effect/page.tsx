@@ -170,7 +170,7 @@ export default function DisintegrationEffectDoc() {
           cli={
             <div className="space-y-3">
               <CodeBlock
-                code="npx shadcn@latest add @flexui/disintegration-effect"
+                code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/disintegration-effect.json"
                 filename="Terminal"
               />
             </div>
