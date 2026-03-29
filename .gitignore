@@ -42,3 +42,7 @@ next-env.d.ts
 
 # claude code
 .claude/
+
+# internal planning docs
+AI_BACKEND_PLAN.md
+COMPETITIVE_ANALYSIS_AND_PLAN.md
