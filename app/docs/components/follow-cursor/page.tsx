@@ -54,7 +54,7 @@ export default function FollowCursorDoc() {
           cli={
             <div className="space-y-3">
               <CodeBlock
-                code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/follow-cursor.json"
+                code="npx shadcn@latest add @flexui/follow-cursor"
                 filename="Terminal"
               />
               <p className="text-sm text-zinc-500">

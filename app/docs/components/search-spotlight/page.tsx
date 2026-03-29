@@ -35,7 +35,7 @@ interface SearchSpotlightProps {
   shortcut?: string;
 }
 
-// Full source: npx shadcn@latest add https://flex-ui-wine.vercel.app/r/search-spotlight.json`;
+// Full source: npx shadcn@latest add @flexui/search-spotlight`;
 
 export default function SearchSpotlightDoc() {
   return (
@@ -74,7 +74,7 @@ export default function SearchSpotlightDoc() {
           cli={
             <div className="space-y-3">
               <CodeBlock
-                code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/search-spotlight.json"
+                code="npx shadcn@latest add @flexui/search-spotlight"
                 filename="Terminal"
               />
               <p className="text-sm text-zinc-500">

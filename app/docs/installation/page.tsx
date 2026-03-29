@@ -64,10 +64,39 @@ export default function InstallationPage() {
       {/* Step 2 */}
       <section className="space-y-4">
         <h2 className="text-2xl font-semibold text-white">
-          Step 2: Add a FlexUI Component
+          Step 2: Add FlexUI Registry
         </h2>
         <p className="leading-relaxed text-zinc-400">
-          Use the shadcn CLI with our registry URL to add any component:
+          Open your <code className="rounded bg-zinc-800 px-1.5 py-0.5 text-sm text-zinc-300">components.json</code> file
+          and add the FlexUI registry to the <code className="rounded bg-zinc-800 px-1.5 py-0.5 text-sm text-zinc-300">registries</code> field:
+        </p>
+        <CodeBlock
+          code={`"registries": {
+  "@flexui": "https://flex-ui-wine.vercel.app/r/{name}.json"
+}`}
+          filename="components.json"
+          language="json"
+        />
+        <p className="leading-relaxed text-zinc-400">
+          This is a one-time setup. Once added, you can install any FlexUI component
+          using the clean <code className="rounded bg-zinc-800 px-1.5 py-0.5 text-sm text-zinc-300">@flexui/</code> prefix.
+        </p>
+      </section>
+
+      {/* Step 3 */}
+      <section className="space-y-4">
+        <h2 className="text-2xl font-semibold text-white">
+          Step 3: Add Components
+        </h2>
+        <p className="leading-relaxed text-zinc-400">
+          Use the shadcn CLI to add any FlexUI component:
+        </p>
+        <CodeBlock
+          code="npx shadcn@latest add @flexui/magnetic-button"
+          filename="Terminal"
+        />
+        <p className="leading-relaxed text-zinc-400">
+          Or, if you prefer a direct URL without configuring the registry:
         </p>
         <CodeBlock
           code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/magnetic-button.json"
@@ -78,9 +107,10 @@ export default function InstallationPage() {
         </p>
         <ul className="space-y-2 text-zinc-400">
           {[
-            "Fetch the component JSON from the FlexUI registry",
-            "Install required dependencies (e.g., framer-motion)",
-            "Write the .tsx file into your components/flexui/ directory",
+            "Fetch the component from the FlexUI registry",
+            "Install required npm dependencies (e.g., framer-motion)",
+            "Write the component .tsx file into components/flexui/",
+            "Include CSS animations and hooks if the component needs them",
           ].map((item) => (
             <li key={item} className="flex items-start gap-3">
               <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-green-400" />
@@ -90,10 +120,10 @@ export default function InstallationPage() {
         </ul>
       </section>
 
-      {/* Step 3 */}
+      {/* Step 4 */}
       <section className="space-y-4">
         <h2 className="text-2xl font-semibold text-white">
-          Step 3: Use the Component
+          Step 4: Use the Component
         </h2>
         <p className="leading-relaxed text-zinc-400">
           Import and use the component just like any other React component:
@@ -128,7 +158,7 @@ export default function Hero() {
                   Component
                 </th>
                 <th className="px-4 py-3 text-left font-medium text-zinc-400">
-                  Registry File
+                  Command
                 </th>
                 <th className="hidden px-4 py-3 text-left font-medium text-zinc-400 sm:table-cell">
                   Dependencies
@@ -154,7 +184,7 @@ export default function Hero() {
                 </td>
                 <td className="px-4 py-3">
                   <code className="text-xs text-purple-400">
-                    {c.slug}.json
+                    @flexui/{c.slug}
                   </code>
                 </td>
                 <td className="hidden px-4 py-3 text-zinc-500 sm:table-cell">

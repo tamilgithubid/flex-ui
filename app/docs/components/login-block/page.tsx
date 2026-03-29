@@ -24,7 +24,7 @@ export default function LoginBlockDoc() {
       <DocSection id="examples" title="Examples"><LoginBlockExamples /></DocSection>
       <DocSection id="installation" title="Installation">
         <InstallTabs
-          cli={<div className="space-y-3"><CodeBlock code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/login-block.json" filename="Terminal" /><p className="text-sm text-zinc-500">Requires <code className="rounded bg-zinc-800 px-1.5 py-0.5 text-zinc-300">framer-motion</code>.</p></div>}
+          cli={<div className="space-y-3"><CodeBlock code="npx shadcn@latest add @flexui/login-block" filename="Terminal" /><p className="text-sm text-zinc-500">Requires <code className="rounded bg-zinc-800 px-1.5 py-0.5 text-zinc-300">framer-motion</code>.</p></div>}
           manual={<div className="space-y-4"><div className="space-y-2"><p className="text-sm font-medium text-zinc-300">1. Install dependencies</p><CodeBlock code="npm install framer-motion" filename="Terminal" /></div><div className="space-y-2"><p className="text-sm font-medium text-zinc-300">2. Copy component</p><div className="rounded-xl border border-white/[0.06] bg-zinc-950/50 p-4"><code className="text-xs text-zinc-400">components/flexui/login-block.tsx</code></div></div></div>}
         />
       </DocSection>

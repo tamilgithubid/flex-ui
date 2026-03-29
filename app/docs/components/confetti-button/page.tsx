@@ -155,7 +155,7 @@ export default function ConfettiButtonDoc() {
           cli={
             <div className="space-y-3">
               <CodeBlock
-                code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/confetti-button.json"
+                code="npx shadcn@latest add @flexui/confetti-button"
                 filename="Terminal"
               />
             </div>

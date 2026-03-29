@@ -18,7 +18,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 // ... SplitScreenReveal component
-// Full source: npx shadcn@latest add https://flex-ui-wine.vercel.app/r/split-screen-reveal.json`;
+// Full source: npx shadcn@latest add @flexui/split-screen-reveal`;
 
 export default function SplitScreenRevealDoc() {
   return (
@@ -61,7 +61,7 @@ export default function SplitScreenRevealDoc() {
           cli={
             <div className="space-y-3">
               <CodeBlock
-                code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/split-screen-reveal.json"
+                code="npx shadcn@latest add @flexui/split-screen-reveal"
                 filename="Terminal"
               />
               <p className="text-sm text-zinc-500">

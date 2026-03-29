@@ -180,7 +180,7 @@ export default function DockMenuDoc() {
           cli={
             <div className="space-y-3">
               <CodeBlock
-                code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/dock-menu.json"
+                code="npx shadcn@latest add @flexui/dock-menu"
                 filename="Terminal"
               />
               <p className="text-sm text-zinc-500">

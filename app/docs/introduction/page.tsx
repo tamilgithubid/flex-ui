@@ -84,7 +84,7 @@ export default function IntroductionPage() {
           Add the Magnetic Button to your project with a single command:
         </p>
         <CodeBlock
-          code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/magnetic-button.json"
+          code="npx shadcn@latest add @flexui/magnetic-button"
           filename="Terminal"
         />
         <p className="leading-relaxed text-zinc-400">

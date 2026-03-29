@@ -59,7 +59,7 @@ export default function PortalTransitionDoc() {
           cli={
             <div className="space-y-3">
               <CodeBlock
-                code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/portal-transition.json"
+                code="npx shadcn@latest add @flexui/portal-transition"
                 filename="Terminal"
               />
               <p className="text-sm text-zinc-500">

@@ -54,7 +54,7 @@ export default function MovingBorderDoc() {
           cli={
             <div className="space-y-3">
               <CodeBlock
-                code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/moving-border.json"
+                code="npx shadcn@latest add @flexui/moving-border"
                 filename="Terminal"
               />
               <p className="text-sm text-zinc-500">

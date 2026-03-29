@@ -20,7 +20,7 @@ import { cn } from "@/lib/utils";
 
 // NavItem, FloatingNavbarProps interfaces
 // Scroll-aware floating navbar with glassmorphic pill transition
-// Full source: npx shadcn@latest add https://flex-ui-wine.vercel.app/r/floating-navbar.json`;
+// Full source: npx shadcn@latest add @flexui/floating-navbar`;
 
 export default function FloatingNavbarDoc() {
   return (
@@ -63,7 +63,7 @@ export default function FloatingNavbarDoc() {
           cli={
             <div className="space-y-3">
               <CodeBlock
-                code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/floating-navbar.json"
+                code="npx shadcn@latest add @flexui/floating-navbar"
                 filename="Terminal"
               />
               <p className="text-sm text-zinc-500">

@@ -58,7 +58,7 @@ export default function FlipWordsDoc() {
           cli={
             <div className="space-y-3">
               <CodeBlock
-                code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/flip-words.json"
+                code="npx shadcn@latest add @flexui/flip-words"
                 filename="Terminal"
               />
               <p className="text-sm text-zinc-500">

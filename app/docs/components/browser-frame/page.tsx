@@ -24,7 +24,7 @@ interface BrowserFrameProps {
 }
 
 // ... BrowserFrame component
-// Full source: npx shadcn@latest add https://flex-ui-wine.vercel.app/r/browser-frame.json`;
+// Full source: npx shadcn@latest add @flexui/browser-frame`;
 
 export default function BrowserFrameDoc() {
   return (
@@ -67,7 +67,7 @@ export default function BrowserFrameDoc() {
           cli={
             <div className="space-y-3">
               <CodeBlock
-                code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/browser-frame.json"
+                code="npx shadcn@latest add @flexui/browser-frame"
                 filename="Terminal"
               />
               <p className="text-sm text-zinc-500">

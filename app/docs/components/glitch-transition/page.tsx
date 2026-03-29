@@ -78,7 +78,7 @@ export default function GlitchTransitionDoc() {
           cli={
             <div className="space-y-3">
               <CodeBlock
-                code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/glitch-transition.json"
+                code="npx shadcn@latest add @flexui/glitch-transition"
                 filename="Terminal"
               />
             </div>

@@ -53,7 +53,7 @@ export default function BeamsBackgroundDoc() {
           cli={
             <div className="space-y-3">
               <CodeBlock
-                code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/beams-background.json"
+                code="npx shadcn@latest add @flexui/beams-background"
                 filename="Terminal"
               />
               <p className="text-sm text-zinc-500">

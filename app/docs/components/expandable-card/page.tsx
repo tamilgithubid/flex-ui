@@ -60,7 +60,7 @@ export default function ExpandableCardDoc() {
           cli={
             <div className="space-y-3">
               <CodeBlock
-                code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/expandable-card.json"
+                code="npx shadcn@latest add @flexui/expandable-card"
                 filename="Terminal"
               />
               <p className="text-sm text-zinc-500">

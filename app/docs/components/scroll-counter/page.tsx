@@ -59,7 +59,7 @@ export default function ScrollCounterDoc() {
           cli={
             <div className="space-y-3">
               <CodeBlock
-                code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/scroll-counter.json"
+                code="npx shadcn@latest add @flexui/scroll-counter"
                 filename="Terminal"
               />
               <p className="text-sm text-zinc-500">
