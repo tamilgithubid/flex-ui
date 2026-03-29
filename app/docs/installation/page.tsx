@@ -162,24 +162,75 @@ export default function Hero() {
 
       <div className="h-px bg-white/[0.06]" />
 
-      {/* Framework Notes */}
+      {/* Choose Your Framework */}
       <section className="space-y-4">
-        <h2 className="text-2xl font-semibold text-white">Framework Notes</h2>
-        <div className="grid gap-3 sm:grid-cols-2">
-          <div className="rounded-xl border border-white/[0.06] bg-zinc-950 p-5">
+        <h2 className="text-2xl font-semibold text-white">Works With Your Stack</h2>
+        <div className="grid gap-4 sm:grid-cols-3">
+          {/* Next.js */}
+          <div className="group rounded-xl border border-white/[0.06] bg-zinc-950 p-6 text-center transition-all hover:border-purple-500/30 hover:bg-purple-500/[0.03]">
+            <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-xl bg-white/[0.05]">
+              <svg viewBox="0 0 180 180" className="h-8 w-8" fill="none">
+                <mask id="nj" style={{ maskType: "alpha" }} maskUnits="userSpaceOnUse" x="0" y="0" width="180" height="180">
+                  <circle cx="90" cy="90" r="90" fill="black" />
+                </mask>
+                <g mask="url(#nj)">
+                  <circle cx="90" cy="90" r="90" fill="black" />
+                  <path d="M149.508 157.52L69.142 54H54v71.97h12.114V69.384l73.885 95.461a90.304 90.304 0 009.509-7.325z" fill="url(#nj-a)" />
+                  <rect x="115" y="54" width="12" height="72" fill="url(#nj-b)" />
+                </g>
+                <defs>
+                  <linearGradient id="nj-a" x1="109" y1="116.5" x2="144.5" y2="160.5" gradientUnits="userSpaceOnUse">
+                    <stop stopColor="white" /><stop offset="1" stopColor="white" stopOpacity="0" />
+                  </linearGradient>
+                  <linearGradient id="nj-b" x1="121" y1="54" x2="120.799" y2="106.875" gradientUnits="userSpaceOnUse">
+                    <stop stopColor="white" /><stop offset="1" stopColor="white" stopOpacity="0" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
             <p className="text-sm font-semibold text-white">Next.js</p>
-            <p className="mt-1.5 text-sm text-zinc-500">
-              All FlexUI components work out of the box with Next.js App Router.
-              The <code className="text-zinc-300">&quot;use client&quot;</code> directive
-              is already included.
+            <p className="mt-1 text-xs text-zinc-500">
+              Works out of the box with App Router
             </p>
           </div>
-          <div className="rounded-xl border border-white/[0.06] bg-zinc-950 p-5">
-            <p className="text-sm font-semibold text-white">Vite / React</p>
-            <p className="mt-1.5 text-sm text-zinc-500">
-              FlexUI components are framework-agnostic React components. Make sure
-              your <code className="text-zinc-300">vite.config.ts</code> has
-              the <code className="text-zinc-300">@/</code> path alias configured.
+
+          {/* Vite */}
+          <div className="group rounded-xl border border-white/[0.06] bg-zinc-950 p-6 text-center transition-all hover:border-purple-500/30 hover:bg-purple-500/[0.03]">
+            <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-xl bg-white/[0.05]">
+              <svg viewBox="0 0 410 404" className="h-8 w-8" fill="none">
+                <path d="M399.641 59.525l-183.998 327.82c-3.799 6.793-13.559 6.96-17.575.301L17.39 59.525c-4.416-7.221 2.467-15.708 10.566-13.543l177.203 47.291c1.166.311 2.387.303 3.548-.024l175.934-47.291c8.1-2.175 14.978 6.307 10.566 13.543z" fill="url(#vite-a)" />
+                <path d="M293.305 1.094L169.691 27.054c-1.637.344-2.843 1.778-2.955 3.454l-7.604 114.246c-.205 3.073 2.601 5.439 5.597 4.722l25.876-6.186c3.228-.772 6.098 2.108 5.305 5.328l-9.07 36.833c-.823 3.343 2.26 6.255 5.552 5.244l20.539-6.307c3.3-1.014 6.384 1.908 5.548 5.26l-14.44 57.83c-1.2 4.806 5.097 7.377 7.608 3.11l1.675-2.848 92.511-186.753c1.756-3.549-1.423-7.504-5.271-6.559l-27.069 6.647c-3.378.83-6.32-2.367-5.28-5.739l17.377-56.318c1.042-3.377-1.913-6.575-5.293-5.728z" fill="url(#vite-b)" />
+                <defs>
+                  <linearGradient id="vite-a" x1="6.7" y1="32.08" x2="235.02" y2="344.16" gradientUnits="userSpaceOnUse">
+                    <stop stopColor="#41D1FF" /><stop offset="1" stopColor="#BD34FE" />
+                  </linearGradient>
+                  <linearGradient id="vite-b" x1="194.65" y1="8.82" x2="236.08" y2="292.99" gradientUnits="userSpaceOnUse">
+                    <stop stopColor="#FFBD4F" /><stop offset="1" stopColor="#FF9640" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            <p className="text-sm font-semibold text-white">Vite</p>
+            <p className="mt-1 text-xs text-zinc-500">
+              Configure <code className="text-zinc-400">@/</code> path alias
+            </p>
+          </div>
+
+          {/* React */}
+          <div className="group rounded-xl border border-white/[0.06] bg-zinc-950 p-6 text-center transition-all hover:border-purple-500/30 hover:bg-purple-500/[0.03]">
+            <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-xl bg-white/[0.05]">
+              <svg viewBox="-11.5 -10.232 23 20.463" className="h-8 w-8">
+                <circle r="2.05" fill="#61DAFB" />
+                <g stroke="#61DAFB" strokeWidth="1" fill="none">
+                  <ellipse rx="11" ry="4.2" />
+                  <ellipse rx="11" ry="4.2" transform="rotate(60)" />
+                  <ellipse rx="11" ry="4.2" transform="rotate(120)" />
+                </g>
+              </svg>
+            </div>
+            <p className="text-sm font-semibold text-white">React</p>
+            <p className="mt-1 text-xs text-zinc-500">
+              Any React 18+ setup with TypeScript
             </p>
           </div>
         </div>
