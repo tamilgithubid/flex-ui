@@ -1435,6 +1435,29 @@ function buildComponent(component: RegistryComponent): RegistryOutput {
     }
   }
 
+  // Auto-inline registryDependencies (so shadcn doesn't look them up on ui.shadcn.com)
+  if (component.registryDependencies.length > 0) {
+    const allComponents = [...SHARED, ...COMPONENTS];
+    for (const depName of component.registryDependencies) {
+      const dep = allComponents.find((c) => c.name === depName);
+      if (dep) {
+        for (const depFile of dep.files) {
+          // Skip if already included
+          if (files.some((f) => f.path === depFile.target)) continue;
+          const depFilePath = path.join(ROOT, depFile.path);
+          if (fs.existsSync(depFilePath)) {
+            files.push({
+              path: depFile.target,
+              content: fs.readFileSync(depFilePath, "utf-8"),
+              type: "registry:ui" as RegistryType,
+              target: depFile.target,
+            });
+          }
+        }
+      }
+    }
+  }
+
   return {
     $schema: "https://ui.shadcn.com/schema/registry-item.json",
     name: component.name,
@@ -1442,7 +1465,7 @@ function buildComponent(component: RegistryComponent): RegistryOutput {
     title: component.title,
     description: component.description,
     dependencies: component.dependencies,
-    registryDependencies: component.registryDependencies,
+    registryDependencies: [],
     files,
   };
 }
