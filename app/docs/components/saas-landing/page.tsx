@@ -21,7 +21,7 @@ export default function SaasLandingDoc() {
       <DocSection id="preview" title="Preview"><SaasLandingPlayground /></DocSection>
       <DocSection id="installation" title="Installation">
         <InstallTabs
-          cli={<div className="space-y-3"><CodeBlock code="npx shadcn@latest add @flexui/page:saas-landing" filename="Terminal" /><p className="text-sm text-zinc-500">Installs the template and all block dependencies.</p></div>}
+          cli={<div className="space-y-3"><CodeBlock code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/page.json:saas-landing" filename="Terminal" /><p className="text-sm text-zinc-500">Installs the template and all block dependencies.</p></div>}
           manual={<div className="space-y-4"><div className="space-y-2"><p className="text-sm font-medium text-zinc-300">1. Install all blocks</p><CodeBlock code="npx flexui add header-block hero-block features-block stats-block testimonials-block faq-block newsletter-block footer-block" filename="Terminal" /></div><div className="space-y-2"><p className="text-sm font-medium text-zinc-300">2. Copy template</p><div className="rounded-xl border border-white/[0.06] bg-zinc-950/50 p-4"><code className="text-xs text-zinc-400">components/flexui/pages/saas-landing.tsx</code></div></div></div>}
         />
       </DocSection>

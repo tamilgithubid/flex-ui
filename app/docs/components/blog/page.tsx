@@ -20,7 +20,7 @@ export default function BlogDoc() {
       <DocSection id="preview" title="Preview"><BlogPlayground /></DocSection>
       <DocSection id="installation" title="Installation">
         <InstallTabs
-          cli={<div className="space-y-3"><CodeBlock code="npx shadcn@latest add @flexui/page:blog" filename="Terminal" /></div>}
+          cli={<div className="space-y-3"><CodeBlock code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/page.json:blog" filename="Terminal" /></div>}
           manual={<div className="space-y-2"><p className="text-sm font-medium text-zinc-300">Copy template</p><div className="rounded-xl border border-white/[0.06] bg-zinc-950/50 p-4"><code className="text-xs text-zinc-400">components/flexui/pages/blog.tsx</code></div></div>}
         />
       </DocSection>

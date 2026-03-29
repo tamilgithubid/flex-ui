@@ -67,10 +67,10 @@ export default function InstallationPage() {
           Step 2: Add a FlexUI Component
         </h2>
         <p className="leading-relaxed text-zinc-400">
-          Use the shadcn CLI with our registry namespace to add any component:
+          Use the shadcn CLI with our registry URL to add any component:
         </p>
         <CodeBlock
-          code="npx shadcn@latest add @flexui/magnetic-button"
+          code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/magnetic-button.json"
           filename="Terminal"
         />
         <p className="leading-relaxed text-zinc-400">
@@ -128,7 +128,7 @@ export default function Hero() {
                   Component
                 </th>
                 <th className="px-4 py-3 text-left font-medium text-zinc-400">
-                  Command
+                  Registry File
                 </th>
                 <th className="hidden px-4 py-3 text-left font-medium text-zinc-400 sm:table-cell">
                   Dependencies
@@ -136,84 +136,32 @@ export default function Hero() {
               </tr>
             </thead>
             <tbody className="divide-y divide-white/[0.04]">
-              <tr>
+              {[
+                { name: "Magnetic Button", slug: "magnetic-button", deps: "framer-motion" },
+                { name: "3D Hover Card", slug: "three-hover-card", deps: "three, @react-three/fiber, @react-three/drei" },
+                { name: "Floating Panel", slug: "floating-panel", deps: "framer-motion, lucide-react" },
+                { name: "Interactive Globe", slug: "interactive-globe", deps: "three, three-globe, @react-three/fiber, @react-three/drei" },
+                { name: "Expandable Card", slug: "expandable-card", deps: "framer-motion" },
+                { name: "Reflective Card", slug: "reflective-card", deps: "framer-motion" },
+                { name: "Shimmer Button", slug: "shimmer-button", deps: "framer-motion" },
+                { name: "Toast", slug: "toast", deps: "framer-motion" },
+                { name: "Dock Menu", slug: "dock-menu", deps: "framer-motion" },
+                { name: "Spotlight Card", slug: "spotlight-card", deps: "framer-motion" },
+              ].map((c) => (
+              <tr key={c.slug}>
                 <td className="px-4 py-3 font-medium text-white">
-                  Magnetic Button
+                  {c.name}
                 </td>
                 <td className="px-4 py-3">
                   <code className="text-xs text-purple-400">
-                    @flexui/magnetic-button
+                    {c.slug}.json
                   </code>
                 </td>
                 <td className="hidden px-4 py-3 text-zinc-500 sm:table-cell">
-                  framer-motion
+                  {c.deps}
                 </td>
               </tr>
-              <tr>
-                <td className="px-4 py-3 font-medium text-white">
-                  3D Hover Card
-                </td>
-                <td className="px-4 py-3">
-                  <code className="text-xs text-purple-400">
-                    @flexui/three-hover-card
-                  </code>
-                </td>
-                <td className="hidden px-4 py-3 text-zinc-500 sm:table-cell">
-                  three, @react-three/fiber, @react-three/drei
-                </td>
-              </tr>
-              <tr>
-                <td className="px-4 py-3 font-medium text-white">
-                  Floating Panel
-                </td>
-                <td className="px-4 py-3">
-                  <code className="text-xs text-purple-400">
-                    @flexui/floating-panel
-                  </code>
-                </td>
-                <td className="hidden px-4 py-3 text-zinc-500 sm:table-cell">
-                  framer-motion, lucide-react
-                </td>
-              </tr>
-              <tr>
-                <td className="px-4 py-3 font-medium text-white">
-                  Interactive Globe
-                </td>
-                <td className="px-4 py-3">
-                  <code className="text-xs text-purple-400">
-                    @flexui/interactive-globe
-                  </code>
-                </td>
-                <td className="hidden px-4 py-3 text-zinc-500 sm:table-cell">
-                  three, three-globe, @react-three/fiber, @react-three/drei
-                </td>
-              </tr>
-              <tr>
-                <td className="px-4 py-3 font-medium text-white">
-                  Expandable Card
-                </td>
-                <td className="px-4 py-3">
-                  <code className="text-xs text-purple-400">
-                    @flexui/expandable-card
-                  </code>
-                </td>
-                <td className="hidden px-4 py-3 text-zinc-500 sm:table-cell">
-                  framer-motion
-                </td>
-              </tr>
-              <tr>
-                <td className="px-4 py-3 font-medium text-white">
-                  Reflective Card
-                </td>
-                <td className="px-4 py-3">
-                  <code className="text-xs text-purple-400">
-                    @flexui/reflective-card
-                  </code>
-                </td>
-                <td className="hidden px-4 py-3 text-zinc-500 sm:table-cell">
-                  framer-motion
-                </td>
-              </tr>
+              ))}
             </tbody>
           </table>
         </div>

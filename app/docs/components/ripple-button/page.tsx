@@ -131,7 +131,7 @@ export default function RippleButtonDoc() {
           cli={
             <div className="space-y-3">
               <CodeBlock
-                code="npx shadcn@latest add @flexui/ripple-button"
+                code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/ripple-button.json"
                 filename="Terminal"
               />
             </div>

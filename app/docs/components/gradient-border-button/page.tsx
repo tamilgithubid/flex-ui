@@ -104,7 +104,7 @@ export default function GradientBorderButtonDoc() {
           cli={
             <div className="space-y-3">
               <CodeBlock
-                code="npx shadcn@latest add @flexui/gradient-border-button"
+                code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/gradient-border-button.json"
                 filename="Terminal"
               />
             </div>

@@ -20,7 +20,7 @@ import { SparklineChart } from "./sparkline-chart";
 
 // Glassmorphic KPI card with animated counter,
 // change indicator, and embedded sparkline.
-// Full source: npx shadcn@latest add @flexui/kpi-card`;
+// Full source: npx shadcn@latest add https://flex-ui-wine.vercel.app/r/kpi-card.json`;
 
 export default function KPICardDoc() {
   return (
@@ -63,7 +63,7 @@ export default function KPICardDoc() {
           cli={
             <div className="space-y-3">
               <CodeBlock
-                code="npx shadcn@latest add @flexui/kpi-card"
+                code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/kpi-card.json"
                 filename="Terminal"
               />
               <p className="text-sm text-zinc-500">

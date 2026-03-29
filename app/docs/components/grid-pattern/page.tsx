@@ -59,7 +59,7 @@ export default function GridPatternDoc() {
           cli={
             <div className="space-y-3">
               <CodeBlock
-                code="npx shadcn@latest add @flexui/grid-pattern"
+                code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/grid-pattern.json"
                 filename="Terminal"
               />
               <p className="text-sm text-zinc-500">No external dependencies.</p>

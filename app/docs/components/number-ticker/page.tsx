@@ -59,7 +59,7 @@ export default function NumberTickerDoc() {
           cli={
             <div className="space-y-3">
               <CodeBlock
-                code="npx shadcn@latest add @flexui/number-ticker"
+                code="npx shadcn@latest add https://flex-ui-wine.vercel.app/r/number-ticker.json"
                 filename="Terminal"
               />
               <p className="text-sm text-zinc-500">
