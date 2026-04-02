@@ -52,6 +52,7 @@ const sidebarSections: { heading: string; items: SidebarItem[] }[] = [
       { title: "Installation", href: "/docs/installation", icon: <Download className="h-4 w-4" /> },
       { title: "All Components", href: "/docs/components", icon: <LayoutGrid className="h-4 w-4" /> },
       { title: "MCP Server", href: "/docs/mcp-server", icon: <Server className="h-4 w-4" /> },
+      { title: "Skills", href: "/docs/skills", icon: <Waypoints className="h-4 w-4" />, isNew: true },
       { title: "Changelog", href: "/docs/changelog", icon: <FileText className="h-4 w-4" /> },
       { title: "AI Studio", href: "/studio", icon: <Sparkles className="h-4 w-4" /> },
       { title: "Theme Preview", href: "/docs/theme-preview", icon: <Palette className="h-4 w-4" />, isNew: true },
