@@ -10,7 +10,9 @@
     "registry:build": "tsx scripts/build-registry.ts",
     "analyze": "ANALYZE=true next build",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:visual": "vitest run --config vitest.visual.config.mts",
+    "test:visual:update": "tsx scripts/update-snapshots.ts"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",

@@ -290,6 +290,29 @@ const sidebarSections: { heading: string; items: SidebarItem[] }[] = [
       { title: "Evolution Hero", href: "/docs/components/evolution-hero", icon: <Sparkles className="h-4 w-4" />, isNew: true },
     ],
   },
+  {
+    heading: "WebGPU",
+    items: [
+      { title: "GPU Particle Field", href: "/docs/components/gpu-particle-field", icon: <Sparkles className="h-4 w-4" />, isNew: true },
+      { title: "Fluid Background", href: "/docs/components/fluid-background", icon: <Wind className="h-4 w-4" />, isNew: true },
+      { title: "Volumetric Text", href: "/docs/components/volumetric-text", icon: <Type className="h-4 w-4" />, isNew: true },
+      { title: "GPU Noise Terrain", href: "/docs/components/gpu-noise-terrain", icon: <Activity className="h-4 w-4" />, isNew: true },
+    ],
+  },
+  {
+    heading: "Spatial / AR",
+    items: [
+      { title: "XR Scene", href: "/docs/components/xr-scene", icon: <Monitor className="h-4 w-4" />, isNew: true },
+      { title: "AR Card", href: "/docs/components/ar-card", icon: <Layers className="h-4 w-4" />, isNew: true },
+      { title: "3D Skull", href: "/docs/components/skull-3d", icon: <Orbit className="h-4 w-4" />, isNew: true },
+    ],
+  },
+  {
+    heading: "Collaboration",
+    items: [
+      { title: "Live Cursors", href: "/docs/components/live-cursors", icon: <Users className="h-4 w-4" />, isNew: true },
+    ],
+  },
 ];
 
 export function DocsSidebar() {
