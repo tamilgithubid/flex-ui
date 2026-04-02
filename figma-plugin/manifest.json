@@ -1,0 +1,20 @@
+{
+  "name": "FlexUI",
+  "id": "flexui-figma-plugin",
+  "api": "1.0.0",
+  "main": "dist/code.js",
+  "ui": "dist/ui.html",
+  "editorType": ["figma"],
+  "documentAccess": "dynamic-page",
+  "networkAccess": {
+    "allowedDomains": [
+      "https://flex-ui-wine.vercel.app",
+      "https://api.flexui.dev"
+    ]
+  },
+  "capabilities": ["codegen"],
+  "codegenLanguages": [
+    { "label": "React + FlexUI", "value": "react-flexui" }
+  ],
+  "permissions": ["currentuser"]
+}

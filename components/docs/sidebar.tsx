@@ -52,6 +52,7 @@ const sidebarSections: { heading: string; items: SidebarItem[] }[] = [
       { title: "Installation", href: "/docs/installation", icon: <Download className="h-4 w-4" /> },
       { title: "All Components", href: "/docs/components", icon: <LayoutGrid className="h-4 w-4" /> },
       { title: "MCP Server", href: "/docs/mcp-server", icon: <Server className="h-4 w-4" /> },
+      { title: "Skills", href: "/docs/skills", icon: <Waypoints className="h-4 w-4" />, isNew: true },
       { title: "Changelog", href: "/docs/changelog", icon: <FileText className="h-4 w-4" /> },
       { title: "AI Studio", href: "/studio", icon: <Sparkles className="h-4 w-4" /> },
       { title: "Theme Preview", href: "/docs/theme-preview", icon: <Palette className="h-4 w-4" />, isNew: true },
@@ -287,6 +288,29 @@ const sidebarSections: { heading: string; items: SidebarItem[] }[] = [
       { title: "Cosmic Eye", href: "/docs/components/cosmic-eye", icon: <EyeIcon className="h-4 w-4" />, isNew: true },
       { title: "Shader Blob", href: "/docs/components/shader-blob", icon: <Circle className="h-4 w-4" />, isNew: true },
       { title: "Evolution Hero", href: "/docs/components/evolution-hero", icon: <Sparkles className="h-4 w-4" />, isNew: true },
+    ],
+  },
+  {
+    heading: "WebGPU",
+    items: [
+      { title: "GPU Particle Field", href: "/docs/components/gpu-particle-field", icon: <Sparkles className="h-4 w-4" />, isNew: true },
+      { title: "Fluid Background", href: "/docs/components/fluid-background", icon: <Wind className="h-4 w-4" />, isNew: true },
+      { title: "Volumetric Text", href: "/docs/components/volumetric-text", icon: <Type className="h-4 w-4" />, isNew: true },
+      { title: "GPU Noise Terrain", href: "/docs/components/gpu-noise-terrain", icon: <Activity className="h-4 w-4" />, isNew: true },
+    ],
+  },
+  {
+    heading: "Spatial / AR",
+    items: [
+      { title: "XR Scene", href: "/docs/components/xr-scene", icon: <Monitor className="h-4 w-4" />, isNew: true },
+      { title: "AR Card", href: "/docs/components/ar-card", icon: <Layers className="h-4 w-4" />, isNew: true },
+      { title: "3D Skull", href: "/docs/components/skull-3d", icon: <Orbit className="h-4 w-4" />, isNew: true },
+    ],
+  },
+  {
+    heading: "Collaboration",
+    items: [
+      { title: "Live Cursors", href: "/docs/components/live-cursors", icon: <Users className="h-4 w-4" />, isNew: true },
     ],
   },
 ];
