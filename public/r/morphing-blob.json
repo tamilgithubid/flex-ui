@@ -3,7 +3,7 @@
   "name": "morphing-blob",
   "type": "registry:ui",
   "title": "Morphing Blob",
-  "description": "SVG blob that continuously morphs between organic shapes.",
+  "description": "An SVG blob that continuously morphs between organic shapes using requestAnimationFrame interpolation with configurable gradient fill, speed, and size.",
   "dependencies": [],
   "registryDependencies": [],
   "files": [

@@ -9,18 +9,9 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import { createRoot } from "react-dom/client";
+import type { RegistryComponent } from "./registry";
 
 // ─── Types ─────────────────────────────────────────────────────────────────
-
-interface RegistryComponent {
-  name: string;
-  title: string;
-  description: string;
-  tier: number;
-  category: string;
-  tags: string[];
-  dependencies: string[];
-}
 
 interface ComponentDetail {
   name: string;
@@ -88,9 +79,6 @@ function App() {
   const handleInsert = useCallback((name: string) => {
     parent.postMessage({ pluginMessage: { type: "insert-frame", payload: { name, width: 320, height: 200 } } }, "*");
   }, []);
-
-  const tierLabel = (tier: number) => tier === 1 ? "Basic" : tier === 2 ? "Motion" : "WebGL";
-  const tierColor = (tier: number) => tier === 1 ? "#34D399" : tier === 2 ? "#FBBF24" : "#F472B6";
 
   return (
     <div style={{ fontFamily: "Inter, system-ui, sans-serif", background: "#1e1e1e", color: "#e0e0e0", minHeight: "100vh", fontSize: "12px" }}>
@@ -166,9 +154,6 @@ function App() {
                 >
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                     <span style={{ fontWeight: 600, fontSize: "12px" }}>{comp.title}</span>
-                    <span style={{ fontSize: "9px", padding: "2px 6px", borderRadius: "99px", background: `${tierColor(comp.tier)}20`, color: tierColor(comp.tier) }}>
-                      {tierLabel(comp.tier)}
-                    </span>
                   </div>
                   <p style={{ fontSize: "10px", color: "#888", marginTop: "3px", lineHeight: 1.4 }}>
                     {comp.description}
@@ -304,3 +289,4 @@ function App() {
 
 const root = createRoot(document.getElementById("root")!);
 root.render(<App />);
+

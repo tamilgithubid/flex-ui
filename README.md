@@ -224,14 +224,40 @@ FlexUI ships with an MCP server for AI coding assistants. Ask Claude, Cursor, or
 
 ## Run Locally
 
+Use Node.js 22.12+ (or Node.js 24). The repository includes an nvm version file.
+
 ```bash
 git clone https://github.com/tamilgithubid/flex-ui.git
 cd flex-ui
-npm install
+npm ci
 npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000)
+
+Before submitting a change, run:
+
+```bash
+npm run registry:build
+npm test
+npm run lint:ci
+npx tsc --noEmit
+npm run build
+```
+
+Registry tests check bundled imports, package dependencies, and fresh-consumer compilation.
+CI rejects new ESLint errors and warnings. Existing diagnostics are recorded by file,
+rule, and position in `scripts/lint-baseline.json`; `npm run lint` still reports the full
+backlog. Fix existing diagnostics instead of adding new entries to that baseline.
+
+The Figma plugin has its own lockfile and checks:
+
+```bash
+cd figma-plugin
+npm ci
+npm run typecheck
+npm test
+```
 
 ---
 
@@ -251,3 +277,4 @@ MIT License. See [LICENSE](LICENSE) for details.
   <a href="https://flex-ui-wine.vercel.app/docs/installation">Get Started</a> &nbsp;|&nbsp;
   <a href="https://flex-ui-wine.vercel.app/blog/flexui-registry-launch">Read the Blog</a>
 </p>
+

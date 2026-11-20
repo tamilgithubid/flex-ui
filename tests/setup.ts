@@ -3,7 +3,7 @@ import { vi } from 'vitest';
 
 // Mock framer-motion to avoid animation-related issues in jsdom
 vi.mock('framer-motion', async () => {
-  const actual = await vi.importActual('framer-motion') as any;
+  const actual = await vi.importActual<typeof import('framer-motion')>('framer-motion');
   return {
     ...actual,
     useReducedMotion: () => true,
@@ -26,15 +26,16 @@ Object.defineProperty(window, 'matchMedia', {
 });
 
 // Mock ResizeObserver
-global.ResizeObserver = vi.fn().mockImplementation(() => ({
+global.ResizeObserver = vi.fn().mockImplementation(function () { return {
   observe: vi.fn(),
   unobserve: vi.fn(),
   disconnect: vi.fn(),
-}));
+}; });
 
 // Mock IntersectionObserver
-global.IntersectionObserver = vi.fn().mockImplementation(() => ({
+global.IntersectionObserver = vi.fn().mockImplementation(function () { return {
   observe: vi.fn(),
   unobserve: vi.fn(),
   disconnect: vi.fn(),
-}));
+}; });
+

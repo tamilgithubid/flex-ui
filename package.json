@@ -2,12 +2,16 @@
   "name": "flexui",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "^22.12.0 || ^24.0.0 || >=26.0.0"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "registry:build": "tsx scripts/build-registry.ts",
+    "lint:ci": "node scripts/check-lint.mjs",
+    "registry:build": "node --import tsx scripts/build-registry.ts",
     "analyze": "ANALYZE=true next build",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -20,7 +24,7 @@
     "clsx": "^2.1.1",
     "framer-motion": "^12.37.0",
     "lucide-react": "^0.577.0",
-    "next": "16.1.6",
+    "next": "16.4.6",
     "ogl": "^1.0.11",
     "react": "19.2.3",
     "react-dom": "19.2.3",
@@ -33,16 +37,16 @@
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
-    "@types/node": "^20",
+    "@types/node": "^22.20.5",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/three": "^0.183.1",
     "eslint": "^9",
-    "eslint-config-next": "16.1.6",
+    "eslint-config-next": "16.4.6",
     "jsdom": "^25.0.1",
     "tailwindcss": "^4",
     "tsx": "^4.21.0",
     "typescript": "^5",
-    "vitest": "^3.2.4"
+    "vitest": "^5.1.1"
   }
 }

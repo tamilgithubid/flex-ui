@@ -1,4 +1,4 @@
-name: CI — Lint, Type Check, Build
+name: CI — Lint, Tests, Type Check, Build
 
 on:
   push:
@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   ci:
-    name: Lint → Type Check → Build → Registry
+    name: Lint → Registry → Tests → Type Check → Build
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -23,20 +23,29 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Lint
-        run: npx eslint . --max-warnings 0 || true
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=high
+
+      - name: Reject new lint issues
+        run: npm run lint:ci
+
+      - name: Build registry
+        run: npm run registry:build
+
+      - name: Test components and registry installations
+        run: npm test
 
       - name: Type check
         run: npx tsc --noEmit
 
-      - name: Build registry
-        run: npx tsx scripts/build-registry.ts
+      - name: Type check CLI
+        run: npx tsc -p cli/tsconfig.json --noEmit
 
       - name: Build Next.js
         run: npx next build
@@ -45,5 +54,24 @@ jobs:
         run: |
           echo "Registry files:"
           ls -la public/r/*.json | wc -l
-          echo "Expected: 51+ component files + index.json"
+          echo "Generated component files and index.json"
           test -f public/r/index.json || (echo "Missing index.json" && exit 1)
+
+  figma:
+    name: Figma plugin types and packaging
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: figma-plugin
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: figma-plugin/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+

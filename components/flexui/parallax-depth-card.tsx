@@ -6,6 +6,7 @@ import {
   useMotionValue,
   useSpring,
   useTransform,
+  type MotionValue,
 } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -35,6 +36,33 @@ function ParallaxLayer({ children, depth = 1, className }: ParallaxLayer) {
     <div data-parallax-depth={depth} className={className}>
       {children}
     </div>
+  );
+}
+
+function ParallaxPlane({
+  children,
+  depth,
+  maxShift,
+  mouseX,
+  mouseY,
+}: {
+  children: React.ReactNode;
+  depth: number;
+  maxShift: number;
+  mouseX: MotionValue<number>;
+  mouseY: MotionValue<number>;
+}) {
+  const shiftAmount = maxShift * depth;
+  const translateX = useTransform(mouseX, [-0.5, 0.5], [-shiftAmount, shiftAmount]);
+  const translateY = useTransform(mouseY, [-0.5, 0.5], [-shiftAmount, shiftAmount]);
+  const springConfig = { stiffness: 120 - depth * 20, damping: 18 + depth * 5 };
+  const x = useSpring(translateX, springConfig);
+  const y = useSpring(translateY, springConfig);
+
+  return (
+    <motion.div style={{ x, y }} className="will-change-transform">
+      {children}
+    </motion.div>
   );
 }
 
@@ -101,20 +129,15 @@ export function ParallaxDepthCard({
     if (!React.isValidElement(child)) return child;
 
     const depth = (child.props as { depth?: number }).depth ?? 1;
-    const shiftAmount = maxShift * depth;
-
-    const translateX = useTransform(smoothX, [-0.5, 0.5], [-shiftAmount, shiftAmount]);
-    const translateY = useTransform(smoothY, [-0.5, 0.5], [-shiftAmount, shiftAmount]);
-    const layerSpringX = useSpring(translateX, { stiffness: 120 - depth * 20, damping: 18 + depth * 5 });
-    const layerSpringY = useSpring(translateY, { stiffness: 120 - depth * 20, damping: 18 + depth * 5 });
-
     return (
-      <motion.div
-        style={{ x: layerSpringX, y: layerSpringY }}
-        className="will-change-transform"
+      <ParallaxPlane
+        depth={depth}
+        maxShift={maxShift}
+        mouseX={smoothX}
+        mouseY={smoothY}
       >
         {child}
-      </motion.div>
+      </ParallaxPlane>
     );
   });
 
@@ -152,3 +175,4 @@ export function ParallaxDepthCard({
 }
 
 ParallaxDepthCard.Layer = ParallaxLayer;
+

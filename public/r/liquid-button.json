@@ -3,7 +3,7 @@
   "name": "liquid-button",
   "type": "registry:ui",
   "title": "Liquid Button",
-  "description": "Button with liquid mercury ripple effect on click.",
+  "description": "A button whose surface ripples like liquid mercury when hovered and clicked, with organic spring-physics ripple waves from cursor position.",
   "dependencies": [
     "framer-motion"
   ],
