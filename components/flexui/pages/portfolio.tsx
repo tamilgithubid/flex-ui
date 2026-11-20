@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */
@@ -592,7 +592,7 @@ export function Portfolio({
             variants={stagger}
             className="flex flex-wrap items-center justify-center gap-3"
           >
-            {skills.map((skill, i) => (
+            {skills.map((skill) => (
               <motion.div
                 key={skill}
                 variants={scaleIn}

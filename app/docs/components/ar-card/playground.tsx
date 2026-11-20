@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
-import { XRScene } from "@/components/flexui/xr-scene";
-import { ARCard } from "@/components/flexui/ar-card";
+import { FullscreenPreview } from "@/components/docs/fullscreen-preview";
 import { PreviewCodeTabs } from "@/components/docs/preview-code-tabs";
 import { PropsConfigurator } from "@/components/docs/props-configurator";
-import { FullscreenPreview } from "@/components/docs/fullscreen-preview";
+import { ARCard } from "@/components/flexui/ar-card";
+import { XRScene } from "@/components/flexui/xr-scene";
+import { useState } from "react";
 
 const propDefs = [
   {
@@ -36,13 +36,6 @@ const propDefs = [
     defaultValue: "#A78BFA",
   },
 ];
-
-const colorLabels: Record<string, string> = {
-  "#A78BFA": "Violet",
-  "#34D399": "Emerald",
-  "#F472B6": "Rose",
-  "#60A5FA": "Sky",
-};
 
 function generateCode(values: Record<string, string | number | boolean>) {
   const props: string[] = [];
@@ -109,3 +102,4 @@ export function ARCardPlayground() {
     </div>
   );
 }
+

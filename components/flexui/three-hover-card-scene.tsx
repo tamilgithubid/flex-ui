@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useRef, useMemo } from "react";
+import { ContactShadows, Edges, Float } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, ContactShadows, Edges } from "@react-three/drei";
-import type { Mesh, Group } from "three";
+import { useMemo, useRef } from "react";
+import type { Group, Mesh } from "three";
 
 interface SceneProps {
   mouse: { x: number; y: number };
@@ -15,7 +15,7 @@ function CoreGeo({ mouse }: SceneProps) {
   const innerRef = useRef<Mesh>(null);
   const target = useRef({ x: 0, y: 0 });
 
-  useFrame((state, delta) => {
+  useFrame((state) => {
     const t = state.clock.getElapsedTime();
 
     // Smooth mouse follow

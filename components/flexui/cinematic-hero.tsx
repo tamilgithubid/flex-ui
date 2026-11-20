@@ -1,7 +1,9 @@
 "use client";
-import React, { Suspense, useEffect, useMemo, useState } from "react";
-import { motion } from "framer-motion";
+
+import { useClientReady } from "@/hooks/use-client-ready";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
+import React, { Suspense, useMemo } from "react";
 
 // ── Lazy background imports ──
 const ParticleField = React.lazy(() =>
@@ -112,9 +114,8 @@ export function CinematicHero({
   className,
   children,
 }: CinematicHeroProps) {
-  const [mounted, setMounted] = useState(false);
-  // eslint-disable-next-line react-hooks/set-state-in-effect
-  useEffect(() => { setMounted(true); }, []);
+  const mounted = useClientReady();
+
 
   return (
     <section

@@ -1,6 +1,6 @@
 "use client";
-import React, { useEffect, useRef, useState, useCallback } from "react";
 import { cn } from "@/lib/utils";
+import { useEffect, useRef, useState } from "react";
 
 interface Command {
   input: string;
@@ -35,7 +35,6 @@ export function TypewriterTerminal({
   const [showCursor, setShowCursor] = useState(true);
   const [isTyping, setIsTyping] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
-  const abortRef = useRef(false);
 
   const themeStyles = {
     dark: {
@@ -67,80 +66,47 @@ export function TypewriterTerminal({
     }
   }, [lines, currentInput]);
 
-  const sleep = useCallback(
-    (ms: number) =>
-      new Promise<void>((resolve) => {
-        const timer = setTimeout(resolve, ms);
-        const check = setInterval(() => {
-          if (abortRef.current) {
-            clearTimeout(timer);
-            clearInterval(check);
-            resolve();
-          }
-        }, 50);
-      }),
-    []
-  );
-
-  const runSequence = useCallback(async () => {
-    abortRef.current = false;
-    setLines([]);
-    setCurrentInput("");
-    setIsTyping(true);
-
-    for (const command of commands) {
-      if (abortRef.current) break;
-
-      // Wait before starting this command
-      if (command.delay) {
-        await sleep(command.delay);
-      }
-
-      // Type input character by character
-      for (let i = 0; i <= command.input.length; i++) {
-        if (abortRef.current) break;
-        setCurrentInput(command.input.slice(0, i));
-        await sleep(typingSpeed);
-      }
-
-      if (abortRef.current) break;
-
-      // Commit the input line
-      setLines((prev) => [...prev, { type: "input", text: command.input }]);
-      setCurrentInput("");
-
-      // Show output if present
-      if (command.output) {
-        await sleep(150);
-        if (abortRef.current) break;
-        const outputLines = command.output.split("\n");
-        for (const line of outputLines) {
-          if (abortRef.current) break;
-          setLines((prev) => [...prev, { type: "output", text: line }]);
-          await sleep(30);
-        }
-      }
-
-      // Small pause between commands
-      await sleep(300);
-    }
-
-    setIsTyping(false);
-
-    if (loop && !abortRef.current) {
-      await sleep(2000);
-      if (!abortRef.current) {
-        runSequence();
-      }
-    }
-  }, [commands, typingSpeed, loop, sleep]);
-
   useEffect(() => {
-    runSequence();
-    return () => {
-      abortRef.current = true;
+    const controller = new AbortController();
+    const { signal } = controller;
+    const sleep = (ms: number) => new Promise<void>((resolve) => {
+      const finish = () => { clearTimeout(timer); signal.removeEventListener("abort", finish); resolve(); };
+      const timer = setTimeout(finish, ms);
+      signal.addEventListener("abort", finish, { once: true });
+      if (signal.aborted) finish();
+    });
+    const run = async () => {
+      do {
+        setLines([]);
+        setCurrentInput("");
+        setIsTyping(true);
+        for (const command of commands) {
+          if (command.delay) await sleep(command.delay);
+          for (let i = 0; i <= command.input.length && !signal.aborted; i++) {
+            setCurrentInput(command.input.slice(0, i));
+            await sleep(typingSpeed);
+          }
+          if (signal.aborted) return;
+          setLines(prev => [...prev, { type: "input", text: command.input }]);
+          setCurrentInput("");
+          if (command.output) {
+            await sleep(150);
+            for (const text of command.output.split("\n")) {
+              if (signal.aborted) return;
+              setLines(prev => [...prev, { type: "output", text }]);
+              await sleep(30);
+            }
+          }
+          await sleep(300);
+          if (signal.aborted) return;
+        }
+        setIsTyping(false);
+        if (loop) await sleep(2000);
+      } while (loop && !signal.aborted);
     };
-  }, [runSequence]);
+    const first = setTimeout(() => { void run(); }, 0);
+    return () => { clearTimeout(first); controller.abort(); };
+  }, [commands, typingSpeed, loop]);
 
   return (
     <div

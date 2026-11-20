@@ -1,16 +1,26 @@
 "use client";
 
-import React, { useState, useEffect, useMemo, useRef, useCallback } from "react";
-import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { useTheme } from "@/components/flexui/theme-provider";
+import { tracker, type AnalyticsSnapshot, type ComponentStats } from "@/lib/analytics/tracker";
+import { themes } from "@/lib/themes";
+import { cn } from "@/lib/utils";
+import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import {
-  BarChart3, Activity, Eye, Zap, AlertCircle, Download, Trash2,
-  ArrowUpRight, TrendingUp, MousePointer, RefreshCw, ChevronDown, Search, Flame,
+  Activity,
+  AlertCircle,
+  ArrowUpRight,
+  BarChart3,
+  ChevronDown,
+  Download,
+  Eye,
+  MousePointer, RefreshCw,
+  Search,
+  Trash2,
+  TrendingUp,
+  Zap
 } from "lucide-react";
 import Link from "next/link";
-import { useTheme } from "@/components/flexui/theme-provider";
-import { themes } from "@/lib/themes";
-import { tracker, type AnalyticsSnapshot, type ComponentStats } from "@/lib/analytics/tracker";
-import { cn } from "@/lib/utils";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 /* ── Demo data seeder ──────────────────────────────────────────────────── */
 
@@ -114,7 +124,8 @@ export default function AnalyticsPage() {
       const existing = tracker.getSnapshot();
       if (existing.uniqueComponents === 0) seedDemoData();
     }
-    refresh();
+    const first = requestAnimationFrame(refresh);
+    return () => cancelAnimationFrame(first);
   }, [refresh]);
 
   const sortedComponents = useMemo(() => {
@@ -624,3 +635,4 @@ function formatRelativeTime(ts: number): string {
   const days = Math.floor(hours / 24);
   return `${days}d ago`;
 }
+

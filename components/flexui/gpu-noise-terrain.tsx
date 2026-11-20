@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useRef, useEffect, useCallback } from "react";
 import { cn } from "@/lib/utils";
+import React, { useCallback, useEffect, useRef } from "react";
 
 interface GPUNoiseTerrainProps {
   /** Terrain scale (default: 2.0) */
@@ -94,7 +94,7 @@ export function GPUNoiseTerrain({
         });
 
         // Generate terrain as a fullscreen shader with raymarched heightfield
-        const module = device.createShaderModule({
+        const gpuModule = device.createShaderModule({
           code: `
             struct Uniforms { time: f32, scale: f32, heightScale: f32, speed: f32, mouseX: f32, mouseY: f32, col_r: f32, col_g: f32, col_b: f32, wireframe: f32, res_x: f32, res_y: f32 };
             struct VSOut { @builtin(position) pos: vec4<f32>, @location(0) uv: vec2<f32> };
@@ -201,8 +201,8 @@ export function GPUNoiseTerrain({
 
         const pipeline = device.createRenderPipeline({
           layout: "auto",
-          vertex: { module, entryPoint: "vs" },
-          fragment: { module, entryPoint: "fs", targets: [{ format }] },
+          vertex: { module: gpuModule, entryPoint: "vs" },
+          fragment: { module: gpuModule, entryPoint: "fs", targets: [{ format }] },
           primitive: { topology: "triangle-list" },
         });
 

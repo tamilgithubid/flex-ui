@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import React, { useCallback, useEffect, useState } from "react";
 
 interface CountdownProps {
   targetDate: Date | string;
@@ -50,9 +50,13 @@ function Digit({ value, label, reducedMotion }: { value: number; label: string; 
   );
 }
 
-export function Countdown({ targetDate, className, onComplete }: CountdownProps) {
+export function Countdown(props: CountdownProps) {
+  return <CountdownTimer key={new Date(props.targetDate).getTime()} {...props} />;
+}
+
+function CountdownTimer({ targetDate, className, onComplete }: CountdownProps) {
   const reducedMotion = useReducedMotion();
-  const target = targetDate instanceof Date ? targetDate : new Date(targetDate);
+  const target = React.useMemo(() => new Date(targetDate), [targetDate]);
   const [time, setTime] = useState<TimeLeft>(calcTimeLeft(target));
   const completedRef = React.useRef(false);
 
@@ -66,9 +70,9 @@ export function Countdown({ targetDate, className, onComplete }: CountdownProps)
   }, [target, onComplete]);
 
   useEffect(() => {
-    tick();
+    const first = setTimeout(tick, 0);
     const id = setInterval(tick, 1000);
-    return () => clearInterval(id);
+    return () => { clearTimeout(first); clearInterval(id); };
   }, [tick]);
 
   return (

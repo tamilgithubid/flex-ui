@@ -1,9 +1,9 @@
 "use client";
 
-import React, { Suspense, useRef, useState, useCallback } from "react";
-import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Environment, Float } from "@react-three/drei";
 import { cn } from "@/lib/utils";
+import { Environment, OrbitControls } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
+import React, { Suspense, useState } from "react";
 
 interface XRSceneProps {
   /** Children (3D objects) */
@@ -54,23 +54,15 @@ export function XRScene({
   const [arSupported, setArSupported] = useState<boolean | null>(null);
   const [arActive, setArActive] = useState(false);
 
-  // Check AR support
-  const checkAR = useCallback(async () => {
-    if (typeof navigator === "undefined" || !("xr" in navigator)) {
-      setArSupported(false);
-      return;
-    }
-    try {
-      const supported = await (navigator as Navigator & { xr: { isSessionSupported: (mode: string) => Promise<boolean> } }).xr.isSessionSupported("immersive-ar");
-      setArSupported(supported);
-    } catch {
-      setArSupported(false);
-    }
-  }, []);
-
   React.useEffect(() => {
-    if (enableAR) checkAR();
-  }, [enableAR, checkAR]);
+    let active = true;
+    if (enableAR && "xr" in navigator) {
+      (navigator as Navigator & { xr: { isSessionSupported: (mode: string) => Promise<boolean> } }).xr
+        .isSessionSupported("immersive-ar").then(value => { if (active) setArSupported(value); })
+        .catch(() => { if (active) setArSupported(false); });
+    }
+    return () => { active = false; };
+  }, [enableAR]);
 
   return (
     <div
@@ -85,7 +77,7 @@ export function XRScene({
         style={{ background: backgroundColor }}
         gl={{ antialias: true, alpha: true }}
       >
-        <Suspense fallback={null}>
+        <Suspense fallback={fallback ?? null}>
           <ambientLight intensity={0.4} />
           <directionalLight position={[5, 5, 5]} intensity={0.8} />
           <Environment preset={environment} />

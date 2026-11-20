@@ -16,6 +16,10 @@
 
 # testing
 /coverage
+/public/studio-preview.json
+/test-results/
+/playwright-report/
+/tests/browser/.generated/
 
 # next.js
 /.next/

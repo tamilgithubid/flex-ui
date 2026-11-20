@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest';
 import { cn } from '@/lib/utils';
+import { describe, expect, it } from 'vitest';
 
 describe('cn() utility', () => {
   it('merges class names', () => {
@@ -61,7 +61,7 @@ describe('cn() utility', () => {
   });
 
   it('handles number zero as falsy', () => {
-    expect(cn(0 as any, 'valid')).toBe('valid');
+    expect(cn(0, 'valid')).toBe('valid');
   });
 
   it('merges conflicting Tailwind flex and grid classes', () => {
@@ -79,3 +79,4 @@ describe('cn() utility', () => {
     expect(result).toContain('lg:p-6');
   });
 });
+

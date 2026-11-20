@@ -1,15 +1,15 @@
 "use client";
 
+import type { FlexUITheme } from "@/lib/themes";
+import { DEFAULT_THEME, getTheme, getThemeNames, themes } from "@/lib/themes";
+import { THEME_TOKENS } from "@/lib/themes/tokens";
 import React, {
   createContext,
   useCallback,
   useContext,
   useEffect,
-  useState,
+  useSyncExternalStore,
 } from "react";
-import { themes, getTheme, getThemeNames, DEFAULT_THEME } from "@/lib/themes";
-import type { FlexUITheme } from "@/lib/themes";
-import { THEME_TOKENS } from "@/lib/themes/tokens";
 
 interface ThemeContextValue {
   /** Current active theme */
@@ -26,6 +26,22 @@ const ThemeContext = createContext<ThemeContextValue | null>(null);
 
 const STORAGE_KEY = "flexui-theme";
 
+const THEME_EVENT = "flexui-theme-change";
+let memoryTheme: string | null = null;
+function subscribeTheme(onChange: () => void) {
+  window.addEventListener("storage", onChange);
+  window.addEventListener(THEME_EVENT, onChange);
+  return () => {
+    window.removeEventListener("storage", onChange);
+    window.removeEventListener(THEME_EVENT, onChange);
+  };
+}
+function readTheme(defaultTheme: string) {
+  let stored = memoryTheme;
+  try { stored = localStorage.getItem(STORAGE_KEY); } catch {}
+  return stored && themes[stored] ? stored : defaultTheme;
+}
+
 interface ThemeProviderProps {
   children: React.ReactNode;
   /** Default theme name (falls back to "midnight") */
@@ -39,23 +55,10 @@ export function ThemeProvider({
   defaultTheme = DEFAULT_THEME,
   forcedTheme,
 }: ThemeProviderProps) {
-  const [themeName, setThemeName] = useState(defaultTheme);
-
-  // Read persisted theme on mount
-  useEffect(() => {
-    if (forcedTheme) {
-      setThemeName(forcedTheme);
-      return;
-    }
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored && themes[stored]) {
-        setThemeName(stored);
-      }
-    } catch {
-      // localStorage unavailable (SSR, private browsing, etc.)
-    }
-  }, [forcedTheme]);
+  const storedTheme = useSyncExternalStore(
+    subscribeTheme, () => readTheme(defaultTheme), () => defaultTheme,
+  );
+  const themeName = forcedTheme ?? storedTheme;
 
   // Apply CSS variables to document root
   useEffect(() => {
@@ -77,12 +80,13 @@ export function ThemeProvider({
     (name: string) => {
       if (forcedTheme) return;
       const resolved = themes[name] ? name : DEFAULT_THEME;
-      setThemeName(resolved);
+      memoryTheme = resolved;
       try {
         localStorage.setItem(STORAGE_KEY, resolved);
       } catch {
-        // localStorage unavailable
+        // The in-memory value still updates this tab when storage is unavailable.
       }
+      window.dispatchEvent(new Event(THEME_EVENT));
     },
     [forcedTheme]
   );

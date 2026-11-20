@@ -30,27 +30,13 @@ export function GlitchTransition({
   duration = 300,
   trigger = "hover",
 }: GlitchTransitionProps) {
-  const [glitching, setGlitching] = useState(trigger === "always");
+  const [glitching, setGlitching] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Clamp intensity
   const clampedIntensity = Math.max(0, Math.min(1, intensity));
   const rgbOffset = Math.round(clampedIntensity * 8) + 1; // 1–9px
   const sliceCount = Math.round(clampedIntensity * 5) + 2; // 2–7 slices
-
-  // Manual mode
-  useEffect(() => {
-    if (trigger === "manual") {
-      setGlitching(manualActive);
-    }
-  }, [trigger, manualActive]);
-
-  // Always mode — stay glitching
-  useEffect(() => {
-    if (trigger === "always") {
-      setGlitching(true);
-    }
-  }, [trigger]);
 
   const handleMouseEnter = useCallback(() => {
     if (trigger === "hover") setGlitching(true);
@@ -83,7 +69,7 @@ export function GlitchTransition({
     return { top, height, shift };
   });
 
-  const isActive = glitching;
+  const isActive = trigger === "always" || (trigger === "manual" ? manualActive : glitching);
   const subtleAlways = trigger === "always";
 
   return (

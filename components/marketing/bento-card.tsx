@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useRef, useState } from "react";
-import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
+import React, { useRef, useState } from "react";
 
 interface BentoCardProps {
   children: React.ReactNode;
@@ -19,7 +19,7 @@ export function BentoCard({
 }: BentoCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = useState(false);
+  const [, setIsHovered] = useState(false);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
@@ -81,3 +81,4 @@ export function BentoCard({
     </motion.div>
   );
 }
+

@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/components/flexui/theme-provider";
 import { themes } from "@/lib/themes";
+import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
+import { useState } from "react";
 
 /* ── Animations ─────────────────────────────────────────────────────────── */
 const stagger = { hidden: {}, visible: { transition: { staggerChildren: 0.06 } } };
@@ -111,9 +111,8 @@ function CopyBtn({ text }: { text: string }) {
 export default function SkillsPage() {
   const { themeName } = useTheme();
   const currentTheme = themes[themeName];
-  const accent = currentTheme?.tokens["--flexui-accent"] ?? "#A78BFA";
-  const secondary = currentTheme?.tokens["--flexui-secondary"] ?? "#818CF8";
   const glowPrimary = currentTheme?.tokens["--flexui-glow-primary"] ?? "167,139,250";
+  const accent = currentTheme?.tokens["--flexui-accent"] ?? "#A78BFA";
   const [activePkg, setActivePkg] = useState<PkgKey>("pnpm");
 
   return (
@@ -460,3 +459,4 @@ export default function SkillsPage() {
     </div>
   );
 }
+

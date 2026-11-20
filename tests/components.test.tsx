@@ -1,59 +1,58 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+import { render } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
 
 // ── Buttons ──────────────────────────────────────────────────────────────────
-import { ShimmerButton } from '@/components/flexui/shimmer-button';
-import { GlowButton } from '@/components/flexui/glow-button';
-import { PulseButton } from '@/components/flexui/pulse-button';
-import { GradientBorderButton } from '@/components/flexui/gradient-border-button';
-import { RippleButton } from '@/components/flexui/ripple-button';
 import { ConfettiButton } from '@/components/flexui/confetti-button';
+import { GlowButton } from '@/components/flexui/glow-button';
+import { GradientBorderButton } from '@/components/flexui/gradient-border-button';
+import { PulseButton } from '@/components/flexui/pulse-button';
+import { RippleButton } from '@/components/flexui/ripple-button';
+import { ShimmerButton } from '@/components/flexui/shimmer-button';
 
 // ── Cards ────────────────────────────────────────────────────────────────────
-import { SpotlightCard } from '@/components/flexui/spotlight-card';
-import { NeonGlowCard } from '@/components/flexui/neon-glow-card';
 import { HoverCard } from '@/components/flexui/hover-card';
-import { WobbleCard } from '@/components/flexui/wobble-card';
-import { RevealCard } from '@/components/flexui/reveal-card';
 import { MagneticCard } from '@/components/flexui/magnetic-card';
+import { NeonGlowCard } from '@/components/flexui/neon-glow-card';
+import { RevealCard } from '@/components/flexui/reveal-card';
+import { SpotlightCard } from '@/components/flexui/spotlight-card';
+import { WobbleCard } from '@/components/flexui/wobble-card';
 
 // ── Text ─────────────────────────────────────────────────────────────────────
-import { GradientText } from '@/components/flexui/gradient-text';
-import { TypewriterText } from '@/components/flexui/typewriter-text';
-import { GlowText } from '@/components/flexui/glow-text';
-import { RotatingText } from '@/components/flexui/rotating-text';
-import { ChromaticText } from '@/components/flexui/chromatic-text';
 import { BlurText } from '@/components/flexui/blur-text';
+import { ChromaticText } from '@/components/flexui/chromatic-text';
+import { GlowText } from '@/components/flexui/glow-text';
+import { GradientText } from '@/components/flexui/gradient-text';
+import { RotatingText } from '@/components/flexui/rotating-text';
 import { SplitText } from '@/components/flexui/split-text';
+import { TypewriterText } from '@/components/flexui/typewriter-text';
 
 // ── Data Viz ─────────────────────────────────────────────────────────────────
 import { NumberTicker } from '@/components/flexui/number-ticker';
 import { ProgressBar } from '@/components/flexui/progress-bar';
 import { ProgressRing } from '@/components/flexui/progress-ring';
-import { SparklineChart } from '@/components/flexui/sparkline-chart';
 import { Rating } from '@/components/flexui/rating';
+import { SparklineChart } from '@/components/flexui/sparkline-chart';
 import { StatCard } from '@/components/flexui/stat-card';
 
 // ── Layout / UI ──────────────────────────────────────────────────────────────
-import { Badge } from '@/components/flexui/badge';
-import { Avatar } from '@/components/flexui/avatar';
-import { Skeleton } from '@/components/flexui/skeleton';
-import { Switch } from '@/components/flexui/switch';
-import { Kbd } from '@/components/flexui/kbd';
-import { Divider } from '@/components/flexui/divider';
-import { Breadcrumb } from '@/components/flexui/breadcrumb';
-import { EmptyState } from '@/components/flexui/empty-state';
-import { Timeline } from '@/components/flexui/timeline';
 import { Accordion } from '@/components/flexui/accordion';
-import { Tooltip } from '@/components/flexui/tooltip';
-import { Stepper } from '@/components/flexui/stepper';
-import { CodeInline } from '@/components/flexui/code-inline';
-import { Marquee } from '@/components/flexui/marquee';
-import { DotPattern } from '@/components/flexui/dot-pattern';
-import { GridPattern } from '@/components/flexui/grid-pattern';
-import { PhoneFrame } from '@/components/flexui/phone-frame';
+import { Avatar } from '@/components/flexui/avatar';
+import { Badge } from '@/components/flexui/badge';
+import { Breadcrumb } from '@/components/flexui/breadcrumb';
 import { BrowserFrame } from '@/components/flexui/browser-frame';
+import { CodeInline } from '@/components/flexui/code-inline';
+import { Divider } from '@/components/flexui/divider';
+import { DotPattern } from '@/components/flexui/dot-pattern';
+import { EmptyState } from '@/components/flexui/empty-state';
+import { GridPattern } from '@/components/flexui/grid-pattern';
+import { Kbd } from '@/components/flexui/kbd';
+import { Marquee } from '@/components/flexui/marquee';
+import { PhoneFrame } from '@/components/flexui/phone-frame';
+import { Skeleton } from '@/components/flexui/skeleton';
+import { Stepper } from '@/components/flexui/stepper';
+import { Switch } from '@/components/flexui/switch';
+import { Timeline } from '@/components/flexui/timeline';
+import { Tooltip } from '@/components/flexui/tooltip';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // BUTTON COMPONENTS
@@ -370,3 +369,4 @@ describe('Layout & UI Components', () => {
     expect(container.textContent).toContain('Page Content');
   });
 });
+

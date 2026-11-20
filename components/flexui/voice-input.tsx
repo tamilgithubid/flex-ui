@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState, useRef, useCallback, useEffect } from "react";
-import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from "framer-motion";
-import { Mic, MicOff, Loader2, X, Volume2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { Mic, MicOff, Volume2, X } from "lucide-react";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 interface VoiceInputProps {
   /** Called with the transcribed text on each result */
@@ -48,9 +48,10 @@ interface SpeechRecognitionInstance {
   onstart: (() => void) | null;
 }
 
+const subscribeSupport = () => () => {};
+
 function getSpeechRecognition(): (new () => SpeechRecognitionInstance) | null {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const w = window as any;
+  const w = window as Window & { SpeechRecognition?: new () => SpeechRecognitionInstance; webkitSpeechRecognition?: new () => SpeechRecognitionInstance };
   return w.SpeechRecognition || w.webkitSpeechRecognition || null;
 }
 
@@ -72,7 +73,7 @@ function WaveformBars({ volume, accentColor, count = 32 }: { volume: number; acc
         const maxHeight = 40;
         const intensity = (1 - distFromCenter * 0.6) * volume;
         const phaseOffset = i * 0.3;
-        const wave = Math.sin(Date.now() / 150 + phaseOffset) * 0.5 + 0.5;
+        const wave = Math.sin(volume * Math.PI * 2 + phaseOffset) * 0.5 + 0.5;
         const h = baseHeight + (maxHeight - baseHeight) * intensity * (0.4 + wave * 0.6);
 
         return (
@@ -136,7 +137,7 @@ export function VoiceInput({
   const [listening, setListening] = useState(false);
   const [transcript, setTranscript] = useState("");
   const [interim, setInterim] = useState("");
-  const [supported, setSupported] = useState(true);
+  const supported = useSyncExternalStore(subscribeSupport, () => Boolean(getSpeechRecognition()), () => false);
   const [volume, setVolume] = useState(0);
   const recognitionRef = useRef<SpeechRecognitionInstance | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
@@ -157,9 +158,6 @@ export function VoiceInput({
   const micSizes = { sm: "h-8 w-8", md: "h-10 w-10", lg: "h-12 w-12" };
   const iconSizes = { sm: "h-3.5 w-3.5", md: "h-4 w-4", lg: "h-5 w-5" };
 
-  useEffect(() => {
-    if (!getSpeechRecognition()) setSupported(false);
-  }, []);
 
   const cleanupAudio = useCallback(() => {
     if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);

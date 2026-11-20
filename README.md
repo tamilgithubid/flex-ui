@@ -178,15 +178,29 @@ Components that use CSS animations auto-install a `styles/flexui-animations.css`
 
 ---
 
-## Component Studio (Coming Soon)
+## Component Studio
 
-FlexUI Studio is an AI-powered component workspace:
+FlexUI Studio generates components, analyzes public websites, and creates themes using Gemini with a Groq fallback. Generated TSX runs in an isolated, opaque-origin iframe with a restricted Content Security Policy.
 
-- **Generate Component** — Describe a component in natural language, get production code
-- **Analyze** — Paste any component to get performance analysis and improvement suggestions
-- **Live Playground** — Adjust props in real-time with instant preview
+To run it locally:
 
-> Studio is currently in development. The backend API is being built with FastAPI + Claude.
+```bash
+python3 -m venv api/.venv
+api/.venv/bin/python -m pip install -r api/requirements-dev.txt
+# Set GEMINI_API_KEY and/or GROQ_API_KEY in api/.env (see api/env.example).
+cd api
+.venv/bin/uvicorn main:app --reload --port 8000
+```
+
+Run `npm run dev` separately. Development defaults to `http://localhost:8000`.
+Production builds require `NEXT_PUBLIC_API_URL` pointing to your deployed API, and
+`FRONTEND_URL` on the API must match the frontend origin. Never expose provider keys
+through `NEXT_PUBLIC_` variables. The health endpoint reports configured providers;
+missing configuration and provider failures appear as errors in Studio.
+
+See [api/env.example](api/env.example) for optional provider model overrides. URL analysis
+accepts public HTTP/HTTPS HTML pages on standard ports, limits responses to 2 MiB,
+and validates and pins the destination address at every redirect.
 
 ---
 
@@ -246,9 +260,17 @@ npm run build
 ```
 
 Registry tests check bundled imports, package dependencies, and fresh-consumer compilation.
-CI rejects new ESLint errors and warnings. Existing diagnostics are recorded by file,
-rule, and position in `scripts/lint-baseline.json`; `npm run lint` still reports the full
-backlog. Fix existing diagnostics instead of adding new entries to that baseline.
+CI requires a clean ESLint run with no errors or warnings. The previous lint baseline
+has been removed. Browser tests exercise actual components and the generated-code
+sandbox; screenshots are stored in `tests/browser/preview.spec.ts-snapshots`.
+
+```bash
+npx playwright install chromium
+npm run test:visual
+# After reviewing an intentional visual change:
+npm run test:visual:update
+python -m pytest api/tests
+```
 
 The Figma plugin has its own lockfile and checks:
 

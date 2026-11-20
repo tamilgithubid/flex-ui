@@ -37,11 +37,12 @@ function useAnimatedCursors(users: Array<{ name: string; color: string }>, bound
     }))
   );
 
+  const userCount = users.length;
   const targetsRef = useRef(positions.map((p) => ({ ...p })));
 
   useEffect(() => {
     const targetInterval = setInterval(() => {
-      targetsRef.current = users.map(() => ({
+      targetsRef.current = Array.from({ length: userCount }, () => ({
         x: 20 + Math.random() * (bounds.w - 50),
         y: 15 + Math.random() * (bounds.h - 40),
       }));
@@ -63,7 +64,7 @@ function useAnimatedCursors(users: Array<{ name: string; color: string }>, bound
       clearInterval(targetInterval);
       clearInterval(moveInterval);
     };
-  }, [users.length, bounds.w, bounds.h]);
+  }, [userCount, bounds.w, bounds.h]);
 
   return users.map((u, i) => ({ ...u, ...positions[i] }));
 }
@@ -336,3 +337,4 @@ const users = [
 export function LiveCursorsExamples() {
   return <ShowcaseGrid items={examples} />;
 }
+

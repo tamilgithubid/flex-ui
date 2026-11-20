@@ -30,5 +30,6 @@ function SpotlightCard(props: {
   spotlightColor?: string;
   className?: string;
 }) {
-  return null;
+  return <>{props.children}</>;
 }
+

@@ -1,13 +1,5 @@
 "use client";
 
-import React from "react";
-import {
-  Clock,
-  MapPin,
-  Users,
-  Video,
-  Calendar,
-} from "lucide-react";
 import { PreviewCodeTabs } from "@/components/docs/preview-code-tabs";
 import {
   Expandable,
@@ -18,6 +10,13 @@ import {
   ExpandableContent,
   ExpandableTrigger,
 } from "@/components/flexui/expandable-card";
+import {
+  Calendar,
+  Clock,
+  MapPin,
+  Users,
+  Video,
+} from "lucide-react";
 
 const code = `import {
   Expandable,
@@ -32,7 +31,7 @@ const code = `import {
 export function Demo() {
   return (
     <Expandable expandDirection="both" expandBehavior="replace">
-      {({ isExpanded: _isExpanded }) => (
+      {() => (
         <ExpandableTrigger>
           <ExpandableCard
             collapsedSize={{ width: 320, height: 240 }}
@@ -79,7 +78,7 @@ export function ExpandableCardPlayground() {
         preview={
           <div className="flex min-h-[350px] w-full items-center justify-center">
             <Expandable expandDirection="both" expandBehavior="replace">
-              {({ isExpanded: _isExpanded }) => (
+              {() => (
                 <ExpandableTrigger>
                   <ExpandableCard
                     collapsedSize={{ width: 320, height: 220 }}
@@ -161,3 +160,4 @@ export function ExpandableCardPlayground() {
     </div>
   );
 }
+

@@ -1462,6 +1462,10 @@ export function buildComponent(component: RegistryComponent, ancestors: string[]
       });
     }
   }
+  if (files.some((file) => file.content.includes("@/hooks/use-client-ready"))) {
+    const target = "hooks/use-client-ready.ts";
+    files.push({ path: target, target, type: "registry:hook", content: fs.readFileSync(path.join(ROOT, target), "utf-8") });
+  }
 
   // Auto-inline registryDependencies (so shadcn doesn't look them up on ui.shadcn.com)
   if (component.registryDependencies.length > 0) {

@@ -1,7 +1,9 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import { useClientReady } from "@/hooks/use-client-ready";
+
 import { cn } from "@/lib/utils";
+import React, { useMemo } from "react";
 
 interface ParticleFieldProps {
   children?: React.ReactNode;
@@ -44,11 +46,8 @@ export function ParticleField({
   maxSize = 4,
   speed = 1,
 }: ParticleFieldProps) {
-  const [mounted, setMounted] = useState(false);
+  const mounted = useClientReady();
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const particles = useMemo<Particle[]>(() => {
     const result: Particle[] = [];

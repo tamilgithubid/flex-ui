@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
 
 interface TocItem {
   id: string;
@@ -15,6 +15,7 @@ export function TableOfContents() {
 
   // Scan the page for h2/h3 elements with IDs
   useEffect(() => {
+    const frame = requestAnimationFrame(() => {
     const elements = document.querySelectorAll("h2[id], h3[id]");
     const items: TocItem[] = Array.from(elements).map((el) => ({
       id: el.id,
@@ -22,6 +23,8 @@ export function TableOfContents() {
       level: el.tagName === "H2" ? 2 : 3,
     }));
     setHeadings(items);
+    });
+    return () => cancelAnimationFrame(frame);
   }, []);
 
   // Track active heading via IntersectionObserver
@@ -75,3 +78,4 @@ export function TableOfContents() {
     </nav>
   );
 }
+

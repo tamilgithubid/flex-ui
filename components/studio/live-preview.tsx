@@ -1,154 +1,99 @@
 "use client";
 
-import React from "react";
-import { LiveProvider, LivePreview, LiveError } from "react-live";
+import { isPreviewBundle, isPreviewMessage, sandboxDocument, type PreviewBundle } from "@/lib/preview-sandbox";
+import { useEffect, useRef, useState } from "react";
 
-// ── Import ALL FlexUI components for the scope ──────────────────────────────
-// Buttons
-import { ShimmerButton } from "@/components/flexui/shimmer-button";
-import { GlowButton } from "@/components/flexui/glow-button";
-import { MagneticButton } from "@/components/flexui/magnetic-button";
-import { ConfettiButton } from "@/components/flexui/confetti-button";
-import { GradientBorderButton } from "@/components/flexui/gradient-border-button";
-import { LiquidButton } from "@/components/flexui/liquid-button";
-// Cards
-import { SpotlightCard } from "@/components/flexui/spotlight-card";
-import { NeonGlowCard } from "@/components/flexui/neon-glow-card";
-import { HolographicCard } from "@/components/flexui/holographic-card";
-// Text Animations
-import { TextReveal } from "@/components/flexui/text-reveal";
-import { TypewriterText } from "@/components/flexui/typewriter-text";
-import { GradientText } from "@/components/flexui/gradient-text";
-import { RotatingText } from "@/components/flexui/rotating-text";
-import { NumberTicker } from "@/components/flexui/number-ticker";
-import { FlipWords } from "@/components/flexui/flip-words";
-import { ChromaticText } from "@/components/flexui/chromatic-text";
-import { HandwrittenAnnotation } from "@/components/flexui/handwritten-annotation";
-import { WavyText } from "@/components/flexui/wavy-text";
-import { BlurText } from "@/components/flexui/blur-text";
-import { SplitText } from "@/components/flexui/split-text";
-import { TextScramble } from "@/components/flexui/text-scramble";
-// Effects
-import { MorphingBlob } from "@/components/flexui/morphing-blob";
-import { GlitchTransition } from "@/components/flexui/glitch-transition";
-import { AmbientTilt } from "@/components/flexui/ambient-tilt";
-import { DisintegrationEffect } from "@/components/flexui/disintegration-effect";
-// Layout
-import { AnimatedTabs } from "@/components/flexui/animated-tabs";
-import { Marquee } from "@/components/flexui/marquee";
-import { MovingBorder } from "@/components/flexui/moving-border";
-import { BorderBeam } from "@/components/flexui/border-beam";
-// Data Viz
-import { ProgressRing } from "@/components/flexui/progress-ring";
-import { SparklineChart } from "@/components/flexui/sparkline-chart";
+let runtimeBundle: Promise<PreviewBundle> | undefined;
 
-// ── Scope — every component available to react-live ─────────────────────────
-const scope = {
-  React,
-  useState: React.useState,
-  useEffect: React.useEffect,
-  useRef: React.useRef,
-  // Buttons
-  ShimmerButton,
-  GlowButton,
-  MagneticButton,
-  ConfettiButton,
-  GradientBorderButton,
-  LiquidButton,
-  // Cards
-  SpotlightCard,
-  NeonGlowCard,
-  HolographicCard,
-  // Text
-  TextReveal,
-  TypewriterText,
-  GradientText,
-  RotatingText,
-  NumberTicker,
-  FlipWords,
-  ChromaticText,
-  HandwrittenAnnotation,
-  WavyText,
-  BlurText,
-  SplitText,
-  TextScramble,
-  // Effects
-  MorphingBlob,
-  GlitchTransition,
-  AmbientTilt,
-  DisintegrationEffect,
-  // Layout
-  AnimatedTabs,
-  Marquee,
-  MovingBorder,
-  BorderBeam,
-  // Data Viz
-  ProgressRing,
-  SparklineChart,
-};
-
-/**
- * Strip import/export from AI code, return just the render body for react-live.
- */
-function transformCode(code: string): string {
-  let t = code;
-
-  // Remove all import lines
-  t = t.replace(/^import\s+.*?;?\s*$/gm, "");
-
-  // Extract function body
-  const funcMatch = t.match(
-    /export\s+default\s+function\s+\w+\s*\([^)]*\)\s*\{([\s\S]*)\}\s*;?\s*$/
-  );
-
-  if (funcMatch) {
-    const body = funcMatch[1].trim();
-
-    // Check if body has state/hooks (needs function wrapper)
-    const hasHooks = /\b(useState|useEffect|useRef|useCallback)\b/.test(body);
-
-    if (hasHooks) {
-      return `function Demo() {\n${body}\n}\nrender(<Demo />)`;
-    }
-
-    // Simple return — extract JSX
-    const returnMatch = body.match(/return\s*\(\s*([\s\S]*)\s*\)\s*;?\s*$/);
-    if (returnMatch) {
-      return `render(${returnMatch[1].trim()})`;
-    }
-
-    // Return without parens
-    const returnSimple = body.match(/return\s+([\s\S]+)/);
-    if (returnSimple) {
-      return `render(${returnSimple[1].trim().replace(/;$/, "")})`;
-    }
-  }
-
-  // Fallback: try to find JSX directly
-  const jsxMatch = t.trim().match(/(<[A-Z][\s\S]*>)/);
-  if (jsxMatch) {
-    return `render(${jsxMatch[1]})`;
-  }
-
-  return `render(<div className="text-zinc-500 text-sm">Preview unavailable</div>)`;
+function loadRuntime(): Promise<PreviewBundle> {
+  runtimeBundle ??= fetch("/studio-preview.json", { cache: "no-store" })
+    .then(async (response) => {
+      if (!response.ok) throw new Error("Preview runtime is unavailable. Reload the page and try again.");
+      const bundle: unknown = await response.json();
+      if (!isPreviewBundle(bundle)) throw new Error("The preview runtime is invalid.");
+      return bundle;
+    })
+    .catch((error: unknown) => { runtimeBundle = undefined; throw error; });
+  return runtimeBundle;
 }
 
-interface LiveCodePreviewProps {
-  code: string;
-  className?: string;
+function editorStyles(): string {
+  const rules: string[] = [];
+  for (const sheet of Array.from(document.styleSheets)) {
+    try { rules.push(Array.from(sheet.cssRules, (rule) => rule.cssText).join("\n")); }
+    catch { /* Cross-origin stylesheets are intentionally not copied. */ }
+  }
+  const root = getComputedStyle(document.documentElement);
+  const tokens = Array.from(root)
+    .filter((name) => name.startsWith("--flexui-"))
+    .map((name) => name + ":" + root.getPropertyValue(name) + ";")
+    .join("");
+  return rules.join("\n") + "\n:root{" + tokens + "}";
 }
 
-export function LiveCodePreview({ code, className }: LiveCodePreviewProps) {
-  const transformed = transformCode(code);
+function SandboxPreview({ code, className }: { code: string; className?: string }) {
+  const frameRef = useRef<HTMLIFrameElement>(null);
+  const [documentSource, setDocumentSource] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [height, setHeight] = useState(250);
+
+  useEffect(() => {
+    let disposed = false;
+    let settled = false;
+    const channel = Array.from(crypto.getRandomValues(new Uint32Array(4))).join("-");
+    const timeout = window.setTimeout(() => {
+      if (!disposed && !settled) {
+        setLoading(false);
+        setError("The preview did not finish loading. Reload the page and try again.");
+      }
+    }, 15000);
+    const send = (message: Record<string, unknown>) => frameRef.current?.contentWindow?.postMessage({
+      kind: "flexui-preview", channel, ...message,
+    }, "*");
+    const listener = (event: MessageEvent) => {
+      if (event.source !== frameRef.current?.contentWindow || !isPreviewMessage(event.data, channel)) return;
+      if (event.data.type === "ready") send({ type: "render", code });
+      if (event.data.type === "rendered" || event.data.type === "error") {
+        settled = true;
+        clearTimeout(timeout);
+        setLoading(false);
+        setError(event.data.type === "error" ? event.data.message ?? "Preview failed." : null);
+      }
+      if (event.data.type === "resize") setHeight(Math.max(250, Math.min(900, event.data.height ?? 250)));
+    };
+    window.addEventListener("message", listener);
+    const observer = new MutationObserver(() => send({ type: "styles", css: editorStyles() }));
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["style", "class", "data-flexui-theme"] });
+    loadRuntime()
+      .then((bundle) => { if (!disposed) setDocumentSource(sandboxDocument(bundle, editorStyles(), channel)); })
+      .catch((failure: unknown) => {
+        if (!disposed) {
+          clearTimeout(timeout);
+          setLoading(false);
+          setError(failure instanceof Error ? failure.message : "Preview could not be loaded.");
+        }
+      });
+    return () => { disposed = true; clearTimeout(timeout); observer.disconnect(); window.removeEventListener("message", listener); };
+  }, [code]);
 
   return (
     <div className={className}>
-      <LiveProvider code={transformed} scope={scope} noInline>
-        <div className="flex min-h-[250px] items-center justify-center rounded-xl border border-white/[0.04] bg-zinc-950/50 p-6 overflow-hidden">
-          <LivePreview />
-        </div>
-        <LiveError className="mt-2 rounded-lg bg-red-500/10 border border-red-500/20 p-3 text-xs font-mono text-red-400 max-h-[80px] overflow-auto" />
-      </LiveProvider>
+      {loading && <p role="status" className="p-4 text-sm text-zinc-400">Loading preview…</p>}
+      <iframe
+        ref={frameRef}
+        title="Generated component preview"
+        sandbox="allow-scripts"
+        referrerPolicy="no-referrer"
+        srcDoc={documentSource}
+        className="w-full rounded-xl border border-white/[0.04]"
+        style={{ height, display: documentSource ? "block" : "none" }}
+      />
+      {error && <p role="alert" className="mt-2 rounded-lg bg-red-500/10 p-3 font-mono text-xs text-red-400">{error}</p>}
     </div>
   );
+}
+
+export function LiveCodePreview({ code, className }: { code: string; className?: string }) {
+  return <SandboxPreview key={code} code={code} className={className} />;
 }

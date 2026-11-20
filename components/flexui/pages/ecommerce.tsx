@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { AnimatePresence, motion } from "framer-motion";
+import React, { useState } from "react";
 
 interface Product {
   name: string;
@@ -40,16 +40,6 @@ interface EcommerceProps {
 
 const spring = { type: "spring" as const, stiffness: 300, damping: 30 };
 const springGentle = { type: "spring" as const, stiffness: 200, damping: 25 };
-
-const blurIn = {
-  hidden: { opacity: 0, y: 32, filter: "blur(12px)" },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: { ...springGentle, delay: i * 0.07 },
-  }),
-};
 
 const slideDown = {
   hidden: { opacity: 0, y: -40, filter: "blur(8px)" },

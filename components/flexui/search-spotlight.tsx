@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState, useRef, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Search, X, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { AnimatePresence, motion } from "framer-motion";
+import { ArrowRight, Search, X } from "lucide-react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 interface SearchItem {
   id: string;
@@ -28,9 +28,14 @@ export function SearchSpotlight({
   className,
   shortcut = "⌘K",
 }: SearchSpotlightProps) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpenState] = useState(false);
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
+  const setOpen = useCallback((value: React.SetStateAction<boolean>) => {
+    setQuery("");
+    setActiveIndex(0);
+    setOpenState(value);
+  }, []);
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
 
@@ -43,7 +48,7 @@ export function SearchSpotlight({
   );
 
   // Group filtered results by category
-  const grouped = filtered.reduce<Record<string, SearchItem[]>>(
+  const grouped = filtered.slice(0, 8).reduce<Record<string, SearchItem[]>>(
     (acc, item) => {
       const cat = item.category || "Results";
       if (!acc[cat]) acc[cat] = [];
@@ -54,21 +59,14 @@ export function SearchSpotlight({
   );
 
   // Flatten for keyboard navigation (max 8)
-  const flatResults = filtered.slice(0, 8);
+  const flatResults = Object.values(grouped).flat();
 
-  // Reset active index on query change
-  useEffect(() => {
-    setActiveIndex(0);
-  }, [query]);
 
   // Focus input when opened
   useEffect(() => {
-    if (open) {
-      setTimeout(() => inputRef.current?.focus(), 50);
-    } else {
-      setQuery("");
-      setActiveIndex(0);
-    }
+    if (!open) return;
+    const timer = setTimeout(() => inputRef.current?.focus(), 50);
+    return () => clearTimeout(timer);
   }, [open]);
 
   // Keyboard shortcut to open
@@ -81,7 +79,7 @@ export function SearchSpotlight({
     };
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  }, [setOpen]);
 
   // Scroll active result into view
   useEffect(() => {
@@ -95,11 +93,10 @@ export function SearchSpotlight({
       item.onSelect?.();
       setOpen(false);
     },
-    []
+    [setOpen]
   );
 
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent) => {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
       switch (e.key) {
         case "ArrowDown":
           e.preventDefault();
@@ -110,7 +107,7 @@ export function SearchSpotlight({
         case "ArrowUp":
           e.preventDefault();
           setActiveIndex((prev) =>
-            prev > 0 ? prev - 1 : flatResults.length - 1
+            prev > 0 ? prev - 1 : Math.max(0, flatResults.length - 1)
           );
           break;
         case "Enter":
@@ -124,9 +121,7 @@ export function SearchSpotlight({
           setOpen(false);
           break;
       }
-    },
-    [flatResults, activeIndex, handleSelect]
-  );
+    };
 
   // Track flat index across grouped display
   let flatIndex = -1;
@@ -182,7 +177,7 @@ export function SearchSpotlight({
                     ref={inputRef}
                     type="text"
                     value={query}
-                    onChange={(e) => setQuery(e.target.value)}
+                    onChange={(e) => { setQuery(e.target.value); setActiveIndex(0); }}
                     onKeyDown={handleKeyDown}
                     placeholder={placeholder}
                     aria-label="Search"
@@ -191,7 +186,7 @@ export function SearchSpotlight({
                   />
                   {query && (
                     <button
-                      onClick={() => setQuery("")}
+                      onClick={() => { setQuery(""); setActiveIndex(0); }}
                       aria-label="Clear search"
                       className="rounded p-0.5 text-zinc-500 transition-colors hover:text-zinc-300"
                     >

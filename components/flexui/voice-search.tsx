@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState, useRef, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Search, Mic, MicOff, X, ArrowRight, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { AnimatePresence, motion } from "framer-motion";
+import { ArrowRight, Loader2, Mic, MicOff, Search, X } from "lucide-react";
+import React, { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 interface SearchItem {
   id: string;
@@ -38,9 +38,10 @@ interface SpeechRecognitionInstance {
   onerror: ((e: { error: string }) => void) | null;
 }
 
+const subscribeSupport = () => () => {};
+
 function getSpeechRecognition(): (new () => SpeechRecognitionInstance) | null {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const w = window as any;
+  const w = window as Window & { SpeechRecognition?: new () => SpeechRecognitionInstance; webkitSpeechRecognition?: new () => SpeechRecognitionInstance };
   return w.SpeechRecognition || w.webkitSpeechRecognition || null;
 }
 
@@ -52,17 +53,19 @@ export function VoiceSearch({
   shortcut = "⌘K",
   className,
 }: VoiceSearchProps) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpenState] = useState(false);
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
   const [listening, setListening] = useState(false);
-  const [supported, setSupported] = useState(true);
+  const supported = useSyncExternalStore(subscribeSupport, () => Boolean(getSpeechRecognition()), () => false);
+  const setOpen = useCallback((value: React.SetStateAction<boolean>) => {
+    setQuery("");
+    setActiveIndex(0);
+    setOpenState(value);
+  }, []);
   const inputRef = useRef<HTMLInputElement>(null);
   const recognitionRef = useRef<SpeechRecognitionInstance | null>(null);
 
-  useEffect(() => {
-    if (!getSpeechRecognition()) setSupported(false);
-  }, []);
 
   const filtered = items.filter(
     (item) =>
@@ -70,21 +73,19 @@ export function VoiceSearch({
       (item.description && item.description.toLowerCase().includes(query.toLowerCase()))
   );
 
-  const grouped = filtered.reduce<Record<string, SearchItem[]>>((acc, item) => {
+  const grouped = filtered.slice(0, 8).reduce<Record<string, SearchItem[]>>((acc, item) => {
     const cat = item.category || "Results";
     if (!acc[cat]) acc[cat] = [];
     acc[cat].push(item);
     return acc;
   }, {});
 
-  const flatResults = filtered.slice(0, 8);
+  const flatResults = Object.values(grouped).flat();
 
-  useEffect(() => { setActiveIndex(0); }, [query]);
 
   useEffect(() => {
     if (open) setTimeout(() => inputRef.current?.focus(), 50);
-    else { setQuery(""); setActiveIndex(0); stopListening(); }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    return () => recognitionRef.current?.abort();
   }, [open]);
 
   useEffect(() => {
@@ -97,7 +98,7 @@ export function VoiceSearch({
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, []);
+  }, [setOpen]);
 
   const startListening = useCallback(() => {
     const SR = getSpeechRecognition();
@@ -114,6 +115,7 @@ export function VoiceSearch({
         text += e.results[i][0].transcript;
       }
       setQuery(text);
+      setActiveIndex(0);
     };
 
     recognition.onend = () => setListening(false);
@@ -132,7 +134,7 @@ export function VoiceSearch({
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "ArrowDown") {
       e.preventDefault();
-      setActiveIndex((i) => Math.min(i + 1, flatResults.length - 1));
+      setActiveIndex((i) => Math.max(0, Math.min(i + 1, flatResults.length - 1)));
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       setActiveIndex((i) => Math.max(i - 1, 0));
@@ -225,7 +227,7 @@ export function VoiceSearch({
                 <input
                   ref={inputRef}
                   value={query}
-                  onChange={(e) => setQuery(e.target.value)}
+                  onChange={(e) => { setQuery(e.target.value); setActiveIndex(0); }}
                   onKeyDown={handleKeyDown}
                   placeholder={placeholder}
                   className="flex-1 bg-transparent text-sm outline-none"
@@ -265,7 +267,7 @@ export function VoiceSearch({
                 {query && (
                   <motion.button
                     type="button"
-                    onClick={() => setQuery("")}
+                    onClick={() => { setQuery(""); setActiveIndex(0); }}
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     className="flex h-6 w-6 items-center justify-center rounded-full"

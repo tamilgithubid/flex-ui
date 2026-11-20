@@ -1,7 +1,9 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import { useClientReady } from "@/hooks/use-client-ready";
+
 import { cn } from "@/lib/utils";
+import { useEffect, useRef } from "react";
 
 export interface CosmicEyeProps {
   /** Primary eye color */
@@ -210,12 +212,9 @@ export function CosmicEye({
   className,
 }: CosmicEyeProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [mounted, setMounted] = useState(false);
+  const mounted = useClientReady();
   const mouseRef = useRef({ x: 0, y: 0, sx: 0, sy: 0 });
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
     if (!mounted || !containerRef.current) return;

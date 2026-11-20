@@ -1,7 +1,9 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import { useClientReady } from "@/hooks/use-client-ready";
+
 import { cn } from "@/lib/utils";
+import React, { useEffect, useRef } from "react";
 
 interface MorphingBlobProps {
   className?: string;
@@ -62,11 +64,9 @@ export function MorphingBlob({
 }: MorphingBlobProps) {
   const pathRef = useRef<SVGPathElement>(null);
   const rafRef = useRef<number>(0);
-  const [mounted, setMounted] = useState(false);
+  const mounted = useClientReady();
+  const gradientId = React.useId();
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
     if (!mounted || !pathRef.current) return;
@@ -120,7 +120,6 @@ export function MorphingBlob({
     );
   }
 
-  const gradientId = `morphing-blob-gradient-${Math.random().toString(36).slice(2, 9)}`;
 
   return (
     <div

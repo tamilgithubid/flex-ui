@@ -1,7 +1,9 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useClientReady } from "@/hooks/use-client-ready";
+
+import { AnimatePresence, motion } from "framer-motion";
+import React, { useCallback, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
 interface FullscreenPreviewProps {
@@ -36,11 +38,8 @@ export function FullscreenPreview({
   controls,
 }: FullscreenPreviewProps) {
   const [open, setOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const mounted = useClientReady();
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   // ESC key handler
   useEffect(() => {
@@ -206,3 +205,4 @@ export function FullscreenControl({
     </button>
   );
 }
+

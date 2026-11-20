@@ -1,4 +1,5 @@
 import os
+
 from .base import AIProvider
 
 try:
@@ -10,33 +11,22 @@ except ImportError:
 
 
 class GeminiProvider(AIProvider):
-    """Google Gemini AI provider — primary, best free tier."""
-
     def __init__(self):
-        self.api_key = os.getenv("GEMINI_API_KEY", "")
-        if self.api_key and HAS_GEMINI:
-            self.client = genai.Client(api_key=self.api_key)
-        else:
-            self.client = None
+        self.model = os.getenv("GEMINI_MODEL", "gemini-flash-latest")
+        key = os.getenv("GEMINI_API_KEY", "")
+        self.client = genai.Client(api_key=key, http_options=types.HttpOptions(timeout=60000)) if key and HAS_GEMINI else None
 
     def is_available(self) -> bool:
-        return bool(self.api_key) and HAS_GEMINI and self.client is not None
+        return self.client is not None
 
     async def generate(self, system_prompt: str, user_prompt: str) -> str:
         if not self.client:
-            raise RuntimeError("Gemini not configured")
-
-        response = self.client.models.generate_content(
-            model="gemini-2.0-flash-lite",
-            contents=[
-                {"role": "user", "parts": [{"text": system_prompt}]},
-                {"role": "model", "parts": [{"text": "Understood. I will generate FlexUI component code following the exact rules and return valid JSON."}]},
-                {"role": "user", "parts": [{"text": user_prompt}]},
-            ],
-            config={
-                "temperature": 0.35,
-                "max_output_tokens": 4096,
-                "response_mime_type": "application/json",
-            },
+            raise RuntimeError("Gemini is not configured")
+        response = await self.client.aio.models.generate_content(
+            model=self.model, contents=user_prompt,
+            config=types.GenerateContentConfig(
+                system_instruction=system_prompt, temperature=0.35,
+                max_output_tokens=8192, response_mime_type="application/json",
+            ),
         )
-        return response.text
+        return response.text or ""

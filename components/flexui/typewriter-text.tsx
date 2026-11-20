@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useEffect, useState, useCallback } from "react";
-import { cn } from "@/lib/utils";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
+import { cn } from "@/lib/utils";
+import { useCallback, useEffect, useState } from "react";
 
 interface TypewriterTextProps {
   /** Array of strings to cycle through */
@@ -38,7 +38,7 @@ export function TypewriterText({
   const currentWord = words[wordIndex] ?? "";
 
   const tick = useCallback(() => {
-    if (isDone) return;
+    if (isDone || words.length === 0) return;
 
     if (!isDeleting) {
       // Typing
@@ -66,8 +66,10 @@ export function TypewriterText({
     }
 
     // Finished deleting — move to next word
-    setIsDeleting(false);
-    setWordIndex((prev) => (prev + 1) % words.length);
+    return setTimeout(() => {
+      setIsDeleting(false);
+      setWordIndex((prev) => (prev + 1) % words.length);
+    }, deletingSpeed);
   }, [
     displayText,
     isDeleting,
@@ -100,11 +102,11 @@ export function TypewriterText({
     <span className={cn("inline-flex items-baseline", className)}>
       <span>{displayText}</span>
       <span
-        className="ml-[1px] inline-block w-[2px] self-stretch bg-current"
+        className="ml-[1px] inline-block"
         style={{
           animation: "typewriter-blink 1.06s step-end infinite",
         }}
-      />
+      >{cursor}</span>
     </span>
   );
 }

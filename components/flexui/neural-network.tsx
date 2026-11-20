@@ -1,7 +1,9 @@
 "use client";
 
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import { useClientReady } from "@/hooks/use-client-ready";
+
 import { cn } from "@/lib/utils";
+import React, { useCallback, useEffect, useRef } from "react";
 
 interface NeuralNetworkProps {
   className?: string;
@@ -55,15 +57,12 @@ export function NeuralNetwork({
 }: NeuralNetworkProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [mounted, setMounted] = useState(false);
+  const mounted = useClientReady();
   const nodesRef = useRef<Node[]>([]);
   const signalsRef = useRef<Signal[]>([]);
   const animRef = useRef<number>(0);
   const sizeRef = useRef({ w: 0, h: 0 });
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const initNodes = useCallback(
     (w: number, h: number) => {

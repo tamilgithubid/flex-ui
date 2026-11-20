@@ -1,12 +1,13 @@
 "use client";
-import React, {
-  useRef,
-  useEffect,
-  useState,
-  useCallback,
-  useMemo,
-} from "react";
+
+import { useClientReady } from "@/hooks/use-client-ready";
 import { cn } from "@/lib/utils";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef
+} from "react";
 
 interface IconCloudProps {
   /** Array of icon React nodes or image URLs */
@@ -68,7 +69,7 @@ export function IconCloud({
   radius = 200,
   iconSize = 40,
 }: IconCloudProps) {
-  const [mounted, setMounted] = useState(false);
+  const mounted = useClientReady();
   const containerRef = useRef<HTMLDivElement>(null);
   const angleRef = useRef({ x: 0, y: 0 });
   const dragRef = useRef({ dragging: false, lastX: 0, lastY: 0 });
@@ -80,9 +81,6 @@ export function IconCloud({
     [icons.length]
   );
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const updatePositions = useCallback(() => {
     if (!containerRef.current) return;

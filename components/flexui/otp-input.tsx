@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useRef, useState, useCallback, useEffect } from "react";
-import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
+import React, { useCallback, useRef, useState } from "react";
 
 interface OTPInputProps {
   length?: number;
@@ -12,7 +12,11 @@ interface OTPInputProps {
   accentColor?: string;
 }
 
-export function OTPInput({
+export function OTPInput(props: OTPInputProps) {
+  return <OTPInputFields key={props.length ?? 6} {...props} />;
+}
+
+function OTPInputFields({
   length = 6,
   onComplete,
   className,
@@ -24,13 +28,6 @@ export function OTPInput({
     new Set()
   );
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
-
-  // Reset when length changes
-  useEffect(() => {
-    setValues(Array(length).fill(""));
-    setCompletedIndices(new Set());
-    inputRefs.current = inputRefs.current.slice(0, length);
-  }, [length]);
 
   const focusInput = useCallback((index: number) => {
     if (index >= 0 && index < (inputRefs.current?.length ?? 0)) {

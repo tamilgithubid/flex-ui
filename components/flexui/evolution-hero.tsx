@@ -1,8 +1,10 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { useClientReady } from "@/hooks/use-client-ready";
+
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
+import React, { useRef, useState } from "react";
 
 interface EvolutionHeroProps {
   /** Background image URL — use an AI-generated evolution scene */
@@ -25,12 +27,11 @@ export function EvolutionHero({
   className,
   children,
 }: EvolutionHeroProps) {
-  const [mounted, setMounted] = useState(false);
+  const mounted = useClientReady();
   const containerRef = useRef<HTMLDivElement>(null);
   const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 });
 
-  // eslint-disable-next-line react-hooks/set-state-in-effect
-  useEffect(() => { setMounted(true); }, []);
+
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!containerRef.current) return;
