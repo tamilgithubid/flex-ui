@@ -49,14 +49,16 @@ export default function Home() {
         </div>
 
         <BentoGrid>
-          <div className="lg:col-span-2 lg:row-span-2 overflow-hidden rounded-2xl">
+          <div className="col-span-full aspect-video overflow-hidden rounded-2xl lg:col-span-2 lg:row-span-2 lg:aspect-auto">
             <ErrorBoundary>
               <ThreeHoverCard
-                imageSrc="/images/editorial/hover-portrait.webp"
-                imageAlt="Editorial portrait with cyan and lavender studio lighting"
+                imageSrc="/images/editorial/hover-landscape.webp"
+                imageAlt="Landscape editorial photograph with cyan and lavender studio lighting"
+                imageFit="cover"
+                imagePosition="65% 40%"
                 title="3D Hover Card"
                 description="Glass border, 3D tilt, and cinematic light sweep."
-                className="h-full min-h-[380px]"
+                className="h-full"
               />
             </ErrorBoundary>
           </div>

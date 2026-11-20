@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 interface ThreeHoverCardProps {
   imageSrc?: string;
   imageAlt?: string;
-  /** Use contain to keep the complete photograph visible. */
+  /** Cover fills every edge; contain is available when intentional letterboxing is desired. */
   imageFit?: "cover" | "contain";
   imagePosition?: string;
   title?: string;
@@ -21,7 +21,7 @@ interface ThreeHoverCardProps {
 export function ThreeHoverCard({
   imageSrc = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=900&h=1200&fit=crop&crop=faces",
   imageAlt = "Portrait",
-  imageFit = "contain",
+  imageFit = "cover",
   imagePosition = "center",
   title = "Interactive 3D",
   description = "Hover to reveal a cinematic glass border with 3D depth effect.",
@@ -88,12 +88,11 @@ export function ThreeHoverCard({
         className="relative h-full w-full overflow-hidden rounded-[24px] border border-white/10 bg-zinc-950 shadow-2xl"
         style={{ rotateX: reducedMotion ? 0 : rotateX, rotateY: reducedMotion ? 0 : rotateY }}
       >
-        {/* A soft backdrop fills wide layouts without cropping the main photograph. */}
-        <div
+        {imageFit === "contain" && <div
           aria-hidden="true"
           className="absolute -inset-4 bg-cover bg-center opacity-35 blur-xl"
           style={{ backgroundImage: "url(" + JSON.stringify(imageSrc) + ")" }}
-        />
+        />}
         <motion.img
           src={imageSrc}
           alt={imageAlt}

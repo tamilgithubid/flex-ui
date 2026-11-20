@@ -18,6 +18,21 @@ beforeEach(() => {
 afterEach(() => { Object.defineProperty(window, "matchMedia", originalMedia); cleanup(); vi.useRealTimers(); vi.restoreAllMocks(); vi.unstubAllGlobals(); });
 
 describe("animation and artwork regressions", () => {
+  it("paints the rotating gradient only on the active word, never on the sizing slot", () => {
+    const gradient = "bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent text-4xl";
+    const view = render(<RotatingText words={["Cinematic", "Beautiful", "Magnetic"]} className={gradient} />);
+    const slot = view.container.querySelector("[data-rotating-slot]")!;
+    expect(slot.className).not.toContain("bg-clip-text");
+    expect(slot.className).not.toContain("bg-gradient");
+    expect(slot.querySelectorAll("[data-rotating-word]")).toHaveLength(1);
+    expect(slot.querySelector("[data-rotating-word]")).toHaveClass("bg-clip-text", "text-4xl");
+    slot.querySelectorAll("[data-rotating-measure]").forEach(measure => {
+      expect(measure).toHaveStyle({ visibility: "hidden", opacity: "0" });
+      expect(measure).toHaveAttribute("aria-hidden", "true");
+      expect(measure).toHaveClass("text-4xl");
+    });
+  });
+
   it("does not rerender the hover card on every pointer movement", () => {
     vi.stubGlobal("PointerEvent", class extends MouseEvent { pointerType = "mouse"; });
     vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockReturnValue({
@@ -31,7 +46,7 @@ describe("animation and artwork regressions", () => {
     expect(afterEnter).toBeGreaterThan(0);
     for (let x = 0; x < 400; x += 20) fireEvent.pointerMove(card, { clientX: x, clientY: 250 });
     expect(commit).toHaveBeenCalledTimes(afterEnter);
-    expect(view.container.querySelector("img")).toHaveStyle({ objectFit: "contain" });
+    expect(view.container.querySelector("img")).toHaveStyle({ objectFit: "cover" });
   });
 
   it("keeps rotating text still when reduced motion is requested and handles empty words", async () => {

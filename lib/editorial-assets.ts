@@ -1,4 +1,8 @@
 export const editorialAssets = {
+  "hoverLandscape": {
+    "src": "/images/editorial/hover-landscape.webp",
+    "alt": "Landscape editorial portrait in a cyan and lavender charcoal studio"
+  },
   "blogLaunch": {
     "src": "/images/editorial/blog-launch.webp",
     "alt": "Emerald glass interface tiles forming an illuminated arch"
