@@ -126,11 +126,11 @@ export default function Home() {
       <section className="relative z-10 py-28">
         <div className="mx-auto max-w-2xl px-6 text-center">
           <Image
-            src="/logo.png"
+            src="/brand/flexui-mark.png"
             alt="FlexUI"
             width={48}
             height={48}
-            className="mx-auto mb-6 rounded-2xl"
+            className="mx-auto mb-6 object-contain"
           />
           <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
             Start building with{" "}
@@ -165,7 +165,7 @@ export default function Home() {
             {/* Brand */}
             <div className="col-span-2 md:col-span-1">
               <div className="flex items-center gap-2">
-                <Image src="/logo.png" alt="FlexUI" width={20} height={20} className="rounded" />
+                <Image src="/brand/flexui-mark.png" alt="FlexUI" width={20} height={20} className="object-contain" />
                 <span className="text-sm font-bold text-zinc-400">
                   FLEX<span className="bg-gradient-to-r from-[#8B5CF6] to-[#389CFD] bg-clip-text text-transparent">UI</span>
                 </span>

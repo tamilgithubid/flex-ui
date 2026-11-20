@@ -32,9 +32,12 @@ export const metadata: Metadata = {
     "FlexUI",
   ],
   icons: {
-    icon: { url: "/logo.png", type: "image/png" },
-    shortcut: "/logo.png",
-    apple: { url: "/logo.png", type: "image/png" },
+    icon: [
+      { url: "/brand/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/brand/favicon-64.png", sizes: "64x64", type: "image/png" },
+    ],
+    shortcut: "/brand/favicon-32.png",
+    apple: { url: "/brand/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
   },
   openGraph: {
     title: "FlexUI — Cinematic React Components",
