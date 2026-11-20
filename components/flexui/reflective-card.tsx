@@ -1,14 +1,14 @@
 "use client";
 
-import React, { useEffect, useRef, useState, useCallback, type RefObject } from "react";
+import { useClientReady } from "@/hooks/use-client-ready";
+import { cn } from "@/lib/utils";
 import {
   motion,
   useMotionValue,
   useSpring,
-  useTransform,
-  AnimatePresence,
+  useTransform
 } from "framer-motion";
-import { cn } from "@/lib/utils";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 interface ReflectiveCardProps {
@@ -51,8 +51,7 @@ export function ReflectiveCard({
   const [streamActive, setStreamActive] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 160, y: 240 });
   const [isHovered, setIsHovered] = useState(false);
-  const [mounted, setMounted] = useState(false);
-  const timeRef = useRef(0);
+  const mounted = useClientReady();
   const id = useFilterId();
 
   // ── Webcam ────────────────────────────────────────────────────────
@@ -78,11 +77,9 @@ export function ReflectiveCard({
 
   // ── Mount flag + animated aurora timer ──────────────────────────────
   useEffect(() => {
-    setMounted(true);
     let raf: number;
     const tick = () => {
-      timeRef.current = Date.now() * 0.001;
-      const t = timeRef.current;
+      const t = Date.now() * 0.001;
 
       // Update aurora bands directly via ref
       if (auroraRef.current) {
@@ -146,7 +143,6 @@ export function ReflectiveCard({
   const baseFreq = 0.03 / Math.max(0.1, noiseScale);
   const saturation = 1 - Math.max(0, Math.min(1, grayscale));
   const angle = Math.atan2(mousePos.y - 240, mousePos.x - 160) * (180 / Math.PI);
-  const time = timeRef.current;
 
   // Don't render dynamic content on server to avoid hydration mismatch
   if (!mounted) {
@@ -191,7 +187,7 @@ export function ReflectiveCard({
         animate={{ opacity: isHovered ? 1 : 0.15 }}
         transition={{ duration: 0.5 }}
         style={{
-          background: `conic-gradient(from ${angle + time * 20}deg at ${mousePos.x}px ${mousePos.y}px, rgba(167,139,250,0.8) 0%, rgba(56,189,248,0.6) 12%, rgba(52,211,153,0.4) 24%, rgba(250,204,21,0.3) 36%, rgba(236,72,153,0.5) 48%, rgba(167,139,250,0.2) 60%, transparent 75%)`,
+          background: `conic-gradient(from ${angle}deg at ${mousePos.x}px ${mousePos.y}px, rgba(167,139,250,0.8) 0%, rgba(56,189,248,0.6) 12%, rgba(52,211,153,0.4) 24%, rgba(250,204,21,0.3) 36%, rgba(236,72,153,0.5) 48%, rgba(167,139,250,0.2) 60%, transparent 75%)`,
         }}
       />
 
@@ -284,7 +280,7 @@ export function ReflectiveCard({
           }}
           animate={{
             background: isHovered
-              ? `linear-gradient(${135 + Math.sin(time) * 15}deg, rgba(255,255,255,0.7), rgba(167,139,250,0.3) 30%, rgba(56,189,248,0.2) 50%, rgba(236,72,153,0.3) 70%, rgba(255,255,255,0.6))`
+              ? `linear-gradient(${135 + angle * 0.05}deg, rgba(255,255,255,0.7), rgba(167,139,250,0.3) 30%, rgba(56,189,248,0.2) 50%, rgba(236,72,153,0.3) 70%, rgba(255,255,255,0.6))`
               : "linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04) 50%, rgba(255,255,255,0.08))",
           }}
           transition={{ duration: 0.4 }}

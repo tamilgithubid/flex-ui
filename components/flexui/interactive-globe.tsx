@@ -1,8 +1,8 @@
 "use client";
 
-import React, { Suspense, useEffect, useMemo, useState } from "react";
 import type { GlobeConfig } from "@/components/ui/globe";
 import { cn } from "@/lib/utils";
+import React, { Suspense, useEffect, useMemo, useState } from "react";
 
 const World = React.lazy(() =>
   import("@/components/ui/globe").then((m) => ({ default: m.World }))
@@ -180,7 +180,7 @@ export function InteractiveGlobe({
 
   const sampleArcs = useMemo(
     () => buildArcs(resolvedArcColors),
-    [resolvedArcColors.join(",")]
+    [resolvedArcColors]
   );
   const arcs = data ?? sampleArcs;
 

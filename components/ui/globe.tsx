@@ -1,10 +1,10 @@
 "use client";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { Color, Scene, Fog, PerspectiveCamera, Vector3 } from "three";
-import ThreeGlobe from "three-globe";
-import { useThree, Canvas, extend } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
 import countries from "@/data/globe.json";
+import { OrbitControls } from "@react-three/drei";
+import { Canvas, extend, useThree } from "@react-three/fiber";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Color, Fog, Group, PerspectiveCamera, Scene, Vector3 } from "three";
+import ThreeGlobe from "three-globe";
 
 declare module "@react-three/fiber" {
   interface ThreeElements {
@@ -61,7 +61,7 @@ interface WorldProps {
 
 export function Globe({ globeConfig, data }: WorldProps) {
   const globeRef = useRef<ThreeGlobe | null>(null);
-  const groupRef = useRef<any>(null);
+  const groupRef = useRef<Group>(null);
   const [isInitialized, setIsInitialized] = useState(false);
 
   const defaultProps = useMemo(
@@ -88,7 +88,7 @@ export function Globe({ globeConfig, data }: WorldProps) {
   useEffect(() => {
     if (!globeRef.current && groupRef.current) {
       globeRef.current = new ThreeGlobe({});
-      (groupRef.current as any).add(globeRef.current);
+      groupRef.current.add(globeRef.current);
       setIsInitialized(true);
     }
   }, []);
@@ -169,7 +169,7 @@ export function Globe({ globeConfig, data }: WorldProps) {
     );
 
     globeRef.current
-      .hexPolygonsData((countries as any).features)
+      .hexPolygonsData(countries.features)
       .hexPolygonResolution(3)
       .hexPolygonMargin(0.7)
       .showAtmosphere(defaultProps.showAtmosphere)
@@ -183,7 +183,7 @@ export function Globe({ globeConfig, data }: WorldProps) {
       .arcStartLng((d) => (d as { startLng: number }).startLng)
       .arcEndLat((d) => (d as { endLat: number }).endLat)
       .arcEndLng((d) => (d as { endLng: number }).endLng)
-      .arcColor((e: any) => (e as { color: string }).color)
+      .arcColor((e: object) => (e as { color: string }).color)
       .arcAltitude((e) => (e as { arcAlt: number }).arcAlt)
       .arcStroke(() => [0.32, 0.28, 0.3][Math.round(Math.random() * 2)])
       .arcDashLength(defaultProps.arcLength)

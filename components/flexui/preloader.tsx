@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useCallback } from "react";
-import { createPortal } from "react-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { useClientReady } from "@/hooks/use-client-ready";
 import { cn } from "@/lib/utils";
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 /* ── Types ─────────────────────────────────────────────────────────────── */
 
@@ -196,7 +197,7 @@ function PreloaderOverlay({
                       : "0 10px 50px rgba(0,0,0,0.5)",
                   }}
                 >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  { }
                   <img
                     src={img.src}
                     alt={img.alt ?? ""}
@@ -282,23 +283,8 @@ function PreloaderOverlay({
 /* ── Portal wrapper ────────────────────────────────────────────────────── */
 
 export function Preloader(props: PreloaderProps) {
-  const [el, setEl] = useState<HTMLElement | null>(null);
-
-  useEffect(() => {
-    // Create a dedicated container to portal into
-    const container = document.createElement("div");
-    container.setAttribute("data-flexui-preloader", "");
-    document.body.appendChild(container);
-    setEl(container);
-
-    return () => {
-      document.body.removeChild(container);
-    };
-  }, []);
-
-  if (!el) return null;
-
-  return createPortal(<PreloaderOverlay {...props} />, el);
+  const ready = useClientReady();
+  return ready ? createPortal(<PreloaderOverlay {...props} />, document.body) : null;
 }
 
 /* ── Trigger Button ────────────────────────────────────────────────────── */

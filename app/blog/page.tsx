@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
+import { EditorialCover } from "@/components/marketing/editorial-cover";
+import { editorialAssets } from "@/lib/editorial-assets";
 import { Navbar } from "@/components/marketing/navbar";
 
 export const metadata: Metadata = {
@@ -11,42 +12,46 @@ export const metadata: Metadata = {
 const posts = [
   {
     slug: "flexui-registry-launch",
+    image: editorialAssets.blogLaunch,
     title: "FlexUI is Live: 150+ Cinematic Components, One Command Away",
     date: "2026-03-29",
     excerpt: "FlexUI is now production-ready and deployed. Install 150+ animated React components with a single CLI command. Works with Next.js, Vite, and any React framework.",
     readTime: "8 min",
     category: "Launch",
-    categoryColor: "bg-emerald-500/10 text-emerald-400 ring-emerald-500/20",
+    categoryColor: "bg-emerald-950/90 text-emerald-400 ring-emerald-500/20",
     gradient: "from-emerald-500/20 via-teal-500/10 to-transparent",
   },
   {
     slug: "introducing-flexui",
+    image: editorialAssets.blogIntro,
     title: "Introducing FlexUI: 130+ Cinematic React Components",
     date: "2026-03-15",
     excerpt: "We built FlexUI to give developers a library of production-ready, cinematic components — spring animations, 3D effects, WebGL shaders. Here's what's inside.",
     readTime: "5 min",
     category: "Announcement",
-    categoryColor: "bg-violet-500/10 text-violet-400 ring-violet-500/20",
+    categoryColor: "bg-violet-950/90 text-violet-400 ring-violet-500/20",
     gradient: "from-violet-500/20 via-fuchsia-500/10 to-transparent",
   },
   {
     slug: "why-spring-physics",
+    image: editorialAssets.blogSpring,
     title: "Why Spring Physics Makes UI Feel Alive",
     date: "2026-03-08",
     excerpt: "Linear easing is predictable. Spring physics is organic. Learn how spring-based animations create interfaces that feel responsive and delightful.",
     readTime: "4 min",
     category: "Engineering",
-    categoryColor: "bg-cyan-500/10 text-cyan-400 ring-cyan-500/20",
+    categoryColor: "bg-cyan-950/90 text-cyan-400 ring-cyan-500/20",
     gradient: "from-cyan-500/20 via-blue-500/10 to-transparent",
   },
   {
     slug: "webgl-components",
+    image: editorialAssets.blogWebgl,
     title: "Building WebGL Components for React",
     date: "2026-02-28",
     excerpt: "Three.js and React Three Fiber open up a world of 3D possibilities. We break down how FlexUI ships GPU-accelerated components that stay performant.",
     readTime: "6 min",
     category: "Deep Dive",
-    categoryColor: "bg-amber-500/10 text-amber-400 ring-amber-500/20",
+    categoryColor: "bg-amber-950/90 text-amber-400 ring-amber-500/20",
     gradient: "from-amber-500/20 via-orange-500/10 to-transparent",
   },
 ];
@@ -79,13 +84,8 @@ export default function BlogPage() {
           href={`/blog/${posts[0].slug}`}
           className="group mb-12 block overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02] transition-all hover:border-white/[0.12] hover:shadow-[0_0_40px_-15px_rgba(139,92,246,0.15)]"
         >
-          <div className={`relative h-48 bg-gradient-to-br ${posts[0].gradient} sm:h-56`}>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="flex items-center gap-3">
-                <Image src="/logo.png" alt="FlexUI" width={32} height={32} className="rounded-lg" />
-                <span className="text-lg font-bold text-white/40">FlexUI</span>
-              </div>
-            </div>
+          <div className="relative">
+            <EditorialCover asset={posts[0].image} priority sizes="(max-width: 1024px) 100vw, 980px" />
             <div className="absolute left-6 top-6">
               <span className={`rounded-full px-3 py-1 text-[11px] font-semibold ring-1 ${posts[0].categoryColor}`}>
                 {posts[0].category}
@@ -116,7 +116,8 @@ export default function BlogPage() {
               href={`/blog/${post.slug}`}
               className="group overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02] transition-all hover:border-white/[0.12] hover:shadow-[0_0_30px_-15px_rgba(56,189,248,0.1)]"
             >
-              <div className={`h-32 bg-gradient-to-br ${post.gradient} relative`}>
+              <div className="relative">
+                <EditorialCover asset={post.image} />
                 <div className="absolute left-4 top-4">
                   <span className={`rounded-full px-2.5 py-0.5 text-[10px] font-semibold ring-1 ${post.categoryColor}`}>
                     {post.category}
@@ -157,3 +158,4 @@ export default function BlogPage() {
     </div>
   );
 }
+

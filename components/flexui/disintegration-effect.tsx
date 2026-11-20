@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useRef, useState, useCallback, useEffect, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 interface DisintegrationEffectProps {
   children: React.ReactNode;
@@ -53,7 +53,6 @@ export function DisintegrationEffect({
 }: DisintegrationEffectProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [particles, setParticles] = useState<ParticleData[]>([]);
-  const [isDisintegrated, setIsDisintegrated] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const generateParticles = useCallback(() => {
@@ -85,10 +84,10 @@ export function DisintegrationEffect({
   }, [particleCount, duration, colors]);
 
   useEffect(() => {
+    const frame = requestAnimationFrame(() => {
     if (trigger) {
       const newParticles = generateParticles();
       setParticles(newParticles);
-      setIsDisintegrated(true);
 
       timerRef.current = setTimeout(() => {
         setParticles([]);
@@ -101,10 +100,11 @@ export function DisintegrationEffect({
         timerRef.current = null;
       }
       setParticles([]);
-      setIsDisintegrated(false);
     }
 
+    });
     return () => {
+      cancelAnimationFrame(frame);
       if (timerRef.current) {
         clearTimeout(timerRef.current);
       }

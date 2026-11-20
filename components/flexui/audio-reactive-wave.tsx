@@ -1,7 +1,9 @@
 "use client";
 
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import { useClientReady } from "@/hooks/use-client-ready";
+
 import { cn } from "@/lib/utils";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 interface AudioReactiveWaveProps {
   className?: string;
@@ -27,7 +29,7 @@ export function AudioReactiveWave({
   gap = 2,
   children,
 }: AudioReactiveWaveProps) {
-  const [mounted, setMounted] = useState(false);
+  const mounted = useClientReady();
   const [levels, setLevels] = useState<number[]>(() =>
     Array.from({ length: bars }, () => 0.1)
   );
@@ -37,9 +39,6 @@ export function AudioReactiveWave({
   const analyserRef = useRef<AnalyserNode | null>(null);
   const sourceRef = useRef<MediaStreamAudioSourceNode | null>(null);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   // Demo mode: generate animated sine wave data
   const runDemo = useCallback(() => {

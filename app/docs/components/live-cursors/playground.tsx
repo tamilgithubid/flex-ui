@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { CursorAvatarStack } from "@/components/flexui/live-cursors";
+import { FullscreenPreview } from "@/components/docs/fullscreen-preview";
 import { PreviewCodeTabs } from "@/components/docs/preview-code-tabs";
 import { PropsConfigurator } from "@/components/docs/props-configurator";
-import { FullscreenPreview } from "@/components/docs/fullscreen-preview";
+import { CursorAvatarStack } from "@/components/flexui/live-cursors";
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
 /* ── Inline cursor (works inside a relative container, not fixed) ──────── */
 
@@ -89,6 +89,7 @@ function useSimulatedCursors(count: number) {
 
   // Resize when count changes
   useEffect(() => {
+    const frame = requestAnimationFrame(() => {
     setCursors(
       userPool.slice(0, count).map((u, i) => ({
         ...u,
@@ -100,6 +101,8 @@ function useSimulatedCursors(count: number) {
       x: 60 + i * 80,
       y: 50 + i * 45,
     }));
+    });
+    return () => cancelAnimationFrame(frame);
   }, [count]);
 
   return cursors;
@@ -252,3 +255,4 @@ export function LiveCursorsPlayground() {
     </div>
   );
 }
+

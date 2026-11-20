@@ -1,7 +1,9 @@
 "use client";
 
-import React, { useMemo, useState, useEffect } from "react";
+import { useClientReady } from "@/hooks/use-client-ready";
+
 import { cn } from "@/lib/utils";
+import { useMemo } from "react";
 
 interface SmokeDividerProps {
   className?: string;
@@ -43,11 +45,8 @@ export function SmokeDivider({
   height = 60,
   speed = 1,
 }: SmokeDividerProps) {
-  const [mounted, setMounted] = useState(false);
+  const mounted = useClientReady();
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const wisps = useMemo<WispData[]>(() => {
     const rand = seededRandom(42);

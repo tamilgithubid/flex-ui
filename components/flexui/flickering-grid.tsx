@@ -1,6 +1,8 @@
 "use client";
-import React, { useEffect, useRef, useState, useMemo, useCallback } from "react";
+
+import { useClientReady } from "@/hooks/use-client-ready";
 import { cn } from "@/lib/utils";
+import React, { useCallback, useEffect, useMemo, useRef } from "react";
 
 interface FlickeringGridProps {
   children?: React.ReactNode;
@@ -39,10 +41,9 @@ export function FlickeringGrid({
 }: FlickeringGridProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [mounted, setMounted] = useState(false);
+  const mounted = useClientReady();
 
-  // eslint-disable-next-line react-hooks/set-state-in-effect
-  useEffect(() => { setMounted(true); }, []);
+
 
   // Parse the color once
   const parsedColor = useMemo(() => {

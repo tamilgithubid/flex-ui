@@ -30,7 +30,7 @@ jobs:
         run: npm run registry:build
 
       - name: Build Next.js
-        run: npx next build
+        run: npm run build
 
       - name: Verify build
         run: |

@@ -52,6 +52,8 @@ export default function Home() {
           <div className="lg:col-span-2 lg:row-span-2 overflow-hidden rounded-2xl">
             <ErrorBoundary>
               <ThreeHoverCard
+                imageSrc="/images/editorial/hover-portrait.webp"
+                imageAlt="Editorial portrait with cyan and lavender studio lighting"
                 title="3D Hover Card"
                 description="Glass border, 3D tilt, and cinematic light sweep."
                 className="h-full min-h-[380px]"
@@ -210,3 +212,4 @@ export default function Home() {
     </ParticleField>
   );
 }
+

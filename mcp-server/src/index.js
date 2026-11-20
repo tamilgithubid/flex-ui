@@ -23,6 +23,7 @@ import {
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { formatComponent } from "./component-details.js";
 
 // ── Load registry ───────────────────────────────────────────────────────────
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -67,22 +68,6 @@ function searchComponents(query, category, tier) {
   }
 
   return results;
-}
-
-function formatComponent(c) {
-  return {
-    name: c.name,
-    label: c.label,
-    tier: c.tier,
-    tierLabel: registry.tiers[String(c.tier)],
-    category: c.category,
-    tags: c.tags,
-    description: c.description,
-    dependencies: c.dependencies,
-    sourcePath: `components/flexui/${c.name}.tsx`,
-    docsPath: `/docs/components/${c.name}`,
-    installCommand: `npx shadcn@latest add "${c.name}"`,
-  };
 }
 
 // ── MCP Server ──────────────────────────────────────────────────────────────
@@ -228,7 +213,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         };
       }
 
-      const details = formatComponent(comp);
+      const details = formatComponent(comp, registry);
       return {
         content: [
           {
@@ -284,7 +269,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         };
       }
 
-      const details = formatComponent(comp);
+      const details = formatComponent(comp, registry);
       const depsInfo =
         comp.dependencies.length > 0
           ? `\n\nRequired dependencies:\n  npm install ${comp.dependencies.join(" ")}`
@@ -320,3 +305,4 @@ main().catch((err) => {
   console.error("Failed to start FlexUI MCP server:", err);
   process.exit(1);
 });
+

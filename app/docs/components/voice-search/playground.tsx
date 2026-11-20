@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
-import { VoiceSearch } from "@/components/flexui/voice-search";
 import { PreviewCodeTabs } from "@/components/docs/preview-code-tabs";
-import { Sparkles, Layout, Type, MousePointer, Zap, Layers, Waves } from "lucide-react";
+import { VoiceSearch } from "@/components/flexui/voice-search";
+import { Layers, Layout, MousePointer, Sparkles, Type, Waves, Zap } from "lucide-react";
 
 const demoItems = [
   { id: "1", title: "Shimmer Button", description: "Button with animated shimmer sweep", category: "Buttons", icon: <Sparkles className="h-4 w-4 text-purple-400" />, onSelect: () => {} },
@@ -56,3 +55,4 @@ export function VoiceSearchPlayground() {
     </div>
   );
 }
+

@@ -36,5 +36,6 @@ function ShimmerButton(props: {
   size?: string;
   disabled?: boolean;
 }) {
-  return null;
+  return <>{props.children}</>;
 }
+

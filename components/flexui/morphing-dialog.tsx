@@ -1,10 +1,12 @@
 "use client";
 
-import React, { useState, useId, useEffect, useCallback } from "react";
-import { createPortal } from "react-dom";
-import { motion, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
+import { useClientReady } from "@/hooks/use-client-ready";
+
 import { cn } from "@/lib/utils";
+import { AnimatePresence, motion } from "framer-motion";
+import { X } from "lucide-react";
+import React, { useCallback, useEffect, useId, useState } from "react";
+import { createPortal } from "react-dom";
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
@@ -33,14 +35,11 @@ export function MorphingDialog({
   triggerClassName,
 }: MorphingDialogProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const mounted = useClientReady();
   const uniqueId = useId();
   const layoutId = `morphing-dialog-${uniqueId}`;
 
   // SSR guard for portal
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   // ESC to close
   const handleKeyDown = useCallback(

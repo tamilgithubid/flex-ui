@@ -1,8 +1,9 @@
-import { defineConfig } from 'vitest/config';
+import { configDefaults, defineConfig } from 'vitest/config';
 import { fileURLToPath } from 'node:url';
 
 export default defineConfig({
   test: {
+    exclude: [...configDefaults.exclude, 'tests/browser/**'],
     environment: 'jsdom',
     globals: true,
     setupFiles: ['./tests/setup.ts'],

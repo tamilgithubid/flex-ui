@@ -1,14 +1,18 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence, useMotionValue, useSpring, useTransform, useInView } from "framer-motion";
 import { useTheme } from "@/components/flexui/theme-provider";
 import { themes } from "@/lib/themes";
+import { motion, useInView, useMotionValue, useSpring, useTransform } from "framer-motion";
 import {
-  Zap, Gauge, Cpu, HardDrive, MonitorSmartphone, Layers, Timer,
-  TrendingUp, ChevronDown, Flame, Wind, PackageOpen,
-  Search,
+  ChevronDown,
+  Cpu,
+  Flame,
+  Layers,
+  PackageOpen,
+  Timer,
+  Wind
 } from "lucide-react";
+import React, { useEffect, useRef, useState } from "react";
 
 /* ── Cinematic Animations ──────────────────────────────────────────────── */
 
@@ -539,3 +543,4 @@ export default function PerformancePage() {
     </div>
   );
 }
+

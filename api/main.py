@@ -7,23 +7,26 @@ Run locally:
     cd api && pip install -r requirements.txt && uvicorn main:app --reload --port 8000
 """
 
+import asyncio
 import json
+import logging
 import os
 import re
 import time
 from collections import defaultdict
-from typing import Optional
+from typing import TypeVar
 
-import httpx
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel, ValidationError
 
 from models import (
     AnalyzeRequest,
     AnalyzeResponse,
-    ColorInfo,
+    GeneratedComponent,
+    GeneratedTheme,
     GenerateRequest,
     GenerateResponse,
     ThemeRequest,
@@ -34,6 +37,12 @@ from prompts.analyze import SYSTEM_PROMPT as ANALYZE_SYSTEM, USER_PROMPT_TEMPLAT
 from prompts.theme import SYSTEM_PROMPT as THEME_SYSTEM, USER_PROMPT_TEMPLATE as THEME_USER
 from providers.gemini import GeminiProvider
 from providers.groq_provider import GroqProvider
+from safe_fetch import fetch_public_html
+
+logger = logging.getLogger(__name__)
+Payload = TypeVar("Payload", bound=BaseModel)
+PROVIDER_TIMEOUT_SECONDS = 30
+GENERATION_DEADLINE_SECONDS = 90
 
 # ── Load environment ─────────────────────────────────────────────────────────
 load_dotenv()
@@ -49,10 +58,10 @@ app = FastAPI(
 frontend_url = os.getenv("FRONTEND_URL", "http://localhost:3000")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[frontend_url, "http://localhost:3000", "https://flexui.dev"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=[frontend_url, "http://localhost:3000", "https://flexui.dev", "https://flex-ui-wine.vercel.app"],
+    allow_credentials=False,
+    allow_methods=["GET", "POST"],
+    allow_headers=["Content-Type"],
 )
 
 # ── AI Providers (try Gemini first, fall back to Groq) ───────────────────────
@@ -62,52 +71,72 @@ groq = GroqProvider()
 
 async def ai_generate(system_prompt: str, user_prompt: str) -> str:
     """Try primary provider, fall back to secondary."""
-    errors = []
-
-    if gemini.is_available():
-        try:
-            return await gemini.generate(system_prompt, user_prompt)
-        except Exception as e:
-            errors.append(f"Gemini: {e}")
-
-    if groq.is_available():
-        try:
-            return await groq.generate(system_prompt, user_prompt)
-        except Exception as e:
-            errors.append(f"Groq: {e}")
-
+    for name, provider in [("Gemini", gemini), ("Groq", groq)]:
+        if provider.is_available():
+            try:
+                return await asyncio.wait_for(provider.generate(system_prompt, user_prompt), timeout=PROVIDER_TIMEOUT_SECONDS)
+            except Exception as error:
+                # Provider exceptions can contain credentials or request bodies.
+                logger.warning("%s request failed (%s)", name, type(error).__name__)
     raise HTTPException(
         status_code=503,
-        detail=f"No AI provider available. Errors: {'; '.join(errors) or 'No API keys configured. Set GEMINI_API_KEY or GROQ_API_KEY in .env'}",
+        detail="AI service is unavailable. Check provider configuration or try again later.",
     )
 
 
 def parse_json_response(text: str) -> dict:
     """Extract JSON from AI response, handling markdown code blocks."""
+    if not isinstance(text, str) or len(text) > 100000:
+        raise ValueError("Invalid AI response size")
     # Try direct parse first
     try:
-        return json.loads(text)
+        data = json.loads(text)
     except json.JSONDecodeError:
         pass
+    else:
+        if isinstance(data, dict):
+            return data
+        raise ValueError("The AI response must be an object")
 
     # Try extracting from markdown code block
     match = re.search(r"```(?:json)?\s*\n?(.*?)\n?```", text, re.DOTALL)
     if match:
         try:
-            return json.loads(match.group(1))
+            data = json.loads(match.group(1))
         except json.JSONDecodeError:
             pass
+        else:
+            if isinstance(data, dict):
+                return data
+            raise ValueError("The AI response must be an object")
 
     # Try finding first { to last }
     start = text.find("{")
     end = text.rfind("}")
     if start != -1 and end != -1:
         try:
-            return json.loads(text[start : end + 1])
+            data = json.loads(text[start : end + 1])
+            if isinstance(data, dict):
+                return data
         except json.JSONDecodeError:
             pass
 
-    raise HTTPException(status_code=500, detail="Failed to parse AI response as JSON")
+    raise ValueError("Failed to parse AI response as an object")
+
+
+async def validated_generation(schema: type[Payload], system_prompt: str, user_prompt: str) -> Payload:
+    try:
+        async with asyncio.timeout(GENERATION_DEADLINE_SECONDS):
+            for attempt in range(2):
+                prompt = user_prompt if attempt == 0 else user_prompt + "\nReturn a complete JSON object matching the requested schema, including valid exported TSX when code is requested."
+                raw = await ai_generate(system_prompt, prompt)
+                try:
+                    return schema.model_validate(parse_json_response(raw))
+                except (ValueError, ValidationError):
+                    continue
+    except TimeoutError as error:
+        raise HTTPException(504, "AI generation timed out. Try again.") from error
+    raise HTTPException(502, "AI returned an invalid response after retrying. Try again.")
 
 
 # ── Rate limiter (simple in-memory) ──────────────────────────────────────────
@@ -118,7 +147,13 @@ RATE_WINDOW = 60  # seconds
 
 def check_rate_limit(request: Request):
     ip = request.client.host if request.client else "unknown"
-    now = time.time()
+    now = time.monotonic()
+    if len(rate_limits) > 10000:
+        for address in list(rate_limits):
+            if not rate_limits[address] or now - rate_limits[address][-1] >= RATE_WINDOW:
+                del rate_limits[address]
+        if ip not in rate_limits and len(rate_limits) > 10000:
+            raise HTTPException(status_code=429, detail="The service is busy. Try again in a minute.")
     # Clean old entries
     rate_limits[ip] = [t for t in rate_limits[ip] if now - t < RATE_WINDOW]
     if len(rate_limits[ip]) >= RATE_LIMIT:
@@ -147,32 +182,9 @@ async def generate_component(req: GenerateRequest, request: Request):
     category_hint = f"Category focus: {req.category}" if req.category and req.category != "All" else ""
     user_prompt = GENERATE_USER.format(prompt=req.prompt, category_hint=category_hint)
 
-    raw = await ai_generate(GENERATE_SYSTEM, user_prompt)
-    data = parse_json_response(raw)
-
-    # Validate code quality
-    code = data.get("code", "")
-    if not code or len(code) < 30 or "export" not in code:
-        # Retry once
-        raw = await ai_generate(GENERATE_SYSTEM, user_prompt + "\n\nIMPORTANT: Return complete, valid TSX code with export default.")
-        data = parse_json_response(raw)
-
-    # Fix common AI mistakes in imports
-    code = data.get("code", "// AI could not generate code")
-    # Fix bare imports like: from '@/components/flexui/'
-    code = re.sub(
-        r"from ['\"]@/components/flexui/['\"]",
-        lambda m: m.group(0),  # keep as-is if already correct
-        code,
-    )
-
+    data = await validated_generation(GeneratedComponent, GENERATE_SYSTEM, user_prompt)
     return GenerateResponse(
-        name=data.get("name", "Component"),
-        code=code,
-        badge=data.get("badge", "Component"),
-        badge_color=_badge_color(data.get("badge", "")),
-        doc_slug=data.get("doc_slug", ""),
-        imports=data.get("imports", []),
+        **data.model_dump(), badge_color=_badge_color(data.badge),
     )
 
 
@@ -195,13 +207,7 @@ def _badge_color(badge: str) -> str:
 async def analyze_url(req: AnalyzeRequest, request: Request):
     check_rate_limit(request)
 
-    # Fetch the URL
-    try:
-        async with httpx.AsyncClient(timeout=15, follow_redirects=True) as client:
-            resp = await client.get(req.url, headers={"User-Agent": "FlexUI-Analyzer/1.0"})
-            html = resp.text
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=f"Could not fetch URL: {e}")
+    html = await fetch_public_html(req.url)
 
     # Parse HTML
     soup = BeautifulSoup(html, "html.parser")
@@ -213,14 +219,7 @@ async def analyze_url(req: AnalyzeRequest, request: Request):
         # Find CSS custom properties
         props = re.findall(r"(--[\w-]+)\s*:\s*([^;]+)", text)
         for name, value in props[:20]:
-            css_info.append(f"{name}: {value.strip()}")
-
-    # Find colors in inline styles
-    colors_found = set()
-    for el in soup.find_all(attrs={"style": True}):
-        style = el.get("style", "")
-        hex_colors = re.findall(r"#[0-9a-fA-F]{3,8}", style)
-        colors_found.update(hex_colors[:10])
+            css_info.append(f"{name[:100]}: {value.strip()[:200]}")
 
     # Extract fonts from link tags
     fonts = set()
@@ -231,6 +230,8 @@ async def analyze_url(req: AnalyzeRequest, request: Request):
             for f in font_match:
                 fonts.add(f.replace("+", " "))
 
+    for element in soup(["script", "noscript", "iframe"]):
+        element.decompose()
     html_snippet = soup.get_text()[:3000]
     css_info_str = "\n".join(css_info[:15]) if css_info else "No CSS variables found"
 
@@ -240,15 +241,10 @@ async def analyze_url(req: AnalyzeRequest, request: Request):
         css_info=css_info_str,
     )
 
-    raw = await ai_generate(ANALYZE_SYSTEM, user_prompt)
-    data = parse_json_response(raw)
-
-    return AnalyzeResponse(
-        colors=[ColorInfo(**c) for c in data.get("colors", [])[:6]],
-        fonts=data.get("fonts", list(fonts))[:5],
-        components=data.get("components", [])[:8],
-        suggestions=data.get("suggestions", [])[:6],
-    )
+    result = await validated_generation(AnalyzeResponse, ANALYZE_SYSTEM, user_prompt)
+    if not result.fonts:
+        result.fonts = sorted(fonts)[:5]
+    return result
 
 
 # ── POST /api/theme ──────────────────────────────────────────────────────────
@@ -257,13 +253,8 @@ async def generate_theme(req: ThemeRequest, request: Request):
     check_rate_limit(request)
 
     user_prompt = THEME_USER.format(description=req.description)
-    raw = await ai_generate(THEME_SYSTEM, user_prompt)
-    data = parse_json_response(raw)
-
-    name = data.get("name", "Custom")
-    primary = data.get("primary", "#8B5CF6")
-    accent = data.get("accent", "#389CFD")
-    bg = data.get("bg", "#0B0B18")
+    data = await validated_generation(GeneratedTheme, THEME_SYSTEM, user_prompt)
+    name, primary, accent, bg = data.name, data.primary, data.accent, data.bg
 
     css_code = f"""/* FlexUI Theme: {name} */
 :root {{
@@ -301,3 +292,4 @@ theme: {{
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+

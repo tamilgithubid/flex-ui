@@ -1,7 +1,9 @@
 "use client";
 
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import { useClientReady } from "@/hooks/use-client-ready";
+
 import { cn } from "@/lib/utils";
+import React, { useCallback, useEffect, useRef } from "react";
 
 interface Blob {
   x: number;
@@ -37,11 +39,8 @@ export function SplashCursor({
   const blobsRef = useRef<Blob[]>([]);
   const rafRef = useRef<number>(0);
   const lastPosRef = useRef<{ x: number; y: number } | null>(null);
-  const [mounted, setMounted] = useState(false);
+  const mounted = useClientReady();
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const resizeCanvas = useCallback(() => {
     const canvas = canvasRef.current;

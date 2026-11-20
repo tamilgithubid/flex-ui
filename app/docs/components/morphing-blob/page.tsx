@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
-import { CodeBlock } from "@/components/ui/code-block";
-import { DocSection, DocSubSection } from "@/components/docs/doc-section";
 import { ApiTable } from "@/components/docs/api-table";
+import { DocSection, DocSubSection } from "@/components/docs/doc-section";
 import { InstallTabs } from "@/components/docs/install-tabs";
-import { MorphingBlobPlayground } from "./playground";
+import { CodeBlock } from "@/components/ui/code-block";
+import type { Metadata } from "next";
 import { MorphingBlobExamples } from "./examples";
+import { MorphingBlobPlayground } from "./playground";
 
 export const metadata: Metadata = {
   title: "Morphing Blob — FlexUI",
@@ -13,6 +13,8 @@ export const metadata: Metadata = {
 };
 
 const morphingBlobSource = `"use client";
+
+import { useClientReady } from "@/hooks/use-client-ready";
 
 import React, { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
@@ -57,9 +59,8 @@ export function MorphingBlob({
 }: MorphingBlobProps) {
   const pathRef = useRef<SVGPathElement>(null);
   const rafRef = useRef<number>(0);
-  const [mounted, setMounted] = useState(false);
+  const mounted = useClientReady();
 
-  useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
     if (!mounted || !pathRef.current) return;
@@ -272,3 +273,4 @@ export default function MorphingBlobDoc() {
     </div>
   );
 }
+

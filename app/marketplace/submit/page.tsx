@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
-import { motion } from "framer-motion";
-import Link from "next/link";
 import { useTheme } from "@/components/flexui/theme-provider";
 import { themes } from "@/lib/themes";
+import { motion } from "framer-motion";
+import Link from "next/link";
+import React, { useState } from "react";
 
 /* ── Animation ──────────────────────────────────────────────────────────── */
 const fadeUp = {
@@ -24,7 +24,6 @@ export default function SubmitPage() {
   const { themeName } = useTheme();
   const currentTheme = themes[themeName];
   const accent = currentTheme?.tokens["--flexui-accent"] ?? "#A78BFA";
-  const glowPrimary = currentTheme?.tokens["--flexui-glow-primary"] ?? "167,139,250";
 
   const [form, setForm] = useState({
     name: "",
@@ -276,3 +275,4 @@ export default function SubmitPage() {
     </div>
   );
 }
+

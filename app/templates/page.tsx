@@ -1,19 +1,18 @@
 "use client";
 
-import React from "react";
-import Link from "next/link";
-import { motion } from "framer-motion";
 import { Navbar } from "@/components/marketing/navbar";
+import { motion } from "framer-motion";
 import {
   ArrowRight,
-  Layout,
-  ShoppingBag,
-  Briefcase,
   BarChart3,
   BookOpen,
+  Briefcase,
   CreditCard,
+  Layout,
   Lock,
+  ShoppingBag,
 } from "lucide-react";
+import Link from "next/link";
 
 const templates = [
   {
@@ -154,7 +153,7 @@ export default function TemplatesPage() {
           animate="visible"
           className="mt-20 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
         >
-          {templates.map((t, i) => (
+          {templates.map((t) => (
             <motion.div key={t.slug} variants={fadeUp}>
               <Link
                 href={`/templates/${t.slug}`}
@@ -241,3 +240,4 @@ export default function TemplatesPage() {
     </div>
   );
 }
+

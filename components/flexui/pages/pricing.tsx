@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                             */
@@ -413,7 +413,7 @@ export function Pricing({
           viewport={{ once: true, amount: 0.2 }}
           className="mx-auto grid max-w-5xl items-center gap-6 lg:grid-cols-3"
         >
-          {tiers.map((tier, idx) => (
+          {tiers.map((tier) => (
             <motion.div
               key={tier.name}
               variants={fadeUp}

@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState, useRef, useCallback, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Mic, MicOff, Command, Check, AlertCircle, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { AnimatePresence, motion } from "framer-motion";
+import { AlertCircle, Check, Command, Mic, MicOff, Sparkles } from "lucide-react";
+import React, { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 interface VoiceCommand {
   /** Keyword or phrase to match (case-insensitive) */
@@ -46,9 +46,10 @@ interface SpeechRecognitionInstance {
   onerror: ((e: { error: string }) => void) | null;
 }
 
+const subscribeSupport = () => () => {};
+
 function getSpeechRecognition(): (new () => SpeechRecognitionInstance) | null {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const w = window as any;
+  const w = window as Window & { SpeechRecognition?: new () => SpeechRecognitionInstance; webkitSpeechRecognition?: new () => SpeechRecognitionInstance };
   return w.SpeechRecognition || w.webkitSpeechRecognition || null;
 }
 
@@ -66,16 +67,13 @@ export function VoiceCommand({
   const [lastTranscript, setLastTranscript] = useState("");
   const [matchedCommand, setMatchedCommand] = useState<string | null>(null);
   const [status, setStatus] = useState<"idle" | "listening" | "matched" | "no-match">("idle");
-  const [supported, setSupported] = useState(true);
+  const supported = useSyncExternalStore(subscribeSupport, () => Boolean(getSpeechRecognition()), () => false);
   const recognitionRef = useRef<SpeechRecognitionInstance | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const btnSizes = { sm: "h-10 w-10", md: "h-12 w-12", lg: "h-14 w-14" };
   const iconSizes = { sm: "h-4 w-4", md: "h-5 w-5", lg: "h-6 w-6" };
 
-  useEffect(() => {
-    if (!getSpeechRecognition()) setSupported(false);
-  }, []);
 
   const matchCommand = useCallback(
     (transcript: string) => {

@@ -1,7 +1,9 @@
 "use client";
 
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import { useClientReady } from "@/hooks/use-client-ready";
+
 import { cn } from "@/lib/utils";
+import { useCallback, useEffect, useRef } from "react";
 
 export interface ShaderBlobProps {
   className?: string;
@@ -134,12 +136,9 @@ export function ShaderBlob({
   interactive = true,
 }: ShaderBlobProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [mounted, setMounted] = useState(false);
+  const mounted = useClientReady();
   const mouseRef = useRef({ x: 0, y: 0, sx: 0, sy: 0 });
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const onMove = useCallback(
     (e: MouseEvent) => {

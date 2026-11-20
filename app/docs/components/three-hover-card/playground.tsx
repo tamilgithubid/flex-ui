@@ -59,6 +59,8 @@ export function ThreeHoverCardPlayground() {
         preview={
           <div className="w-full max-w-md">
             <ThreeHoverCard
+                imageSrc="/images/editorial/hover-portrait.webp"
+                imageAlt="Editorial portrait with cyan and lavender studio lighting"
               title={values.title as string}
               description={values.description as string}
             />
@@ -75,3 +77,4 @@ export function ThreeHoverCardPlayground() {
     </div>
   );
 }
+

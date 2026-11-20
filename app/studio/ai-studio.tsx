@@ -1,45 +1,45 @@
 "use client";
 
-import React, { useState, useCallback, useMemo, useRef } from "react";
-import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from "framer-motion";
-import { Navbar } from "@/components/marketing/navbar";
-import { useTheme } from "@/components/flexui/theme-provider";
-import { themes } from "@/lib/themes";
-import {
-  Sparkles,
-  Globe,
-  Palette,
-  Wand2,
-  Copy,
-  Check,
-  ArrowRight,
-  Zap,
-  Code2,
-  Eye,
-  Layers,
-  Search,
-  BookOpen,
-  Package,
-  ChevronRight,
-  Paintbrush,
-  SlidersHorizontal,
-} from "lucide-react";
-import { cn } from "@/lib/utils";
-import { generateComponent, analyzeURL } from "@/lib/studio-api";
-import { SyntaxHighlight } from "@/components/ui/syntax-highlight";
-import { LiveCodePreview } from "@/components/studio/live-preview";
-import { ShimmerButton } from "@/components/flexui/shimmer-button";
-import { GlowButton } from "@/components/flexui/glow-button";
-import { GradientText } from "@/components/flexui/gradient-text";
-import { SpotlightCard } from "@/components/flexui/spotlight-card";
-import { NeonGlowCard } from "@/components/flexui/neon-glow-card";
-import { TypewriterText } from "@/components/flexui/typewriter-text";
-import { NumberTicker } from "@/components/flexui/number-ticker";
-import { RotatingText } from "@/components/flexui/rotating-text";
-import { MorphingBlob } from "@/components/flexui/morphing-blob";
-import { HandwrittenAnnotation } from "@/components/flexui/handwritten-annotation";
 import { AmbientTilt } from "@/components/flexui/ambient-tilt";
 import { GlitchTransition } from "@/components/flexui/glitch-transition";
+import { GlowButton } from "@/components/flexui/glow-button";
+import { GradientText } from "@/components/flexui/gradient-text";
+import { HandwrittenAnnotation } from "@/components/flexui/handwritten-annotation";
+import { MorphingBlob } from "@/components/flexui/morphing-blob";
+import { NeonGlowCard } from "@/components/flexui/neon-glow-card";
+import { NumberTicker } from "@/components/flexui/number-ticker";
+import { RotatingText } from "@/components/flexui/rotating-text";
+import { ShimmerButton } from "@/components/flexui/shimmer-button";
+import { SpotlightCard } from "@/components/flexui/spotlight-card";
+import { useTheme } from "@/components/flexui/theme-provider";
+import { TypewriterText } from "@/components/flexui/typewriter-text";
+import { Navbar } from "@/components/marketing/navbar";
+import { LiveCodePreview } from "@/components/studio/live-preview";
+import { SyntaxHighlight } from "@/components/ui/syntax-highlight";
+import { analyzeURL, generateComponent } from "@/lib/studio-api";
+import { themes } from "@/lib/themes";
+import { cn } from "@/lib/utils";
+import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import {
+  ArrowRight,
+  BookOpen,
+  Check,
+  ChevronRight,
+  Code2,
+  Copy,
+  Eye,
+  Globe,
+  Layers,
+  Package,
+  Paintbrush,
+  Palette,
+  Search,
+  SlidersHorizontal,
+  Sparkles,
+  Wand2,
+  Zap,
+} from "lucide-react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 /* ── Easings ──────────────────────────────────────────────────────────────── */
 
 const EASE_OUT = [0.16, 1, 0.3, 1] as const;
@@ -119,359 +119,6 @@ interface ComponentEntry {
   preview?: React.ReactNode;
   imports?: string[];
 }
-
-const componentMap: Record<string, ComponentEntry> = {
-  button: {
-    name: "ShimmerButton",
-    badge: "Button",
-    badgeColor: "bg-accent/15 text-accent",
-    docSlug: "shimmer-button",
-    preview: <ShimmerButton shimmerColor="rgba(139, 92, 246, 0.3)" className="px-8 py-3 text-heading font-semibold">Get Started</ShimmerButton>,
-    code: `import { ShimmerButton } from "@/components/flexui/shimmer-button";
-
-export default function MyButton() {
-  return (
-    <ShimmerButton
-      shimmerColor="rgba(139, 92, 246, 0.3)"
-      className="px-8 py-3 text-heading font-semibold"
-    >
-      Get Started
-    </ShimmerButton>
-  );
-}`,
-  },
-  card: {
-    name: "SpotlightCard",
-    badge: "Card",
-    badgeColor: "bg-cyan-500/15 text-cyan-400",
-    docSlug: "spotlight-card",
-    preview: <SpotlightCard className="max-w-xs p-6"><h3 className="text-lg font-bold text-heading mb-1">Pro Plan</h3><p className="text-body text-sm mb-3">Everything you need.</p><span className="text-2xl font-bold text-heading">$49</span><span className="text-body">/mo</span></SpotlightCard>,
-    code: `import { SpotlightCard } from "@/components/flexui/spotlight-card";
-
-export default function MyCard() {
-  return (
-    <SpotlightCard className="max-w-sm p-8">
-      <h3 className="text-xl font-bold text-heading mb-2">Pro Plan</h3>
-      <p className="text-body mb-4">Everything you need.</p>
-      <span className="text-3xl font-bold text-heading">$49</span>
-      <span className="text-body">/mo</span>
-    </SpotlightCard>
-  );
-}`,
-  },
-  text: {
-    name: "TextReveal",
-    badge: "Text",
-    badgeColor: "bg-amber-500/15 text-amber-400",
-    docSlug: "text-reveal",
-    code: `import { TextReveal } from "@/components/flexui/text-reveal";
-
-export default function MyText() {
-  return (
-    <TextReveal
-      text="Build beautiful interfaces"
-      mode="word"
-      className="text-4xl font-bold text-heading"
-    />
-  );
-}`,
-  },
-  hero: {
-    name: "CinematicHero",
-    badge: "Layout",
-    badgeColor: "bg-emerald-500/15 text-emerald-400",
-    docSlug: "cinematic-hero",
-    code: `import { CinematicHero } from "@/components/flexui/cinematic-hero";
-
-export default function MyHero() {
-  return (
-    <CinematicHero
-      headline="Ship faster with FlexUI"
-      subtitle="Premium animated components for modern web apps."
-      background="particles"
-      badge="New Release"
-      primaryCta={{ label: "Get Started", href: "/docs" }}
-      secondaryCta={{ label: "View Components", href: "/docs/components" }}
-    />
-  );
-}`,
-  },
-  glow: {
-    name: "NeonGlowCard",
-    badge: "Card",
-    badgeColor: "bg-cyan-500/15 text-cyan-400",
-    docSlug: "neon-glow-card",
-    preview: <NeonGlowCard color="#8B5CF6" intensity={1.2} pulse><div className="p-6"><h3 className="text-lg font-bold text-heading">Neon Card</h3><p className="mt-1 text-sm text-body">Glowing border with cursor tracking.</p></div></NeonGlowCard>,
-    code: `import { NeonGlowCard } from "@/components/flexui/neon-glow-card";
-
-export default function MyGlowCard() {
-  return (
-    <NeonGlowCard color="#8B5CF6" intensity={1.2} pulse>
-      <div className="p-8">
-        <h3 className="text-xl font-bold text-heading">Neon Card</h3>
-        <p className="mt-2 text-body">Glowing border with cursor tracking.</p>
-      </div>
-    </NeonGlowCard>
-  );
-}`,
-  },
-  ripple: {
-    name: "DisintegrationEffect",
-    badge: "Effect",
-    badgeColor: "bg-rose-500/15 text-rose-400",
-    docSlug: "disintegration-effect",
-    code: `import { DisintegrationEffect } from "@/components/flexui/disintegration-effect";
-import { useState } from "react";
-
-export default function MyEffect() {
-  const [trigger, setTrigger] = useState(false);
-  return (
-    <div>
-      <button onClick={() => setTrigger(true)}>Snap!</button>
-      <DisintegrationEffect trigger={trigger} onComplete={() => setTrigger(false)}>
-        <div className="p-8 bg-background rounded-xl">
-          <p className="text-heading">This content will disintegrate!</p>
-        </div>
-      </DisintegrationEffect>
-    </div>
-  );
-}`,
-  },
-  aurora: {
-    name: "AuroraBackground",
-    badge: "Background",
-    badgeColor: "bg-indigo-500/15 text-indigo-400",
-    docSlug: "aurora-background",
-    code: `import { AuroraBackground } from "@/components/flexui/aurora-background";
-
-export default function MyAurora() {
-  return (
-    <AuroraBackground
-      colors={["#8B5CF6", "#06B6D4", "#EC4899"]}
-      speed={0.5}
-      blur={120}
-      className="min-h-screen flex items-center justify-center"
-    >
-      <div className="text-center z-10">
-        <h1 className="text-5xl font-bold text-heading mb-4">Welcome</h1>
-        <p className="text-lg text-heading">Built with FlexUI Aurora</p>
-      </div>
-    </AuroraBackground>
-  );
-}`,
-  },
-  nav: {
-    name: "FloatingNavbar",
-    badge: "Layout",
-    badgeColor: "bg-emerald-500/15 text-emerald-400",
-    docSlug: "floating-navbar",
-    code: `import { FloatingNavbar } from "@/components/flexui/floating-navbar";
-
-export default function MyNavbar() {
-  const links = [
-    { label: "Home", href: "/" },
-    { label: "Features", href: "/features" },
-    { label: "Pricing", href: "/pricing" },
-    { label: "Docs", href: "/docs" },
-  ];
-
-  return (
-    <FloatingNavbar
-      links={links}
-      logo={<span className="text-lg font-bold text-heading">Acme</span>}
-      blur
-      className="border-b border-border"
-    />
-  );
-}`,
-  },
-  tab: {
-    name: "AnimatedTabs",
-    badge: "Layout",
-    badgeColor: "bg-emerald-500/15 text-emerald-400",
-    docSlug: "animated-tabs",
-    code: `import { AnimatedTabs } from "@/components/flexui/animated-tabs";
-import { useState } from "react";
-
-export default function MyTabs() {
-  const [active, setActive] = useState("overview");
-  const items = [
-    { id: "overview", label: "Overview" },
-    { id: "features", label: "Features" },
-    { id: "pricing", label: "Pricing" },
-    { id: "faq", label: "FAQ" },
-  ];
-
-  return (
-    <AnimatedTabs
-      items={items}
-      activeId={active}
-      onChange={setActive}
-      variant="pill"
-      className="mx-auto max-w-md"
-    />
-  );
-}`,
-  },
-  toast: {
-    name: "Toast",
-    badge: "Layout",
-    badgeColor: "bg-emerald-500/15 text-emerald-400",
-    docSlug: "toast",
-    code: `import { ToastProvider, useToast } from "@/components/flexui/toast";
-
-function ToastDemo() {
-  const { toast } = useToast();
-  return (
-    <div className="flex gap-3">
-      <button
-        onClick={() => toast({ title: "Saved!", variant: "success" })}
-        className="px-4 py-2 bg-emerald-600 text-heading rounded-lg"
-      >
-        Success
-      </button>
-      <button
-        onClick={() => toast({ title: "Error", variant: "error" })}
-        className="px-4 py-2 bg-red-600 text-heading rounded-lg"
-      >
-        Error
-      </button>
-    </div>
-  );
-}
-
-export default function MyToast() {
-  return (
-    <ToastProvider position="bottom-right">
-      <ToastDemo />
-    </ToastProvider>
-  );
-}`,
-  },
-  terminal: {
-    name: "TypewriterTerminal",
-    badge: "Effect",
-    badgeColor: "bg-rose-500/15 text-rose-400",
-    docSlug: "typewriter-terminal",
-    code: `import { TypewriterTerminal } from "@/components/flexui/typewriter-terminal";
-
-export default function MyTerminal() {
-  const commands = [
-    { prompt: "~", command: "npx create-next-app@latest my-app", output: "Creating a new Next.js app..." },
-    { prompt: "~/my-app", command: "npm install flexui", output: "added 42 packages in 3.2s" },
-    { prompt: "~/my-app", command: "npm run dev", output: "Ready on http://localhost:3000" },
-  ];
-
-  return (
-    <TypewriterTerminal
-      commands={commands}
-      typingSpeed={50}
-      className="max-w-2xl rounded-xl border border-border"
-    />
-  );
-}`,
-  },
-  orbit: {
-    name: "DataOrbit",
-    badge: "Effect",
-    badgeColor: "bg-rose-500/15 text-rose-400",
-    docSlug: "data-orbit",
-    code: `import { DataOrbit } from "@/components/flexui/data-orbit";
-
-export default function MyOrbit() {
-  const icons = [
-    { icon: "react", label: "React" },
-    { icon: "nextjs", label: "Next.js" },
-    { icon: "typescript", label: "TypeScript" },
-    { icon: "tailwind", label: "Tailwind" },
-    { icon: "framer", label: "Framer Motion" },
-    { icon: "vercel", label: "Vercel" },
-  ];
-
-  return (
-    <DataOrbit
-      items={icons}
-      radius={160}
-      speed={30}
-      centerContent={<span className="text-2xl font-bold text-heading">Stack</span>}
-      className="h-[400px]"
-    />
-  );
-}`,
-  },
-  blob: {
-    name: "MorphingBlob",
-    badge: "Background",
-    badgeColor: "bg-indigo-500/15 text-indigo-400",
-    docSlug: "morphing-blob",
-    code: `import { MorphingBlob } from "@/components/flexui/morphing-blob";
-
-export default function MyBlob() {
-  return (
-    <div className="relative h-[400px] flex items-center justify-center">
-      <MorphingBlob
-        colors={["#8B5CF6", "#EC4899", "#06B6D4"]}
-        size={300}
-        speed={4}
-        blur={60}
-        className="absolute inset-0"
-      />
-      <h2 className="relative z-10 text-4xl font-bold text-heading">
-        Organic Motion
-      </h2>
-    </div>
-  );
-}`,
-  },
-  glitch: {
-    name: "GlitchTransition",
-    badge: "Effect",
-    badgeColor: "bg-rose-500/15 text-rose-400",
-    docSlug: "glitch-transition",
-    code: `import { GlitchTransition } from "@/components/flexui/glitch-transition";
-import { useState } from "react";
-
-export default function MyGlitch() {
-  const [active, setActive] = useState(false);
-  return (
-    <div>
-      <button
-        onClick={() => setActive(!active)}
-        className="mb-4 px-4 py-2 bg-cyan-600 text-heading rounded-lg"
-      >
-        Toggle Glitch
-      </button>
-      <GlitchTransition active={active} intensity={0.8} slices={10}>
-        <div className="p-8 bg-background rounded-xl">
-          <h3 className="text-xl font-bold text-heading">Cyberpunk UI</h3>
-          <p className="mt-2 text-body">Glitch effect on transition.</p>
-        </div>
-      </GlitchTransition>
-    </div>
-  );
-}`,
-  },
-  annotation: {
-    name: "HandwrittenAnnotation",
-    badge: "Text",
-    badgeColor: "bg-amber-500/15 text-amber-400",
-    docSlug: "handwritten-annotation",
-    code: `import { HandwrittenAnnotation } from "@/components/flexui/handwritten-annotation";
-
-export default function MyAnnotation() {
-  return (
-    <div className="space-y-6">
-      <HandwrittenAnnotation type="underline" color="#8B5CF6" strokeWidth={2} animate>
-        <h2 className="text-3xl font-bold text-heading">Important Headline</h2>
-      </HandwrittenAnnotation>
-      <HandwrittenAnnotation type="circle" color="#22D3EE" strokeWidth={2} animate>
-        <span className="text-lg font-semibold text-cyan-400">$49/mo</span>
-      </HandwrittenAnnotation>
-    </div>
-  );
-}`,
-  },
-};
 
 function _badgeColor(badge: string): string {
   const colors: Record<string, string> = {
@@ -574,39 +221,12 @@ function extractImports(code: string): string[] {
   });
 }
 
-// ── URL Analysis mock ───────────────────────────────────────────────────────
+// ── URL Analysis result ───────────────────────────────────────────────────────
 interface AnalysisResult {
   colors: { name: string; hex: string }[];
   fonts: string[];
   components: string[];
   suggestions: string[];
-}
-
-function mockAnalyze(): AnalysisResult {
-  return {
-    colors: [
-      { name: "Primary", hex: "#6366F1" },
-      { name: "Accent", hex: "#22D3EE" },
-      { name: "Background", hex: "#0F0F1A" },
-      { name: "Text", hex: "#E4E4E7" },
-    ],
-    fonts: ["Inter", "JetBrains Mono"],
-    components: [
-      "FloatingNavbar — sticky nav with glassmorphic blur",
-      "GradientText — gradient headline text",
-      "SpotlightCard — feature cards with cursor glow",
-      "AnimatedTabs — navigation with sliding indicator",
-      "ShimmerButton — CTA with sweep animation",
-      "ParticleField — ambient background particles",
-    ],
-    suggestions: [
-      "Replace static hero with CinematicHero (background='particles')",
-      "Add GlitchTransition on page navigation for cyberpunk feel",
-      "Use NeonGlowCard for pricing cards instead of plain borders",
-      "Add ScrollProgress bar at the top for reading progress",
-      "Wrap testimonials in AmbientTilt for subtle 3D depth",
-    ],
-  };
 }
 
 // ── Theme presets ───────────────────────────────────────────────────────────
@@ -631,9 +251,9 @@ export function AIStudio() {
   const [activeTab, setActiveTab] = useState<StudioTab>("generate");
   const { themeName } = useTheme();
   const currentTheme = themes[themeName];
-  const accent = currentTheme?.tokens["--flexui-accent"] ?? "#A78BFA";
-  const secondary = currentTheme?.tokens["--flexui-secondary"] ?? "#818CF8";
   const glowPrimary = currentTheme?.tokens["--flexui-glow-primary"] ?? "167,139,250";
+  const secondary = currentTheme?.tokens["--flexui-secondary"] ?? "#818CF8";
+  const accent = currentTheme?.tokens["--flexui-accent"] ?? "#A78BFA";
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -850,8 +470,8 @@ function GenerateTab() {
 
   const { themeName } = useTheme();
   const currentTheme = themes[themeName];
-  const accent = currentTheme?.tokens["--flexui-accent"] ?? "#A78BFA";
   const glowPrimary = currentTheme?.tokens["--flexui-glow-primary"] ?? "167,139,250";
+  const accent = currentTheme?.tokens["--flexui-accent"] ?? "#A78BFA";
 
   const handleGenerate = useCallback(() => {
     if (!prompt.trim() || generating) return;
@@ -933,16 +553,14 @@ function GenerateTab() {
               />
             </div>
 
-            {/* Generate button — Coming Soon */}
+            {/* Generate component */}
             <motion.button
-              disabled
-              className="mt-4 flex w-full items-center justify-center gap-2.5 rounded-xl py-3.5 text-sm font-semibold bg-white/[0.03] text-zinc-600 cursor-not-allowed border border-white/[0.06]"
+              disabled={!prompt.trim() || generating}
+              onClick={handleGenerate}
+              className="mt-4 flex w-full items-center justify-center gap-2.5 rounded-xl border border-white/[0.06] bg-purple-500/15 py-3.5 text-sm font-semibold text-heading disabled:cursor-not-allowed disabled:opacity-50"
             >
               <Sparkles className="h-4 w-4" />
-              Generate Component
-              <span className="ml-1 rounded-full bg-purple-500/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-purple-400">
-                Coming Soon
-              </span>
+              {generating ? "Generating…" : "Generate Component"}
             </motion.button>
 
             <p className="mt-2.5 text-center text-[11px] text-zinc-600">
@@ -1311,8 +929,8 @@ function GenerateOutput({ result, copied, onCopy, usedImports }: {
 
   const { themeName } = useTheme();
   const currentTheme = themes[themeName];
-  const accent = currentTheme?.tokens["--flexui-accent"] ?? "#A78BFA";
   const glowPrimary = currentTheme?.tokens["--flexui-glow-primary"] ?? "167,139,250";
+  const accent = currentTheme?.tokens["--flexui-accent"] ?? "#A78BFA";
 
   return (
     <motion.div
@@ -1437,17 +1055,19 @@ function AnalyzeTab() {
   const [url, setUrl] = useState("");
   const [analyzing, setAnalyzing] = useState(false);
   const [result, setResult] = useState<AnalysisResult | null>(null);
+  const [analysisError, setAnalysisError] = useState<string | null>(null);
   const [isFocused, setIsFocused] = useState(false);
 
   const { themeName } = useTheme();
   const currentTheme = themes[themeName];
-  const accent = currentTheme?.tokens["--flexui-accent"] ?? "#A78BFA";
   const glowPrimary = currentTheme?.tokens["--flexui-glow-primary"] ?? "167,139,250";
+  const accent = currentTheme?.tokens["--flexui-accent"] ?? "#A78BFA";
 
   const handleAnalyze = () => {
     if (!url.trim() || analyzing) return;
     setAnalyzing(true);
     setResult(null);
+    setAnalysisError(null);
 
 
     analyzeURL(url)
@@ -1459,8 +1079,8 @@ function AnalyzeTab() {
           suggestions: res.suggestions,
         });
       })
-      .catch(() => {
-        setResult(mockAnalyze());
+      .catch((error: unknown) => {
+        setAnalysisError(error instanceof Error ? error.message : "Analysis failed. Try again.");
       })
       .finally(() => setAnalyzing(false));
   };
@@ -1506,13 +1126,11 @@ function AnalyzeTab() {
                 />
               </div>
               <motion.button
-                disabled
-                className="shrink-0 rounded-xl px-6 py-3.5 text-sm font-semibold bg-white/[0.03] text-zinc-600 cursor-not-allowed border border-white/[0.06]"
+                disabled={!url.trim() || analyzing}
+                onClick={handleAnalyze}
+                className="shrink-0 rounded-xl border border-white/[0.06] bg-purple-500/15 px-6 py-3.5 text-sm font-semibold text-heading disabled:cursor-not-allowed disabled:opacity-50"
               >
-                Analyze
-                <span className="ml-1.5 rounded-full bg-purple-500/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-purple-400">
-                  Soon
-                </span>
+                {analyzing ? "Analyzing…" : "Analyze"}
               </motion.button>
             </div>
             <p className="mt-3 text-center text-[11px] text-zinc-600">
@@ -1523,6 +1141,7 @@ function AnalyzeTab() {
       </div>
 
       {/* Loading state */}
+      {analysisError && <p role="alert" className="mt-4 rounded-xl bg-red-500/10 p-4 text-sm text-red-400">{analysisError}</p>}
       {analyzing && (
         <motion.div
           initial={{ opacity: 0, y: 12 }}
@@ -2036,8 +1655,8 @@ function CustomizeTab() {
 
   const { themeName } = useTheme();
   const currentTheme = themes[themeName];
-  const accent = currentTheme?.tokens["--flexui-accent"] ?? "#A78BFA";
   const glowPrimary = currentTheme?.tokens["--flexui-glow-primary"] ?? "167,139,250";
+  const accent = currentTheme?.tokens["--flexui-accent"] ?? "#A78BFA";
 
   const currentProps = propValues[config.name];
 
@@ -2421,3 +2040,4 @@ function CustomizeTab() {
     </div>
   );
 }
+

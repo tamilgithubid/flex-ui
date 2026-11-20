@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useTransform } from "framer-motion";
 import { Eye, Code2, RotateCcw } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CopyButton } from "@/components/ui/copy-button";
@@ -23,13 +23,18 @@ export function PreviewCodeTabs({
   const [tab, setTab] = useState<"preview" | "code">("preview");
   const [key, setKey] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const glow = useTransform([mouseX, mouseY], ([x, y]) =>
+    "radial-gradient(600px circle at " + x + "px " + y + "px, rgba(120,119,198,0.12), rgba(56,189,248,0.06), transparent 50%)"
+  );
   const [hovered, setHovered] = useState(false);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
-    setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+    mouseX.set(e.clientX - rect.left);
+    mouseY.set(e.clientY - rect.top);
   };
 
   return (
@@ -41,13 +46,9 @@ export function PreviewCodeTabs({
       className={cn("group relative", className)}
     >
       {/* Gradient border glow on hover */}
-      <div
-        className="pointer-events-none absolute -inset-px rounded-2xl opacity-0 transition-opacity duration-700 group-hover:opacity-100"
-        style={{
-          background: hovered
-            ? `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(120,119,198,0.12), rgba(56,189,248,0.06), transparent 50%)`
-            : undefined,
-        }}
+      <motion.div
+        className="pointer-events-none absolute -inset-px rounded-2xl transition-opacity duration-300"
+        style={{ background: glow, opacity: hovered ? 1 : 0 }}
       />
 
       <div className="relative rounded-2xl border border-white/[0.08] bg-zinc-950/80 backdrop-blur-xl transition-all duration-500 group-hover:border-white/[0.12] group-hover:shadow-[0_8px_60px_-12px_rgba(120,119,198,0.1)]">
@@ -142,3 +143,4 @@ export function PreviewCodeTabs({
     </div>
   );
 }
+

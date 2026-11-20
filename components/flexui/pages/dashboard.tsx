@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
-import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-
+import { motion } from "framer-motion";
+import React, { useState } from "react";
 interface KPICard {
   label: string;
   value: string;
@@ -153,7 +152,6 @@ function useCountUp(target: string, duration = 1200) {
   React.useEffect(() => {
     const numeric = parseFloat(target.replace(/[^0-9.]/g, ""));
     if (isNaN(numeric)) {
-      setDisplay(target);
       return;
     }
 
@@ -163,7 +161,7 @@ function useCountUp(target: string, duration = 1200) {
     const decimals = hasDecimal ? (target.split(".")[1]?.replace(/[^0-9]/g, "").length ?? 0) : 0;
     const hasCommas = target.includes(",");
 
-    let start = 0;
+    const start = 0;
     const startTime = performance.now();
 
     function tick(now: number) {
@@ -178,13 +176,14 @@ function useCountUp(target: string, duration = 1200) {
         formatted = parts.join(".");
       }
       setDisplay(prefix + formatted + suffix);
-      if (progress < 1) requestAnimationFrame(tick);
+      if (progress < 1) frame = requestAnimationFrame(tick);
     }
 
-    requestAnimationFrame(tick);
+    let frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
   }, [target, duration]);
 
-  return display;
+  return Number.isNaN(parseFloat(target.replace(/[^0-9.]/g, ""))) ? target : display;
 }
 
 /* ------------------------------------------------------------------ */
@@ -763,7 +762,7 @@ export function Dashboard({
                 animate="visible"
                 className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
               >
-                {quickActions.map((action, i) => (
+                {quickActions.map((action) => (
                   <motion.button
                     key={action.label}
                     variants={fadeUp}

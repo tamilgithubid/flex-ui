@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, Command, Search } from "lucide-react";
+import { useRouter } from "next/navigation";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 interface SearchItem {
   title: string;
@@ -40,9 +40,14 @@ function groupByCategory(items: SearchItem[]) {
 }
 
 export function CommandPalette() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpenState] = useState(false);
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
+  const setOpen = useCallback((value: React.SetStateAction<boolean>) => {
+    setQuery("");
+    setActiveIndex(0);
+    setOpenState(value);
+  }, []);
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -59,10 +64,6 @@ export function CommandPalette() {
   const grouped = groupByCategory(filtered);
   const flatFiltered = Object.values(grouped).flat();
 
-  // Reset active index when query changes
-  useEffect(() => {
-    setActiveIndex(0);
-  }, [query]);
 
   // Cmd+K / Ctrl+K listener
   useEffect(() => {
@@ -74,13 +75,11 @@ export function CommandPalette() {
     }
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  }, [setOpen]);
 
   // Focus input when opened
   useEffect(() => {
     if (open) {
-      setQuery("");
-      setActiveIndex(0);
       // Small delay to let AnimatePresence render
       requestAnimationFrame(() => inputRef.current?.focus());
     }
@@ -100,17 +99,16 @@ export function CommandPalette() {
       setOpen(false);
       router.push(href);
     },
-    [router]
+    [router, setOpen]
   );
 
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent) => {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
       if (e.key === "ArrowDown") {
         e.preventDefault();
-        setActiveIndex((i) => (i + 1) % flatFiltered.length);
+        setActiveIndex((i) => flatFiltered.length ? (i + 1) % flatFiltered.length : 0);
       } else if (e.key === "ArrowUp") {
         e.preventDefault();
-        setActiveIndex((i) => (i - 1 + flatFiltered.length) % flatFiltered.length);
+        setActiveIndex((i) => flatFiltered.length ? (i - 1 + flatFiltered.length) % flatFiltered.length : 0);
       } else if (e.key === "Enter") {
         e.preventDefault();
         const item = flatFiltered[activeIndex];
@@ -119,9 +117,7 @@ export function CommandPalette() {
         e.preventDefault();
         setOpen(false);
       }
-    },
-    [flatFiltered, activeIndex, navigate]
-  );
+    };
 
   return (
     <AnimatePresence>
@@ -158,7 +154,7 @@ export function CommandPalette() {
                 ref={inputRef}
                 type="text"
                 value={query}
-                onChange={(e) => setQuery(e.target.value)}
+                onChange={(e) => { setQuery(e.target.value); setActiveIndex(0); }}
                 placeholder="Search components..."
                 className="flex-1 bg-transparent text-sm text-white placeholder-zinc-500 outline-none"
               />
@@ -235,3 +231,4 @@ export function CommandPalette() {
     </AnimatePresence>
   );
 }
+

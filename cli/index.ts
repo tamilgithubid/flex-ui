@@ -6,8 +6,9 @@
 //        npx flexui list
 
 import * as fs from "fs";
-import * as path from "path";
 import * as https from "https";
+import { execFileSync } from "node:child_process";
+import * as path from "path";
 import * as readline from "readline";
 
 // ── Version ──────────────────────────────────────────────────────────────────
@@ -210,7 +211,38 @@ function parseArgs(argv: string[]): ParsedArgs {
 
 // ── Fetch JSON (HTTPS with redirect support) ─────────────────────────────────
 
-function fetchJSON(url: string): Promise<any> {
+interface RegistryFile { path: string; target?: string; content: string }
+interface RegistryItem { name: string; description?: string }
+interface ComponentRegistry extends RegistryItem { files: RegistryFile[]; dependencies?: string[] }
+interface RegistryIndex { items: RegistryItem[] }
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return !!value && typeof value === "object" && !Array.isArray(value);
+}
+function parseComponent(value: unknown): ComponentRegistry {
+  if (!isRecord(value) || typeof value.name !== "string" || !Array.isArray(value.files)) {
+    throw new Error("Invalid component registry");
+  }
+  const files = value.files.map((file): RegistryFile => {
+    if (!isRecord(file) || typeof file.path !== "string" || typeof file.content !== "string" ||
+        (file.target !== undefined && typeof file.target !== "string")) throw new Error("Invalid registry file");
+    return { path: file.path, target: file.target as string | undefined, content: file.content };
+  });
+  const dependencies = value.dependencies ?? [];
+  if (!Array.isArray(dependencies) || !dependencies.every(dep => typeof dep === "string" && /^(@[\w.-]+\/)?[\w.-]+(?:@[\w.^~*+<>=| -]+)?$/.test(dep) && !dep.startsWith("-"))) {
+    throw new Error("Invalid registry dependencies");
+  }
+  return { name: value.name, files, dependencies };
+}
+function parseIndex(value: unknown): RegistryIndex {
+  if (!isRecord(value) || !Array.isArray(value.items)) throw new Error("Invalid registry index");
+  return { items: value.items.map(item => {
+    if (!isRecord(item) || typeof item.name !== "string" ||
+        (item.description !== undefined && typeof item.description !== "string")) throw new Error("Invalid registry item");
+    return { name: item.name, description: item.description as string | undefined };
+  }) };
+}
+
+function fetchJSON(url: string): Promise<unknown> {
   return new Promise((resolve, reject) => {
     const timeout = setTimeout(() => {
       reject(new Error(`Request timed out: ${url}`));
@@ -256,7 +288,7 @@ function fetchJSON(url: string): Promise<any> {
   });
 }
 
-function readLocalJSON(filePath: string): any | null {
+function readLocalJSON(filePath: string): unknown | null {
   try {
     const raw = fs.readFileSync(filePath, "utf-8");
     return JSON.parse(raw);
@@ -266,7 +298,7 @@ function readLocalJSON(filePath: string): any | null {
 }
 
 // Resolve a registry JSON: try local first, then remote
-async function resolveRegistryJSON(name: string): Promise<any> {
+async function resolveRegistryJSON(name: string): Promise<ComponentRegistry> {
   const remoteUrl = `https://flexui.dev/r/${name}.json`;
 
   // Try local fallback first (works offline and during development)
@@ -277,12 +309,12 @@ async function resolveRegistryJSON(name: string): Promise<any> {
 
   for (const p of localPaths) {
     const data = readLocalJSON(p);
-    if (data) return data;
+    if (data) return parseComponent(data);
   }
 
   // Try remote
   try {
-    return await fetchJSON(remoteUrl);
+    return parseComponent(await fetchJSON(remoteUrl));
   } catch {
     throw new Error(
       `Component "${name}" not found in the registry.\n\n` +
@@ -294,7 +326,7 @@ async function resolveRegistryJSON(name: string): Promise<any> {
 }
 
 // Resolve the index.json for listing
-async function resolveIndexJSON(): Promise<any> {
+async function resolveIndexJSON(): Promise<RegistryIndex> {
   const localPaths = [
     path.resolve(__dirname, "..", "public", "r", "index.json"),
     path.resolve(process.cwd(), "public", "r", "index.json"),
@@ -302,11 +334,11 @@ async function resolveIndexJSON(): Promise<any> {
 
   for (const p of localPaths) {
     const data = readLocalJSON(p);
-    if (data) return data;
+    if (data) return parseIndex(data);
   }
 
   try {
-    return await fetchJSON("https://flexui.dev/r/index.json");
+    return parseIndex(await fetchJSON("https://flexui.dev/r/index.json"));
   } catch {
     throw new Error(
       "Could not fetch component index.\n\n" +
@@ -624,20 +656,20 @@ async function commandAdd(
     const spinner = new Spinner(
       `Fetching ${componentName} from registry...`
     );
-    let registry: any;
+    let registry: ComponentRegistry;
     try {
       spinner.start();
       registry = await resolveRegistryJSON(componentName);
       spinner.stop(`Fetched ${c.bold}${componentName}${c.reset} metadata`);
-    } catch (err: any) {
+    } catch (err) {
       spinner.fail(`Failed to fetch ${componentName}`);
       log("");
-      error(err.message);
+      error(err instanceof Error ? err.message : "Registry request failed");
 
       // Suggest similar component names
       try {
         const index = await resolveIndexJSON();
-        const items: any[] = index.items || [];
+        const items: RegistryItem[] = index.items || [];
         const similar = items
           .filter((item) => {
             const name = item.name as string;
@@ -680,6 +712,10 @@ async function commandAdd(
     for (const file of registry.files) {
       const targetPath = file.target || file.path;
       const fullPath = path.resolve(process.cwd(), targetPath);
+      const relativePath = path.relative(process.cwd(), fullPath);
+      if (relativePath.startsWith("..") || path.isAbsolute(relativePath)) {
+        throw new Error("Registry file path must stay inside the project directory");
+      }
       const dir = path.dirname(fullPath);
       const fileExists = fs.existsSync(fullPath);
 
@@ -780,11 +816,10 @@ async function commandAdd(
       );
 
       if (answer === "y" || answer === "yes") {
-        const { execSync } = require("child_process");
         const depSpinner = new Spinner("Installing dependencies...");
         try {
           depSpinner.start();
-          execSync(`npm install ${[...allDeps].join(" ")}`, {
+          execFileSync(process.platform === "win32" ? "npm.cmd" : "npm", ["install", ...allDeps], {
             stdio: "pipe",
           });
           depSpinner.stop("Dependencies installed.");
@@ -825,24 +860,24 @@ async function commandList(flags: ParsedArgs["flags"]) {
   const spinner = new Spinner("Fetching component index...");
   spinner.start();
 
-  let index: any;
+  let index: RegistryIndex;
   try {
     index = await resolveIndexJSON();
     spinner.stop("Component index loaded.");
-  } catch (err: any) {
+  } catch (err) {
     spinner.fail("Failed to fetch component index.");
     log("");
-    error(err.message);
+    error(err instanceof Error ? err.message : "Registry request failed");
     process.exit(1);
   }
 
   log("");
 
-  const items: any[] = index.items || [];
+  const items: RegistryItem[] = index.items || [];
 
   // Deduplicate by name
   const seen = new Set<string>();
-  const unique: any[] = [];
+  const unique: RegistryItem[] = [];
   for (const item of items) {
     if (!seen.has(item.name)) {
       seen.add(item.name);
@@ -1214,3 +1249,4 @@ main().catch((err) => {
   log("");
   process.exit(1);
 });
+

@@ -1,15 +1,15 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
-import ReactDOM from "react-dom";
+import { NeonGlowCard } from "@/components/flexui/neon-glow-card";
+import { NumberTicker } from "@/components/flexui/number-ticker";
+import { ShimmerButton } from "@/components/flexui/shimmer-button";
+import { SparklineChart } from "@/components/flexui/sparkline-chart";
+import { SpotlightCard } from "@/components/flexui/spotlight-card";
 import { useTheme } from "@/components/flexui/theme-provider";
 import { themes } from "@/lib/themes";
-import { motion, AnimatePresence, useInView } from "framer-motion";
-import { SpotlightCard } from "@/components/flexui/spotlight-card";
-import { ShimmerButton } from "@/components/flexui/shimmer-button";
-import { NumberTicker } from "@/components/flexui/number-ticker";
-import { NeonGlowCard } from "@/components/flexui/neon-glow-card";
-import { SparklineChart } from "@/components/flexui/sparkline-chart";
+import { AnimatePresence, motion, useInView } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import ReactDOM from "react-dom";
 
 /* ------------------------------------------------------------------ */
 /*  Animations                                                         */
@@ -115,7 +115,6 @@ function useCountUp(target: number, duration = 1800) {
 function AnimatedBar({
   height,
   delay,
-  accent,
   glowPrimary,
   label,
 }: {
@@ -172,9 +171,9 @@ function FullscreenExperience({
   availableThemes: string[];
 }) {
   const currentTheme = themes[themeName];
-  const accent = currentTheme?.tokens["--flexui-accent"] ?? "#A78BFA";
-  const secondary = currentTheme?.tokens["--flexui-secondary"] ?? "#818CF8";
   const glowPrimary = currentTheme?.tokens["--flexui-glow-primary"] ?? "167,139,250";
+  const secondary = currentTheme?.tokens["--flexui-secondary"] ?? "#818CF8";
+  const accent = currentTheme?.tokens["--flexui-accent"] ?? "#A78BFA";
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -958,9 +957,9 @@ function LivePreviewTemplate({
 export default function ThemePreviewPage() {
   const { themeName, setTheme, availableThemes } = useTheme();
   const currentTheme = themes[themeName];
-  const accent = currentTheme?.tokens["--flexui-accent"] ?? "#A78BFA";
-  const secondary = currentTheme?.tokens["--flexui-secondary"] ?? "#818CF8";
   const glowPrimary = currentTheme?.tokens["--flexui-glow-primary"] ?? "167,139,250";
+  const secondary = currentTheme?.tokens["--flexui-secondary"] ?? "#818CF8";
+  const accent = currentTheme?.tokens["--flexui-accent"] ?? "#A78BFA";
   const [fullscreen, setFullscreen] = useState(false);
 
   return (
@@ -1171,3 +1170,4 @@ export default function ThemePreviewPage() {
     </div>
   );
 }
+

@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useRef, useEffect, useCallback } from "react";
 import { cn } from "@/lib/utils";
+import React, { useCallback, useEffect, useRef } from "react";
 
 interface GPUParticleFieldProps {
   /** Number of particles (default: 100000) */
@@ -66,7 +66,6 @@ export function GPUParticleField({
     bindGroup: GPUBindGroup;
     context: GPUCanvasContext;
   } | null>(null);
-  const supportedRef = useRef<boolean | null>(null);
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
     const canvas = canvasRef.current;
@@ -335,13 +334,13 @@ export function GPUParticleField({
           key={i}
           className="absolute rounded-full animate-pulse"
           style={{
-            width: `${2 + Math.random() * 4}px`,
-            height: `${2 + Math.random() * 4}px`,
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            background: `rgba(167, 139, 250, ${0.2 + Math.random() * 0.5})`,
-            animationDelay: `${Math.random() * 3}s`,
-            animationDuration: `${2 + Math.random() * 3}s`,
+            width: `${2 + (((i + 1) * 112648 % 65521) / 65521) * 4}px`,
+            height: `${2 + (((i + 1) * 217377 % 65521) / 65521) * 4}px`,
+            left: `${(((i + 1) * 322106 % 65521) / 65521) * 100}%`,
+            top: `${(((i + 1) * 426835 % 65521) / 65521) * 100}%`,
+            background: `rgba(167, 139, 250, ${0.2 + (((i + 1) * 531564 % 65521) / 65521) * 0.5})`,
+            animationDelay: `${(((i + 1) * 636293 % 65521) / 65521) * 3}s`,
+            animationDuration: `${2 + (((i + 1) * 741022 % 65521) / 65521) * 3}s`,
           }}
         />
       ))}

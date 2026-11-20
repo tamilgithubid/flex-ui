@@ -75,7 +75,7 @@ const NEEDS_ANIMATIONS = new Set([
 const NEEDS_REDUCED_MOTION = new Set([
   "shimmer-button", "marquee", "glow-button", "flip-words", "text-reveal",
   "toast", "drawer", "expandable-card", "typewriter-text", "fade-on-scroll",
-  "countdown", "notification-badge", "stepper",
+  "countdown", "notification-badge", "stepper", "rotating-text", "three-hover-card", "skull-3d",
 ]);
 
 // ─── Component Configuration ────────────────────────────────────────────────
@@ -116,17 +116,13 @@ export const COMPONENTS: RegistryComponent[] = [
     type: "registry:ui",
     title: "3D Hover Card",
     description:
-      "A premium card component that reveals a live Three.js 3D scene with a rotating icosahedron on hover. The canvas is lazy-loaded for performance.",
-    dependencies: ["framer-motion", "three", "@react-three/fiber", "@react-three/drei"],
+      "A portrait card with spring-smoothed perspective, full-image framing and a cursor-following glass highlight.",
+    dependencies: ["framer-motion"],
     registryDependencies: [],
     files: [
       {
         path: "components/flexui/three-hover-card.tsx",
         target: "components/flexui/three-hover-card.tsx",
-      },
-      {
-        path: "components/flexui/three-hover-card-scene.tsx",
-        target: "components/flexui/three-hover-card-scene.tsx",
       },
     ],
   },
@@ -1461,6 +1457,10 @@ export function buildComponent(component: RegistryComponent, ancestors: string[]
         target: "hooks/use-reduced-motion.ts",
       });
     }
+  }
+  if (files.some((file) => file.content.includes("@/hooks/use-client-ready"))) {
+    const target = "hooks/use-client-ready.ts";
+    files.push({ path: target, target, type: "registry:hook", content: fs.readFileSync(path.join(ROOT, target), "utf-8") });
   }
 
   // Auto-inline registryDependencies (so shadcn doesn't look them up on ui.shadcn.com)

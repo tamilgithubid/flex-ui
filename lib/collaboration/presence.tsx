@@ -1,8 +1,8 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState, useCallback, useRef } from "react";
-import type { UserPresence, SharedStorage } from "./liveblocks";
-import { createDefaultPresence, getRandomPresenceColor } from "./liveblocks";
+import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
+import type { SharedStorage, UserPresence } from "./liveblocks";
+import { createDefaultPresence } from "./liveblocks";
 
 /**
  * Collaboration Provider
@@ -62,13 +62,12 @@ export function CollaborationProvider({
   userName,
   children,
 }: CollaborationProviderProps) {
-  const [isConnected, setIsConnected] = useState(false);
   const [myPresence, setMyPresence] = useState<UserPresence>(() => ({
     ...createDefaultPresence(),
     name: userName ?? `User ${Math.floor(Math.random() * 1000)}`,
   }));
-  const [others, setOthers] = useState<UserPresence[]>([]);
-  const [sharedState, setSharedState] = useState<SharedStorage | null>(null);
+  const [others] = useState<UserPresence[]>([]);
+  const [sharedState, setSharedState] = useState<SharedStorage | null>(() => ({ code: "", themeTokens: {}, messages: [] }));
   const wsRef = useRef<WebSocket | null>(null);
 
   // Standalone mode — simulate presence without Liveblocks
@@ -117,23 +116,7 @@ export function CollaborationProvider({
     };
   }, [updatePresence]);
 
-  // Initialize shared state
-  useEffect(() => {
-    if (!sharedState) {
-      setSharedState({
-        code: "",
-        themeTokens: {},
-        messages: [],
-      });
-    }
-  }, [sharedState]);
-
-  // Mark as connected in standalone mode
-  useEffect(() => {
-    if (!hasApiKey) {
-      setIsConnected(true);
-    }
-  }, [hasApiKey]);
+  const isConnected = !hasApiKey;
 
   const value: CollaborationContextValue = {
     isConnected,
@@ -152,3 +135,4 @@ export function CollaborationProvider({
     </CollaborationContext.Provider>
   );
 }
+

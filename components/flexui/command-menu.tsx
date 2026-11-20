@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useCallback, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { AnimatePresence, motion } from "framer-motion";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 interface CommandItem {
   label: string;
@@ -18,9 +18,14 @@ interface CommandMenuProps {
 }
 
 export function CommandMenu({ items, placeholder = "Type a command…", className }: CommandMenuProps) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpenState] = useState(false);
   const [query, setQuery] = useState("");
   const [active, setActive] = useState(0);
+  const setOpen = useCallback((value: React.SetStateAction<boolean>) => {
+    setQuery("");
+    setActive(0);
+    setOpenState(value);
+  }, []);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const filtered = items.filter((i) =>
@@ -36,20 +41,20 @@ export function CommandMenu({ items, placeholder = "Type a command…", classNam
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, []);
+  }, [setOpen]);
 
   useEffect(() => {
-    if (open) { setQuery(""); setActive(0); inputRef.current?.focus(); }
+    if (open) inputRef.current?.focus();
   }, [open]);
 
   const onKey = useCallback(
     (e: React.KeyboardEvent) => {
-      if (e.key === "ArrowDown") { e.preventDefault(); setActive((a) => Math.min(a + 1, filtered.length - 1)); }
+      if (e.key === "ArrowDown") { e.preventDefault(); setActive((a) => Math.max(0, Math.min(a + 1, filtered.length - 1))); }
       else if (e.key === "ArrowUp") { e.preventDefault(); setActive((a) => Math.max(a - 1, 0)); }
       else if (e.key === "Enter" && filtered[active]) { filtered[active].onSelect(); setOpen(false); }
       else if (e.key === "Escape") setOpen(false);
     },
-    [filtered, active]
+    [filtered, active, setOpen]
   );
 
   return (

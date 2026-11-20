@@ -1,7 +1,7 @@
 "use client";
 
-import React from "react";
 import { cn } from "@/lib/utils";
+import React from "react";
 
 interface BorderBeamProps {
   children: React.ReactNode;
@@ -25,6 +25,7 @@ export function BorderBeam({
   borderRadius = "12px",
 }: BorderBeamProps) {
   const borderWidth = 1.5;
+  const beamSpan = Math.max(1, Math.min(39, beamSize / 10));
 
   return (
     <div
@@ -40,7 +41,7 @@ export function BorderBeam({
           className="absolute inset-[-50%] animate-[border-rotate_linear_infinite]"
           style={{
             animationDuration: `${speed}s`,
-            background: `conic-gradient(from 0deg, transparent 0%, transparent 70%, ${color} 78%, transparent 86%, transparent 100%)`,
+            background: `conic-gradient(from 0deg, transparent 0%, transparent ${78 - beamSpan}%, ${color} 78%, transparent ${78 + beamSpan}%, transparent 100%)`,
           }}
         />
 
@@ -63,7 +64,7 @@ export function BorderBeam({
           className="absolute inset-[-50%] animate-[border-rotate_linear_infinite] blur-md"
           style={{
             animationDuration: `${speed}s`,
-            background: `conic-gradient(from 0deg, transparent 0%, transparent 70%, ${color} 78%, transparent 86%, transparent 100%)`,
+            background: `conic-gradient(from 0deg, transparent 0%, transparent ${78 - beamSpan}%, ${color} 78%, transparent ${78 + beamSpan}%, transparent 100%)`,
           }}
         />
         <div

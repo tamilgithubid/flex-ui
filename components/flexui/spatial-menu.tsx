@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import { Float, RoundedBox, Text } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
-import { RoundedBox, Text, Float } from "@react-three/drei";
+import { useRef, useState } from "react";
 import * as THREE from "three";
 
 interface SpatialMenuItem {
@@ -111,7 +111,6 @@ function SpatialMenuButton({
   position,
   size,
   accentColor,
-  index,
 }: {
   item: SpatialMenuItem;
   position: [number, number, number];
