@@ -21,7 +21,13 @@ const propDefs = [
 ];
 
 function generateCode(values: Record<string, string | number | boolean>) {
-  const props: string[] = [];
+  const props: string[] = [
+    '  imageSrc="/landscape.jpg"',
+    '  imageAlt="Landscape editorial photograph"',
+    '  imageFit="cover"',
+    '  imagePosition="65% 40%"',
+    '  className="aspect-video h-auto"',
+  ];
   if (values.title !== "Interactive 3D")
     props.push(`  title="${values.title}"`);
   if (
@@ -57,10 +63,13 @@ export function ThreeHoverCardPlayground() {
     <div className="space-y-4">
       <PreviewCodeTabs
         preview={
-          <div className="w-full max-w-md">
+          <div className="mx-auto w-full max-w-3xl">
             <ThreeHoverCard
-                imageSrc="/images/editorial/hover-portrait.webp"
-                imageAlt="Editorial portrait with cyan and lavender studio lighting"
+              imageSrc="/images/editorial/hover-landscape.webp"
+              imageAlt="Landscape editorial photograph with cyan and lavender studio lighting"
+              imageFit="cover"
+              imagePosition="65% 40%"
+              className="aspect-video h-auto"
               title={values.title as string}
               description={values.description as string}
             />

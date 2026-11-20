@@ -31,7 +31,8 @@ export default function RotatingTextDoc() {
         <p className="mt-3 max-w-2xl text-lg leading-relaxed text-zinc-400">
           A text animation component that rotates through an array of strings
           with a rolling slot-machine effect. Blends inline with surrounding
-          text using spring-physics transitions.
+          text using smooth slide transitions. The widest word reserves a stable
+          space, and only the active word paints its color or gradient.
         </p>
       </div>
 
@@ -139,7 +140,13 @@ export default function RotatingTextDoc() {
                 name: "className",
                 type: "string",
                 default: "\u2014",
-                description: "Additional CSS classes for the wrapper span.",
+                description: "Typography, color and gradient classes for the word.",
+              },
+              {
+                name: "containerClassName",
+                type: "string",
+                default: "—",
+                description: "Layout classes for the sizing slot, such as margins or minimum width.",
               },
             ]}
           />
@@ -173,9 +180,9 @@ export default function RotatingTextDoc() {
       <DocSection id="what-you-get" title="What You Get">
         <div className="grid gap-3 sm:grid-cols-2">
           {[
-            { icon: "~", label: "Slot-Machine Effect", desc: "Words slide in and out with spring physics for a rolling text-reel animation." },
+            { icon: "~", label: "Slot-Machine Effect", desc: "Words slide in and out sequentially, keeping one visible word at a time." },
             { icon: "o", label: "Bidirectional", desc: "Choose between upward or downward scroll direction via the direction prop." },
-            { icon: "#", label: "Inline Friendly", desc: "Renders as an inline-flex span that blends naturally with surrounding text." },
+            { icon: "#", label: "Inline Friendly", desc: "An inline grid reserves the widest word so surrounding text stays in place." },
             { icon: "+", label: "Custom Timing", desc: "Adjust the display duration per word for faster or slower cycling." },
           ].map((item) => (
             <div key={item.label} className="group/card rounded-xl border border-white/[0.06] bg-zinc-950/50 p-5 transition-all duration-300 hover:border-white/[0.1] hover:bg-zinc-900/40">
@@ -191,7 +198,7 @@ export default function RotatingTextDoc() {
       <DocSection id="accessibility" title="Accessibility">
         <div className="rounded-xl border border-white/[0.06] bg-zinc-950/50 p-5">
           <ul className="space-y-3 text-sm text-zinc-400">
-            {["Current word is always present in the DOM and readable by screen readers.", "AnimatePresence handles clean mount/unmount so assistive tech sees a single text value.", "Consider adding aria-live=\"polite\" on a parent element if the rotating text conveys important changing information."].map((note, i) => (
+            {["The first word provides a stable screen-reader label; visual cycling is hidden from assistive technology.", "Reduced-motion preferences show a static first word.", "Use separate accessible status text if changing words convey essential information."].map((note, i) => (
               <li key={i} className="flex items-start gap-3">
                 <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-400" />
                 <span>{note}</span>
@@ -207,11 +214,11 @@ export default function RotatingTextDoc() {
           {[
             {
               q: "Text jumps or flickers on transition",
-              a: "The component uses AnimatePresence with popLayout mode for smooth transitions. Ensure framer-motion is v10+ for best results.",
+              a: "The component waits for the outgoing word to exit before showing the next. Put gradient and color classes on className so hidden sizing words cannot join a parent text mask.",
             },
             {
               q: "Width changes abruptly between words",
-              a: "The container uses inline-flex layout. For fixed width, add a min-width class via className to accommodate the longest word.",
+              a: "The inline grid automatically reserves the widest word. Apply the same typography through className; use containerClassName for additional layout sizing.",
             },
             {
               q: "Animation doesn't start",
@@ -235,3 +242,4 @@ export default function RotatingTextDoc() {
     </div>
   );
 }
+

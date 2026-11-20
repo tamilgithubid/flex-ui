@@ -2,11 +2,19 @@ import { expect, test } from "@playwright/test";
 
 test("hero transitions keep a single word, a fixed width, and a complete card surface", async ({ page }, testInfo) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("/");
   await expect(page.locator("[data-three-hover-card]").first()).toBeAttached();
   const rotating = page.locator("h1 [data-rotating-word]");
   await expect(rotating).toHaveCount(1);
-  const holder = rotating.locator("..");
+  const holder = page.locator("h1 [data-rotating-slot]");
+  await expect(holder).toHaveCSS("background-image", "none");
+  await expect(holder).toHaveCSS("background-clip", "border-box");
+  await expect(rotating).not.toHaveCSS("background-image", "none");
+  for (const measure of await holder.locator("[data-rotating-measure]").all()) {
+    await expect(measure).toHaveCSS("visibility", "hidden");
+    await expect(measure).toHaveCSS("opacity", "0");
+  }
   const initialWidth = (await holder.boundingBox())!.width;
   const first = await rotating.textContent();
   await expect(rotating).not.toHaveText(first!, { timeout: 6000 });
@@ -15,19 +23,39 @@ test("hero transitions keep a single word, a fixed width, and a complete card su
     expect(Math.abs((await holder.boundingBox())!.width - initialWidth)).toBeLessThan(1);
     await page.waitForTimeout(100);
   }
+  await expect(rotating).toHaveCSS("opacity", "1");
+  await expect.poll(() => rotating.evaluate(element =>
+    Math.abs(element.getBoundingClientRect().top - element.parentElement!.getBoundingClientRect().top)
+  )).toBeLessThan(0.5);
+  // Capture a settled, accessible frame after exercising the animated transitions.
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(rotating).toHaveText("Cinematic");
+  await expect(rotating).toHaveCSS("opacity", "1");
+  await page.locator("h1").screenshot({ path: testInfo.outputPath("headline-no-overlap.png"), animations: "disabled" });
+  await page.emulateMedia({ reducedMotion: "no-preference" });
   const card = page.locator("[data-three-hover-card]").first();
   await card.scrollIntoViewIfNeeded();
   const surface = card.locator("[data-card-surface]");
   const bounds = (await card.boundingBox())!;
   expect(Math.abs((await surface.boundingBox())!.height - bounds.height)).toBeLessThan(2);
   const image = card.getByRole("img");
-  await expect(image).toHaveCSS("object-fit", "contain");
+  await expect(image).toHaveCSS("object-fit", "cover");
   await expect(image).toHaveJSProperty("complete", true);
   expect(await image.evaluate((element: HTMLImageElement) => element.naturalWidth)).toBeGreaterThan(0);
+  expect(await image.evaluate((element: HTMLImageElement) => element.naturalWidth / element.naturalHeight)).toBeGreaterThan(1.6);
+  expect(bounds.width / bounds.height).toBeGreaterThan(1.1);
   await page.mouse.move(bounds.x + bounds.width * 0.2, bounds.y + bounds.height * 0.35, { steps: 8 });
   await page.mouse.move(bounds.x + bounds.width * 0.8, bounds.y + bounds.height * 0.55, { steps: 16 });
   await expect(surface).not.toHaveCSS("transform", "none");
   await card.screenshot({ path: testInfo.outputPath("hover-card-full-view.png"), animations: "disabled" });
+  await page.mouse.move(0, 0);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await card.scrollIntoViewIfNeeded();
+  const mobileBounds = (await card.boundingBox())!;
+  expect(mobileBounds.width / mobileBounds.height).toBeGreaterThan(1.6);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
+  await expect(image).toHaveCSS("object-fit", "cover");
+  await card.screenshot({ path: testInfo.outputPath("hover-card-mobile-landscape.png"), animations: "disabled" });
 });
 
 test("blog cards and article covers load their generated images", async ({ page }, testInfo) => {
