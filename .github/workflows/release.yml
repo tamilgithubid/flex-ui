@@ -17,7 +17,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
       - name: Install dependencies
@@ -27,7 +27,7 @@ jobs:
         run: npx tsc --noEmit
 
       - name: Build registry
-        run: npx tsx scripts/build-registry.ts
+        run: npm run registry:build
 
       - name: Build Next.js
         run: npx next build
@@ -45,3 +45,4 @@ jobs:
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           vercel-args: '--prod'
+

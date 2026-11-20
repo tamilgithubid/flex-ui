@@ -4,7 +4,9 @@
   "type": "registry:ui",
   "title": "Avatar Group",
   "description": "Stacked overlapping avatars with configurable max count and overflow indicator.",
-  "dependencies": [],
+  "dependencies": [
+    "framer-motion"
+  ],
   "registryDependencies": [],
   "files": [
     {

@@ -7,6 +7,8 @@
  * - Code generation (Dev Mode codegen)
  */
 
+import { searchRegistry } from "./registry";
+
 // Show plugin UI
 figma.showUI(__html__, { width: 420, height: 600, themeColors: true });
 
@@ -14,34 +16,20 @@ figma.showUI(__html__, { width: 420, height: 600, themeColors: true });
 
 const REGISTRY_URL = "https://flex-ui-wine.vercel.app/r";
 
-interface RegistryComponent {
-  name: string;
-  title: string;
-  description: string;
-  dependencies: string[];
-  tier: number;
-  category: string;
-  tags: string[];
-}
-
 // ─── Message Handlers ──────────────────────────────────────────────────────
 
 figma.ui.onmessage = async (msg: { type: string; payload?: unknown }) => {
   switch (msg.type) {
     case "search-components": {
-      const query = (msg.payload as { query: string }).query.toLowerCase();
+      const query = (msg.payload as { query: string }).query;
       // Fetch registry and filter
       try {
-        const res = await fetch(`${REGISTRY_URL}/registry.json`);
+        const res = await fetch(`${REGISTRY_URL}/index.json`);
+        if (!res.ok) throw new Error(`Registry returned HTTP ${res.status}`);
         const registry = await res.json();
-        const results = (registry.components as RegistryComponent[]).filter(
-          (c) =>
-            c.name.includes(query) ||
-            c.title.toLowerCase().includes(query) ||
-            c.tags.some((t: string) => t.includes(query))
-        );
+        const results = searchRegistry(registry, query);
         figma.ui.postMessage({ type: "search-results", payload: results });
-      } catch (err) {
+      } catch {
         figma.ui.postMessage({ type: "error", payload: "Failed to fetch registry" });
       }
       break;
@@ -51,6 +39,7 @@ figma.ui.onmessage = async (msg: { type: string; payload?: unknown }) => {
       const name = (msg.payload as { name: string }).name;
       try {
         const res = await fetch(`${REGISTRY_URL}/${name}.json`);
+        if (!res.ok) throw new Error(`Registry returned HTTP ${res.status}`);
         const data = await res.json();
         figma.ui.postMessage({ type: "component-data", payload: data });
       } catch {
@@ -62,7 +51,7 @@ figma.ui.onmessage = async (msg: { type: string; payload?: unknown }) => {
     case "extract-tokens": {
       // Extract design tokens from the current page's local styles
       const colors: Record<string, string> = {};
-      const paintStyles = figma.getLocalPaintStyles();
+      const paintStyles = await figma.getLocalPaintStylesAsync();
 
       for (const style of paintStyles) {
         if (style.paints.length > 0 && style.paints[0].type === "SOLID") {
@@ -77,7 +66,7 @@ figma.ui.onmessage = async (msg: { type: string; payload?: unknown }) => {
         }
       }
 
-      const textStyles = figma.getLocalTextStyles();
+      const textStyles = await figma.getLocalTextStylesAsync();
       const typography: Record<string, { family: string; size: number; weight: number }> = {};
       for (const style of textStyles) {
         typography[style.name] = {
@@ -154,3 +143,4 @@ figma.codegen.on("generate", ({ node }) => {
     },
   ];
 });
+

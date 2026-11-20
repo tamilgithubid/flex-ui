@@ -4,7 +4,9 @@
   "type": "registry:ui",
   "title": "Badge",
   "description": "Status badge/tag with five color variants (default, success, warning, error, info) and optional pulse dot.",
-  "dependencies": [],
+  "dependencies": [
+    "framer-motion"
+  ],
   "registryDependencies": [],
   "files": [
     {

@@ -4,7 +4,9 @@
   "type": "registry:ui",
   "title": "Divider",
   "description": "Styled divider line supporting horizontal/vertical orientation, optional label, and gradient fade.",
-  "dependencies": [],
+  "dependencies": [
+    "framer-motion"
+  ],
   "registryDependencies": [],
   "files": [
     {

@@ -4,7 +4,9 @@
   "type": "registry:ui",
   "title": "Avatar",
   "description": "User avatar with image support and gradient-colored fallback initials derived from the user name.",
-  "dependencies": [],
+  "dependencies": [
+    "framer-motion"
+  ],
   "registryDependencies": [],
   "files": [
     {

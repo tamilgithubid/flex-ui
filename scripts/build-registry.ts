@@ -39,7 +39,7 @@ interface RegistryOutput {
 
 // ─── Shared Registry Items ──────────────────────────────────────────────────
 
-const SHARED: RegistryComponent[] = [
+export const SHARED: RegistryComponent[] = [
   {
     name: "flexui-animations",
     type: "registry:style",
@@ -80,7 +80,7 @@ const NEEDS_REDUCED_MOTION = new Set([
 
 // ─── Component Configuration ────────────────────────────────────────────────
 
-const COMPONENTS: RegistryComponent[] = [
+export const COMPONENTS: RegistryComponent[] = [
   {
     name: "magnetic-button",
     type: "registry:ui",
@@ -928,8 +928,6 @@ const COMPONENTS: RegistryComponent[] = [
     ],
   },
   { name: "disintegration-effect", type: "registry:ui", title: "Disintegration Effect", description: "Thanos-snap particle dissolve effect wrapper.", dependencies: ["framer-motion"], registryDependencies: [], files: [{ path: "components/flexui/disintegration-effect.tsx", target: "components/flexui/disintegration-effect.tsx" }] },
-  { name: "liquid-button", type: "registry:ui", title: "Liquid Button", description: "Button with liquid mercury ripple effect on click.", dependencies: ["framer-motion"], registryDependencies: [], files: [{ path: "components/flexui/liquid-button.tsx", target: "components/flexui/liquid-button.tsx" }] },
-  { name: "morphing-blob", type: "registry:ui", title: "Morphing Blob", description: "SVG blob that continuously morphs between organic shapes.", dependencies: [], registryDependencies: [], files: [{ path: "components/flexui/morphing-blob.tsx", target: "components/flexui/morphing-blob.tsx" }] },
   { name: "neural-network", type: "registry:ui", title: "Neural Network", description: "Canvas-based animated network graph with firing synapses.", dependencies: [], registryDependencies: [], files: [{ path: "components/flexui/neural-network.tsx", target: "components/flexui/neural-network.tsx" }] },
   { name: "gravity-grid", type: "registry:ui", title: "Gravity Grid", description: "Grid of dots that attract or repel from cursor.", dependencies: [], registryDependencies: [], files: [{ path: "components/flexui/gravity-grid.tsx", target: "components/flexui/gravity-grid.tsx" }] },
   { name: "typewriter-terminal", type: "registry:ui", title: "Typewriter Terminal", description: "Realistic terminal emulator with typing animation.", dependencies: [], registryDependencies: [], files: [{ path: "components/flexui/typewriter-terminal.tsx", target: "components/flexui/typewriter-terminal.tsx" }] },
@@ -974,7 +972,7 @@ const COMPONENTS: RegistryComponent[] = [
   { name: "icon-cloud", type: "registry:ui", title: "Icon Cloud", description: "A 3D tag cloud of floating icons that rotate as a sphere with drag interaction and depth-based scaling.", dependencies: [], registryDependencies: [], files: [{ path: "components/flexui/icon-cloud.tsx", target: "components/flexui/icon-cloud.tsx" }] },
   { name: "retro-grid", type: "registry:ui", title: "Retro Grid", description: "A perspective grid that vanishes to a horizon point with a retro synthwave aesthetic and optional scroll animation.", dependencies: [], registryDependencies: [], files: [{ path: "components/flexui/retro-grid.tsx", target: "components/flexui/retro-grid.tsx" }] },
   { name: "evolution-hero", type: "registry:ui", title: "Evolution Hero", description: "Cinematic hero section with AI-generated evolution scene background, mouse parallax, holographic code overlays, and scanning effects.", dependencies: ["framer-motion"], registryDependencies: [], files: [{ path: "components/flexui/evolution-hero.tsx", target: "components/flexui/evolution-hero.tsx" }] },
-{ name: "kpi-card", type: "registry:ui", title: "KPI Card", description: "Dashboard KPI card with animated number counter, change indicator, and optional sparkline.", dependencies: ["framer-motion"], registryDependencies: [], files: [{ path: "components/flexui/kpi-card.tsx", target: "components/flexui/kpi-card.tsx" }] },
+{ name: "kpi-card", type: "registry:ui", title: "KPI Card", description: "Dashboard KPI card with animated number counter, change indicator, and optional sparkline.", dependencies: ["framer-motion"], registryDependencies: ["sparkline-chart"], files: [{ path: "components/flexui/kpi-card.tsx", target: "components/flexui/kpi-card.tsx" }] },
   { name: "sparkline-chart", type: "registry:ui", title: "Sparkline Chart", description: "Pure SVG sparkline with smooth bezier curves and optional animated drawing.", dependencies: ["framer-motion"], registryDependencies: [], files: [{ path: "components/flexui/sparkline-chart.tsx", target: "components/flexui/sparkline-chart.tsx" }] },
   { name: "progress-ring", type: "registry:ui", title: "Progress Ring", description: "SVG progress ring with animated stroke and configurable gradient.", dependencies: ["framer-motion"], registryDependencies: [], files: [{ path: "components/flexui/progress-ring.tsx", target: "components/flexui/progress-ring.tsx" }] },
   {
@@ -1108,7 +1106,7 @@ const COMPONENTS: RegistryComponent[] = [
     type: "registry:ui",
     title: "Avatar",
     description: "User avatar with image support and gradient-colored fallback initials derived from the user name.",
-    dependencies: [],
+    dependencies: ["framer-motion"],
     registryDependencies: [],
     files: [{ path: "components/flexui/avatar.tsx", target: "components/flexui/avatar.tsx" }],
   },
@@ -1117,7 +1115,7 @@ const COMPONENTS: RegistryComponent[] = [
     type: "registry:ui",
     title: "Badge",
     description: "Status badge/tag with five color variants (default, success, warning, error, info) and optional pulse dot.",
-    dependencies: [],
+    dependencies: ["framer-motion"],
     registryDependencies: [],
     files: [{ path: "components/flexui/badge.tsx", target: "components/flexui/badge.tsx" }],
   },
@@ -1162,7 +1160,7 @@ const COMPONENTS: RegistryComponent[] = [
     type: "registry:ui",
     title: "Divider",
     description: "Styled divider line supporting horizontal/vertical orientation, optional label, and gradient fade.",
-    dependencies: [],
+    dependencies: ["framer-motion"],
     registryDependencies: [],
     files: [{ path: "components/flexui/divider.tsx", target: "components/flexui/divider.tsx" }],
   },
@@ -1171,7 +1169,7 @@ const COMPONENTS: RegistryComponent[] = [
     type: "registry:ui",
     title: "Kbd",
     description: "Keyboard shortcut display styled like a physical key with inset shadow and monospace font.",
-    dependencies: [],
+    dependencies: ["framer-motion"],
     registryDependencies: [],
     files: [{ path: "components/flexui/kbd.tsx", target: "components/flexui/kbd.tsx" }],
   },
@@ -1189,7 +1187,7 @@ const COMPONENTS: RegistryComponent[] = [
     type: "registry:ui",
     title: "Avatar Group",
     description: "Stacked overlapping avatars with configurable max count and overflow indicator.",
-    dependencies: [],
+    dependencies: ["framer-motion"],
     registryDependencies: ["avatar"],
     files: [{ path: "components/flexui/avatar-group.tsx", target: "components/flexui/avatar-group.tsx" }],
   },
@@ -1324,7 +1322,7 @@ const COMPONENTS: RegistryComponent[] = [
     type: "registry:ui",
     title: "Breadcrumb",
     description: "Breadcrumb navigation with customizable separator, link support, and active-last-item styling.",
-    dependencies: [],
+    dependencies: ["framer-motion"],
     registryDependencies: [],
     files: [{ path: "components/flexui/breadcrumb.tsx", target: "components/flexui/breadcrumb.tsx" }],
   },
@@ -1361,6 +1359,10 @@ const COMPONENTS: RegistryComponent[] = [
   { name: "morphing-border-card", type: "registry:ui", title: "Morphing Border Card", description: "Card with animated conic gradient border rotation using CSS @property and mask-composite trick.", dependencies: ["framer-motion"], registryDependencies: [], files: [{ path: "components/flexui/morphing-border-card.tsx", target: "components/flexui/morphing-border-card.tsx" }] },
 
   // ── New Blocks ──────────────────────────────────────────────────────────────
+  { name: "hero-block", type: "registry:ui", title: "Hero Block", description: "Animated hero section with headline, calls to action, badge, and optional grid background.", dependencies: ["framer-motion"], registryDependencies: [], files: [{ path: "components/flexui/hero-block.tsx", target: "components/flexui/hero-block.tsx" }] },
+  { name: "features-block", type: "registry:ui", title: "Features Block", description: "Responsive feature grid with icons and staggered reveal animations.", dependencies: ["framer-motion"], registryDependencies: [], files: [{ path: "components/flexui/features-block.tsx", target: "components/flexui/features-block.tsx" }] },
+  { name: "testimonials-block", type: "registry:ui", title: "Testimonials Block", description: "Customer testimonials with grid, marquee, and masonry layouts.", dependencies: ["framer-motion"], registryDependencies: [], files: [{ path: "components/flexui/testimonials-block.tsx", target: "components/flexui/testimonials-block.tsx" }] },
+  { name: "pricing-block", type: "registry:ui", title: "Pricing Block", description: "Pricing tiers with animated billing-period controls and feature lists.", dependencies: ["framer-motion", "lucide-react"], registryDependencies: [], files: [{ path: "components/flexui/pricing-block.tsx", target: "components/flexui/pricing-block.tsx" }] },
   { name: "header-block", type: "registry:ui", title: "Header Block", description: "Responsive header with glassmorphic/solid/transparent variants, sticky scroll, and mobile hamburger menu.", dependencies: ["framer-motion"], registryDependencies: [], files: [{ path: "components/flexui/header-block.tsx", target: "components/flexui/header-block.tsx" }] },
   { name: "footer-block", type: "registry:ui", title: "Footer Block", description: "Multi-column footer with brand column, link columns, social icons, and copyright section.", dependencies: [], registryDependencies: [], files: [{ path: "components/flexui/footer-block.tsx", target: "components/flexui/footer-block.tsx" }] },
   { name: "faq-block", type: "registry:ui", title: "FAQ Block", description: "FAQ accordion with animated expand/collapse, single or two-column layout variants.", dependencies: ["framer-motion"], registryDependencies: [], files: [{ path: "components/flexui/faq-block.tsx", target: "components/flexui/faq-block.tsx" }] },
@@ -1373,7 +1375,15 @@ const COMPONENTS: RegistryComponent[] = [
   { name: "comparison-block", type: "registry:ui", title: "Comparison Block", description: "Feature comparison table with grouped categories, boolean/string values, and featured plan highlighting.", dependencies: ["framer-motion"], registryDependencies: [], files: [{ path: "components/flexui/comparison-block.tsx", target: "components/flexui/comparison-block.tsx" }] },
 
   // ── Theme System ───────────────────────────────────────────────────────────
-  { name: "theme-provider", type: "registry:ui", title: "Theme Provider", description: "React context provider for FlexUI multi-theme system with localStorage persistence and CSS variable injection.", dependencies: [], registryDependencies: [], files: [{ path: "components/flexui/theme-provider.tsx", target: "components/flexui/theme-provider.tsx" }, { path: "hooks/use-theme.ts", target: "hooks/use-theme.ts" }, { path: "lib/themes/index.ts", target: "lib/themes/index.ts" }, { path: "lib/themes/tokens.ts", target: "lib/themes/tokens.ts" }] },
+  { name: "theme-provider", type: "registry:ui", title: "Theme Provider", description: "React context provider for FlexUI multi-theme system with localStorage persistence and CSS variable injection.", dependencies: [], registryDependencies: [], files: [
+    { path: "components/flexui/theme-provider.tsx", target: "components/flexui/theme-provider.tsx" },
+    { path: "hooks/use-theme.ts", target: "hooks/use-theme.ts" },
+    { path: "lib/themes/index.ts", target: "lib/themes/index.ts" },
+    { path: "lib/themes/tokens.ts", target: "lib/themes/tokens.ts" },
+    ...["midnight", "ocean", "forest", "sunset", "neon", "corporate"].map((name) => ({
+      path: `lib/themes/presets/${name}.ts`, target: `lib/themes/presets/${name}.ts`,
+    })),
+  ] },
 
   // ── Page Templates ─────────────────────────────────────────────────────────
   { name: "page:saas-landing", type: "registry:ui", title: "SaaS Landing Page", description: "Complete SaaS landing page with header, hero, features, stats, testimonials, FAQ, newsletter, and footer.", dependencies: ["framer-motion"], registryDependencies: ["header-block", "hero-block", "features-block", "stats-block", "testimonials-block", "faq-block", "newsletter-block", "footer-block"], files: [{ path: "components/flexui/pages/saas-landing.tsx", target: "components/flexui/pages/saas-landing.tsx" }] },
@@ -1410,7 +1420,11 @@ function ensureDir(dir: string) {
   }
 }
 
-function buildComponent(component: RegistryComponent): RegistryOutput {
+export function buildComponent(component: RegistryComponent, ancestors: string[] = []): RegistryOutput {
+  if (ancestors.includes(component.name)) {
+    throw new Error(`Circular registry dependency: ${[...ancestors, component.name].join(" -> ")}`);
+  }
+  const dependencies = new Set(component.dependencies);
   const files: RegistryFile[] = component.files.map((file) => {
     const filePath = path.join(ROOT, file.path);
     if (!fs.existsSync(filePath)) {
@@ -1454,20 +1468,13 @@ function buildComponent(component: RegistryComponent): RegistryOutput {
     const allComponents = [...SHARED, ...COMPONENTS];
     for (const depName of component.registryDependencies) {
       const dep = allComponents.find((c) => c.name === depName);
-      if (dep) {
-        for (const depFile of dep.files) {
-          // Skip if already included
-          if (files.some((f) => f.path === depFile.target)) continue;
-          const depFilePath = path.join(ROOT, depFile.path);
-          if (fs.existsSync(depFilePath)) {
-            files.push({
-              path: depFile.target,
-              content: fs.readFileSync(depFilePath, "utf-8"),
-              type: "registry:ui" as RegistryType,
-              target: depFile.target,
-            });
-          }
-        }
+      if (!dep) throw new Error(`Unknown registry dependency: ${depName}`);
+      const output = buildComponent(dep, [...ancestors, component.name]);
+      for (const dependency of output.dependencies) dependencies.add(dependency);
+      for (const depFile of output.files) {
+        // Skip files already included through another dependency.
+        if (files.some((file) => file.path === depFile.path)) continue;
+        files.push(depFile);
       }
     }
   }
@@ -1478,7 +1485,7 @@ function buildComponent(component: RegistryComponent): RegistryOutput {
     type: component.type,
     title: component.title,
     description: component.description,
-    dependencies: component.dependencies,
+    dependencies: [...dependencies],
     registryDependencies: [],
     files,
   };
@@ -1549,4 +1556,5 @@ function main() {
   console.log(`\n✅ Registry built successfully (${SHARED.length} shared + ${COMPONENTS.length} components)\n`);
 }
 
-main();
+if (typeof require !== "undefined" && require.main === module) main();
+

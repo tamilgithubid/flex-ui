@@ -370,18 +370,6 @@
       "url": "https://flex-ui-wine.vercel.app/r/disintegration-effect.json"
     },
     {
-      "name": "liquid-button",
-      "type": "registry:ui",
-      "description": "Button with liquid mercury ripple effect on click.",
-      "url": "https://flex-ui-wine.vercel.app/r/liquid-button.json"
-    },
-    {
-      "name": "morphing-blob",
-      "type": "registry:ui",
-      "description": "SVG blob that continuously morphs between organic shapes.",
-      "url": "https://flex-ui-wine.vercel.app/r/morphing-blob.json"
-    },
-    {
       "name": "neural-network",
       "type": "registry:ui",
       "description": "Canvas-based animated network graph with firing synapses.",
@@ -832,6 +820,30 @@
       "url": "https://flex-ui-wine.vercel.app/r/morphing-border-card.json"
     },
     {
+      "name": "hero-block",
+      "type": "registry:ui",
+      "description": "Animated hero section with headline, calls to action, badge, and optional grid background.",
+      "url": "https://flex-ui-wine.vercel.app/r/hero-block.json"
+    },
+    {
+      "name": "features-block",
+      "type": "registry:ui",
+      "description": "Responsive feature grid with icons and staggered reveal animations.",
+      "url": "https://flex-ui-wine.vercel.app/r/features-block.json"
+    },
+    {
+      "name": "testimonials-block",
+      "type": "registry:ui",
+      "description": "Customer testimonials with grid, marquee, and masonry layouts.",
+      "url": "https://flex-ui-wine.vercel.app/r/testimonials-block.json"
+    },
+    {
+      "name": "pricing-block",
+      "type": "registry:ui",
+      "description": "Pricing tiers with animated billing-period controls and feature lists.",
+      "url": "https://flex-ui-wine.vercel.app/r/pricing-block.json"
+    },
+    {
       "name": "header-block",
       "type": "registry:ui",
       "description": "Responsive header with glassmorphic/solid/transparent variants, sticky scroll, and mobile hamburger menu.",
@@ -938,6 +950,54 @@
       "type": "registry:ui",
       "description": "Split-layout authentication page with decorative brand panel and login form.",
       "url": "https://flex-ui-wine.vercel.app/r/page:auth-login.json"
+    },
+    {
+      "name": "gpu-particle-field",
+      "type": "registry:ui",
+      "description": "100K+ particle system powered by WebGPU compute shaders with mouse-reactive gravitational attraction and turbulent noise forces. Falls back to CSS animation.",
+      "url": "https://flex-ui-wine.vercel.app/r/gpu-particle-field.json"
+    },
+    {
+      "name": "fluid-background",
+      "type": "registry:ui",
+      "description": "Real-time Navier-Stokes inspired fluid simulation via WebGPU fragment shader. Mouse creates swirl disturbances. CSS gradient fallback.",
+      "url": "https://flex-ui-wine.vercel.app/r/fluid-background.json"
+    },
+    {
+      "name": "volumetric-text",
+      "type": "registry:ui",
+      "description": "3D text with volumetric god-ray lighting via WebGPU. Light rays emanate from behind text creating cinematic effect. CSS text-shadow fallback.",
+      "url": "https://flex-ui-wine.vercel.app/r/volumetric-text.json"
+    },
+    {
+      "name": "gpu-noise-terrain",
+      "type": "registry:ui",
+      "description": "Procedural terrain generated on GPU using compute shaders for heightmap generation. Renders as wireframe or solid mesh with dynamic noise displacement.",
+      "url": "https://flex-ui-wine.vercel.app/r/gpu-noise-terrain.json"
+    },
+    {
+      "name": "xr-scene",
+      "type": "registry:ui",
+      "description": "Base scene wrapper for 3D/AR components using React Three Fiber. Provides camera controls, environment lighting, and optional WebXR AR session.",
+      "url": "https://flex-ui-wine.vercel.app/r/xr-scene.json"
+    },
+    {
+      "name": "ar-card",
+      "type": "registry:ui",
+      "description": "3D glass-morphic card for spatial interfaces and AR. Features floating animation, hover glow, and volumetric lighting.",
+      "url": "https://flex-ui-wine.vercel.app/r/ar-card.json"
+    },
+    {
+      "name": "skull-3d",
+      "type": "registry:ui",
+      "description": "Ultra-realistic raymarched human skull rendered via GLSL SDF. 20+ smooth-blended distance functions with PBR lighting, ambient occlusion, soft shadows, and 4 render modes. Zero dependencies — pure WebGL.",
+      "url": "https://flex-ui-wine.vercel.app/r/skull-3d.json"
+    },
+    {
+      "name": "live-cursors",
+      "type": "registry:ui",
+      "description": "Real-time cursor positions of other users in a collaborative session. Color-coded with name labels and smooth spring animation.",
+      "url": "https://flex-ui-wine.vercel.app/r/live-cursors.json"
     }
   ]
 }

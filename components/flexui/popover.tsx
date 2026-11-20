@@ -13,9 +13,11 @@ interface PopoverProps {
 }
 
 export function Popover({ trigger, children, side = "bottom", className }: PopoverProps) {
+  const nativeButton = React.isValidElement<React.ButtonHTMLAttributes<HTMLButtonElement>>(trigger) && trigger.type === "button";
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState({ top: 0, left: 0 });
   const triggerRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!open || !triggerRef.current) return;
@@ -32,11 +34,16 @@ export function Popover({ trigger, children, side = "bottom", className }: Popov
   useEffect(() => {
     if (!open) return;
     const handler = (e: MouseEvent) => {
-      if (triggerRef.current?.contains(e.target as Node)) return;
+      const target = e.target as Node;
+      if (triggerRef.current?.contains(target) || contentRef.current?.contains(target)) return;
       setOpen(false);
     };
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") {
+        setOpen(false);
+        const trigger = triggerRef.current;
+        (trigger?.querySelector<HTMLElement>("button, a[href], input, [tabindex]") ?? trigger)?.focus();
+      }
     };
     document.addEventListener("mousedown", handler);
     document.addEventListener("keydown", handleKeyDown);
@@ -53,19 +60,31 @@ export function Popover({ trigger, children, side = "bottom", className }: Popov
       <div
         ref={triggerRef}
         onClick={() => setOpen((v) => !v)}
+        onKeyDown={(e) => {
+          if (e.target !== e.currentTarget) return;
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            setOpen((value) => !value);
+          }
+        }}
         className="inline-flex"
-        role="button"
-        tabIndex={0}
-        aria-haspopup="dialog"
-        aria-expanded={open}
+        role={nativeButton ? undefined : "button"}
+        tabIndex={nativeButton ? undefined : 0}
+        aria-haspopup={nativeButton ? undefined : "dialog"}
+        aria-expanded={nativeButton ? undefined : open}
       >
-        {trigger}
+        {nativeButton ? React.cloneElement(trigger, {
+          type: trigger.props.type ?? "button",
+          "aria-haspopup": "dialog",
+          "aria-expanded": open,
+        }) : trigger}
       </div>
       {typeof window !== "undefined" &&
         createPortal(
           <AnimatePresence>
             {open && (
               <motion.div
+                ref={contentRef}
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
@@ -83,3 +102,4 @@ export function Popover({ trigger, children, side = "bottom", className }: Popov
     </>
   );
 }
+
