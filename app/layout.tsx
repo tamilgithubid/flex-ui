@@ -31,6 +31,11 @@ export const metadata: Metadata = {
     "Animated Components",
     "FlexUI",
   ],
+  icons: {
+    icon: { url: "/logo.png", type: "image/png" },
+    shortcut: "/logo.png",
+    apple: { url: "/logo.png", type: "image/png" },
+  },
   openGraph: {
     title: "FlexUI — Cinematic React Components",
     description:
