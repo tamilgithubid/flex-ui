@@ -397,7 +397,7 @@ export function DocsSidebar() {
     <aside className="sticky top-16 hidden h-[calc(100vh-4rem)] w-64 shrink-0 overflow-y-auto border-r border-border py-8 pr-6 lg:block">
       {/* Logo */}
       <Link href="/" className="mb-4 flex items-center gap-2.5 px-3">
-        <Image src="/logo.png" alt="FlexUI" width={28} height={28} className="rounded-lg" />
+        <Image src="/brand/flexui-mark.png" alt="FlexUI" width={28} height={28} className="object-contain" />
         <span className="text-sm font-bold text-white">
           Flex<span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">UI</span>
           <span className="ml-1.5 rounded bg-white/5 px-1.5 py-0.5 text-[10px] font-medium text-zinc-500">v0.2.0</span>

@@ -40,11 +40,11 @@ export function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5">
           <Image
-            src="/logo.png"
+            src="/brand/flexui-mark.png"
             alt="FlexUI"
             width={32}
             height={32}
-            className="rounded-lg"
+            className="object-contain"
           />
           <span className="text-lg font-bold text-white">
             FLEX
@@ -121,3 +121,4 @@ export function Navbar() {
     </nav>
   );
 }
+

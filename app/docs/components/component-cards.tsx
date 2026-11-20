@@ -2014,11 +2014,11 @@ function ComponentCard({
           {/* FlexUI watermark */}
           <div className="relative z-10 mt-4 flex items-center gap-2">
             <Image
-              src="/logo.png"
+              src="/brand/flexui-mark.png"
               alt="FlexUI"
               width={16}
               height={16}
-              className="rounded-sm"
+              className="object-contain"
             />
             <span className="text-[10px] font-medium text-zinc-600">
               FlexUI Registry
@@ -2078,3 +2078,4 @@ export function ComponentCards() {
     </div>
   );
 }
+
