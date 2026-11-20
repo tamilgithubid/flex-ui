@@ -175,19 +175,39 @@ export function Ecommerce({
   heroSubtitle = "Curated products designed with purpose, built to last.",
   products = [
     {
-      name: "Wireless Headphones",
-      price: "$199",
-      originalPrice: "$249",
+      name: "Aurum Chronograph Watch",
+      price: "$4,950",
+      originalPrice: "$5,400",
+      image: "/templates/assets/ecom_watch.jpg",
       badge: "Sale",
     },
-    { name: "Minimalist Watch", price: "$349" },
-    { name: "Leather Backpack", price: "$159" },
-    { name: "Smart Speaker", price: "$129", badge: "New" },
-    { name: "Desk Lamp", price: "$89" },
+    {
+      name: "AuraFlow ANC Headphones",
+      price: "$349",
+      image: "/templates/assets/ecom_headphones.jpg",
+      badge: "New",
+    },
+    {
+      name: "Minimalist Watch",
+      price: "$349",
+      image: "/templates/assets/ecom_watch.jpg",
+    },
+    {
+      name: "Studio Headphones Pro",
+      price: "$299",
+      image: "/templates/assets/ecom_headphones.jpg",
+    },
+    {
+      name: "Smart Speaker",
+      price: "$129",
+      image: "/templates/assets/ecom_headphones.jpg",
+      badge: "New",
+    },
     {
       name: "Mechanical Keyboard",
       price: "$179",
       originalPrice: "$219",
+      image: "/templates/assets/ecom_watch.jpg",
       badge: "Sale",
     },
   ],
@@ -540,24 +560,33 @@ export function Ecommerce({
                   }}
                   className="group relative overflow-hidden rounded-2xl border border-white/[0.06] bg-zinc-900/50 backdrop-blur-sm transition-colors duration-300 hover:border-white/[0.12]"
                 >
-                  {/* gradient visual instead of image */}
+                  {/* product image or gradient fallback */}
                   <div
                     className={cn(
-                      "relative aspect-square bg-gradient-to-br",
+                      "relative aspect-square overflow-hidden bg-gradient-to-br",
                       cardGradients[i % cardGradients.length]
                     )}
                   >
-                    {/* decorative shapes inside card visual */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="h-24 w-24 rounded-3xl bg-white/[0.07] shadow-inner backdrop-blur-sm transition-transform duration-500 group-hover:rotate-12 group-hover:scale-110" />
-                    </div>
-                    <div className="absolute bottom-4 right-4 h-12 w-12 rounded-2xl bg-white/[0.05] backdrop-blur-sm transition-transform duration-500 group-hover:-rotate-6" />
+                    {product.image ? (
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-108"
+                      />
+                    ) : (
+                      <>
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="h-24 w-24 rounded-3xl bg-white/[0.07] shadow-inner backdrop-blur-sm transition-transform duration-500 group-hover:rotate-12 group-hover:scale-110" />
+                        </div>
+                        <div className="absolute bottom-4 right-4 h-12 w-12 rounded-2xl bg-white/[0.05] backdrop-blur-sm transition-transform duration-500 group-hover:-rotate-6" />
+                      </>
+                    )}
 
                     {/* badge */}
                     {product.badge && (
                       <span
                         className={cn(
-                          "absolute left-4 top-4 rounded-lg px-3 py-1 text-xs font-bold shadow-lg",
+                          "absolute left-4 top-4 z-10 rounded-lg px-3 py-1 text-xs font-bold shadow-lg",
                           badgeColors[product.badge] ||
                             "bg-white text-zinc-950"
                         )}

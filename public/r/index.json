@@ -938,6 +938,102 @@
       "type": "registry:ui",
       "description": "Split-layout authentication page with decorative brand panel and login form.",
       "url": "https://flex-ui-wine.vercel.app/r/page:auth-login.json"
+    },
+    {
+      "name": "gpu-particle-field",
+      "type": "registry:ui",
+      "description": "100K+ particle system powered by WebGPU compute shaders with mouse-reactive gravitational attraction and turbulent noise forces. Falls back to CSS animation.",
+      "url": "https://flex-ui-wine.vercel.app/r/gpu-particle-field.json"
+    },
+    {
+      "name": "fluid-background",
+      "type": "registry:ui",
+      "description": "Real-time Navier-Stokes inspired fluid simulation via WebGPU fragment shader. Mouse creates swirl disturbances. CSS gradient fallback.",
+      "url": "https://flex-ui-wine.vercel.app/r/fluid-background.json"
+    },
+    {
+      "name": "volumetric-text",
+      "type": "registry:ui",
+      "description": "3D text with volumetric god-ray lighting via WebGPU. Light rays emanate from behind text creating cinematic effect. CSS text-shadow fallback.",
+      "url": "https://flex-ui-wine.vercel.app/r/volumetric-text.json"
+    },
+    {
+      "name": "gpu-noise-terrain",
+      "type": "registry:ui",
+      "description": "Procedural terrain generated on GPU using compute shaders for heightmap generation. Renders as wireframe or solid mesh with dynamic noise displacement.",
+      "url": "https://flex-ui-wine.vercel.app/r/gpu-noise-terrain.json"
+    },
+    {
+      "name": "xr-scene",
+      "type": "registry:ui",
+      "description": "Base scene wrapper for 3D/AR components using React Three Fiber. Provides camera controls, environment lighting, and optional WebXR AR session.",
+      "url": "https://flex-ui-wine.vercel.app/r/xr-scene.json"
+    },
+    {
+      "name": "ar-card",
+      "type": "registry:ui",
+      "description": "3D glass-morphic card for spatial interfaces and AR. Features floating animation, hover glow, and volumetric lighting.",
+      "url": "https://flex-ui-wine.vercel.app/r/ar-card.json"
+    },
+    {
+      "name": "skull-3d",
+      "type": "registry:ui",
+      "description": "Ultra-realistic raymarched human skull rendered via GLSL SDF. 20+ smooth-blended distance functions with PBR lighting, ambient occlusion, soft shadows, and 4 render modes. Zero dependencies — pure WebGL.",
+      "url": "https://flex-ui-wine.vercel.app/r/skull-3d.json"
+    },
+    {
+      "name": "live-cursors",
+      "type": "registry:ui",
+      "description": "Real-time cursor positions of other users in a collaborative session. Color-coded with name labels and smooth spring animation.",
+      "url": "https://flex-ui-wine.vercel.app/r/live-cursors.json"
+    },
+    {
+      "name": "interactive-book-3d",
+      "type": "registry:ui",
+      "description": "Realistic 3D hardcover book page-flip animation component built with Framer Motion and 3D transforms.",
+      "url": "https://flex-ui-wine.vercel.app/r/interactive-book-3d.json"
+    },
+    {
+      "name": "perspective-3d-carousel",
+      "type": "registry:ui",
+      "description": "Coverflow-style 3D perspective card carousel with smooth depth scale and neon border glow.",
+      "url": "https://flex-ui-wine.vercel.app/r/perspective-3d-carousel.json"
+    },
+    {
+      "name": "diagonal-parallax-carousel",
+      "type": "registry:ui",
+      "description": "Slanted angled multi-row infinite marquee carousel with glassmorphic cards and hover zoom.",
+      "url": "https://flex-ui-wine.vercel.app/r/diagonal-parallax-carousel.json"
+    },
+    {
+      "name": "liquid-ripple-slider",
+      "type": "registry:ui",
+      "description": "Interactive slider with liquid ripple displacement wave animation on drag or click.",
+      "url": "https://flex-ui-wine.vercel.app/r/liquid-ripple-slider.json"
+    },
+    {
+      "name": "particle-dissolve-reveal",
+      "type": "registry:ui",
+      "description": "Disintegrates cards into glowing floating dust particles with reverse reassembly animation.",
+      "url": "https://flex-ui-wine.vercel.app/r/particle-dissolve-reveal.json"
+    },
+    {
+      "name": "3d-bookshelf-showcase",
+      "type": "registry:ui",
+      "description": "3D virtual library shelf with hover book pull-out animation and detail modal overlay.",
+      "url": "https://flex-ui-wine.vercel.app/r/3d-bookshelf-showcase.json"
+    },
+    {
+      "name": "morphing-folder-preview",
+      "type": "registry:ui",
+      "description": "Interactive file folder component that morphs into an expanded file card grid on click.",
+      "url": "https://flex-ui-wine.vercel.app/r/morphing-folder-preview.json"
+    },
+    {
+      "name": "creepy-glitch-button",
+      "type": "registry:ui",
+      "description": "Cyberpunk horror glitch button with real-time cursor-tracking pupils and text scramble animation.",
+      "url": "https://flex-ui-wine.vercel.app/r/creepy-glitch-button.json"
     }
   ]
 }

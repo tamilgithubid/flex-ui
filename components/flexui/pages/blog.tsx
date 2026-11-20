@@ -138,14 +138,16 @@ export function Blog({
       date: "Mar 15, 2026",
       author: "Sarah Chen",
       category: "Design",
+      image: "/templates/assets/blog_cover_design.jpg",
     },
     {
-      title: "The Future of Web Animations",
+      title: "The Future of Web Animations & AI",
       excerpt:
-        "Exploring spring physics, GPU-accelerated transitions, and the new View Transitions API.",
+        "Exploring spring physics, GPU-accelerated transitions, and real-time neural interfaces.",
       date: "Mar 10, 2026",
       author: "Marcus Rivera",
       category: "Engineering",
+      image: "/templates/assets/blog_cover_ai.jpg",
     },
     {
       title: "Accessible Components Done Right",
@@ -154,6 +156,7 @@ export function Blog({
       date: "Mar 5, 2026",
       author: "Emma Watson",
       category: "Accessibility",
+      image: "/templates/assets/blog_cover_design.jpg",
     },
     {
       title: "React Server Components in Production",
@@ -162,6 +165,7 @@ export function Blog({
       date: "Feb 28, 2026",
       author: "James Park",
       category: "Engineering",
+      image: "/templates/assets/blog_cover_ai.jpg",
     },
     {
       title: "Color Theory for Developers",
@@ -170,6 +174,7 @@ export function Blog({
       date: "Feb 20, 2026",
       author: "Sarah Chen",
       category: "Design",
+      image: "/templates/assets/blog_cover_design.jpg",
     },
   ],
   categories = [
@@ -366,24 +371,34 @@ export function Blog({
                 className="group mb-12 overflow-hidden rounded-2xl border border-white/[0.08] bg-zinc-950/60 shadow-2xl shadow-black/30 backdrop-blur-sm transition-all duration-500 hover:border-white/[0.16] hover:shadow-white/[0.04]"
               >
                 <div className="flex flex-col md:flex-row">
-                  {/* Left: gradient area */}
+                  {/* Left: gradient/image area */}
                   <div
                     className={cn(
-                      "relative flex min-h-[240px] items-center justify-center bg-gradient-to-br md:w-2/5",
+                      "relative flex min-h-[240px] items-center justify-center overflow-hidden bg-gradient-to-br md:w-2/5",
                       getGradient(featuredPost.category)
                     )}
                   >
-                    <div className="absolute inset-0 bg-black/20" />
-                    <svg
-                      className="relative h-16 w-16 text-white/30"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1"
-                      strokeLinecap="round"
-                    >
-                      <path d="M4 6h16M4 12h16M4 18h10" />
-                    </svg>
+                    {featuredPost.image ? (
+                      <img
+                        src={featuredPost.image}
+                        alt={featuredPost.title}
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    ) : (
+                      <>
+                        <div className="absolute inset-0 bg-black/20" />
+                        <svg
+                          className="relative h-16 w-16 text-white/30"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1"
+                          strokeLinecap="round"
+                        >
+                          <path d="M4 6h16M4 12h16M4 18h10" />
+                        </svg>
+                      </>
+                    )}
                   </div>
 
                   {/* Right: content */}
@@ -462,24 +477,34 @@ export function Blog({
                     whileHover={{ scale: 1.01 }}
                     className="group flex flex-col overflow-hidden rounded-2xl border border-white/[0.06] bg-zinc-950/50 shadow-lg shadow-black/20 backdrop-blur-sm transition-all duration-500 hover:border-white/[0.15] hover:shadow-white/[0.03]"
                   >
-                    {/* Card gradient header */}
+                    {/* Card image/gradient header */}
                     <div
                       className={cn(
-                        "relative flex h-36 items-center justify-center bg-gradient-to-br",
+                        "relative flex h-44 items-center justify-center overflow-hidden bg-gradient-to-br",
                         getGradient(post.category)
                       )}
                     >
-                      <div className="absolute inset-0 bg-black/20" />
-                      <svg
-                        className="relative h-10 w-10 text-white/25"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1"
-                        strokeLinecap="round"
-                      >
-                        <path d="M4 6h16M4 12h16M4 18h10" />
-                      </svg>
+                      {post.image ? (
+                        <img
+                          src={post.image}
+                          alt={post.title}
+                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                      ) : (
+                        <>
+                          <div className="absolute inset-0 bg-black/20" />
+                          <svg
+                            className="relative h-10 w-10 text-white/25"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1"
+                            strokeLinecap="round"
+                          >
+                            <path d="M4 6h16M4 12h16M4 18h10" />
+                          </svg>
+                        </>
+                      )}
                     </div>
 
                     {/* Card body */}

@@ -2,7 +2,6 @@
 
 import React, { useRef, useState, useCallback } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -72,6 +71,7 @@ const sidebarSections: { heading: string; items: SidebarItem[] }[] = [
       { title: "Confetti Button", href: "/docs/components/confetti-button", icon: <PartyPopper className="h-4 w-4" />, isNew: true },
       { title: "Liquid Button", href: "/docs/components/liquid-button", icon: <Droplet className="h-4 w-4" />, isNew: true },
       { title: "Pulse Button", href: "/docs/components/pulse-button", icon: <CircleDot className="h-4 w-4" />, isNew: true },
+      { title: "Creepy Glitch Button", href: "/docs/components/creepy-glitch-button", icon: <Flame className="h-4 w-4" />, isNew: true },
     ],
   },
   {
@@ -91,6 +91,7 @@ const sidebarSections: { heading: string; items: SidebarItem[] }[] = [
       { title: "Reveal Card", href: "/docs/components/reveal-card", icon: <Eye className="h-4 w-4" />, isNew: true },
       { title: "Wobble Card", href: "/docs/components/wobble-card", icon: <Waves className="h-4 w-4" />, isNew: true },
       { title: "Stat Card", href: "/docs/components/stat-card", icon: <BarChart className="h-4 w-4" />, isNew: true },
+      { title: "3D Virtual Bookshelf", href: "/docs/components/3d-bookshelf-showcase", icon: <BookOpen className="h-4 w-4" />, isNew: true },
     ],
   },
   {
@@ -181,6 +182,9 @@ const sidebarSections: { heading: string; items: SidebarItem[] }[] = [
       { title: "Stepper", href: "/docs/components/stepper", icon: <ListOrdered className="h-4 w-4" />, isNew: true },
       { title: "File Tree", href: "/docs/components/file-tree", icon: <FileText className="h-4 w-4" />, isNew: true },
       { title: "Command Menu", href: "/docs/components/command-menu", icon: <Terminal className="h-4 w-4" />, isNew: true },
+      { title: "3D Perspective Carousel", href: "/docs/components/perspective-3d-carousel", icon: <Layers className="h-4 w-4" />, isNew: true },
+      { title: "Slanted Diagonal Carousel", href: "/docs/components/diagonal-parallax-carousel", icon: <MoveHorizontal className="h-4 w-4" />, isNew: true },
+      { title: "Morphing Folder Stack", href: "/docs/components/morphing-folder-preview", icon: <FileText className="h-4 w-4" />, isNew: true },
     ],
   },
   {
@@ -256,6 +260,8 @@ const sidebarSections: { heading: string; items: SidebarItem[] }[] = [
       { title: "Spotlight Border", href: "/docs/components/spotlight-border", icon: <Flashlight className="h-4 w-4" />, isNew: true },
       { title: "Image Compare", href: "/docs/components/image-compare", icon: <ImageIcon className="h-4 w-4" />, isNew: true },
       { title: "Preloader", href: "/docs/components/preloader", icon: <Loader className="h-4 w-4" />, isNew: true },
+      { title: "Liquid Ripple Slider", href: "/docs/components/liquid-ripple-slider", icon: <Droplet className="h-4 w-4" />, isNew: true },
+      { title: "Particle Pixel Dissolve", href: "/docs/components/particle-dissolve-reveal", icon: <Sparkles className="h-4 w-4" />, isNew: true },
     ],
   },
   {
@@ -305,6 +311,7 @@ const sidebarSections: { heading: string; items: SidebarItem[] }[] = [
       { title: "XR Scene", href: "/docs/components/xr-scene", icon: <Monitor className="h-4 w-4" />, isNew: true },
       { title: "AR Card", href: "/docs/components/ar-card", icon: <Layers className="h-4 w-4" />, isNew: true },
       { title: "3D Skull", href: "/docs/components/skull-3d", icon: <Orbit className="h-4 w-4" />, isNew: true },
+      { title: "3D Interactive Book", href: "/docs/components/interactive-book-3d", icon: <BookOpen className="h-4 w-4" />, isNew: true },
     ],
   },
   {
@@ -332,15 +339,6 @@ export function DocsSidebar() {
 
   return (
     <aside className="sticky top-16 hidden h-[calc(100vh-4rem)] w-64 shrink-0 overflow-y-auto border-r border-border py-8 pr-6 lg:block">
-      {/* Logo */}
-      <Link href="/" className="mb-4 flex items-center gap-2.5 px-3">
-        <Image src="/logo.png" alt="FlexUI" width={28} height={28} className="rounded-lg" />
-        <span className="text-sm font-bold text-white">
-          Flex<span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">UI</span>
-          <span className="ml-1.5 rounded bg-white/5 px-1.5 py-0.5 text-[10px] font-medium text-zinc-500">v0.2.0</span>
-        </span>
-      </Link>
-
       {/* Search */}
       <button
         onClick={() => document.dispatchEvent(new KeyboardEvent("keydown", { key: "k", metaKey: true }))}
