@@ -1,3 +1,5 @@
+import { EditorialCover } from "@/components/marketing/editorial-cover";
+import { editorialAssets } from "@/lib/editorial-assets";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Navbar } from "@/components/marketing/navbar";
@@ -10,6 +12,7 @@ export const metadata: Metadata = {
 const projects = [
   {
     name: "Acme SaaS Dashboard",
+    image: editorialAssets.showcaseDashboard,
     description: "Real-time analytics with spotlight cards, sparklines, and aurora backgrounds for a visually stunning data experience.",
     tags: ["Dashboard", "Analytics", "SaaS"],
     gradient: "from-violet-600/30 via-fuchsia-600/15 to-transparent",
@@ -18,6 +21,7 @@ const projects = [
   },
   {
     name: "Nebula AI Landing",
+    image: editorialAssets.showcaseNebula,
     description: "AI startup landing page with magnetic buttons, interactive globe, and cinematic hero for worldwide inference visualization.",
     tags: ["Landing Page", "AI", "WebGL"],
     gradient: "from-cyan-600/30 via-blue-600/15 to-transparent",
@@ -26,6 +30,7 @@ const projects = [
   },
   {
     name: "Stellar Portfolio",
+    image: editorialAssets.showcasePortfolio,
     description: "Designer portfolio with parallax scroll, text reveal animations, and glassmorphic panels for immersive browsing.",
     tags: ["Portfolio", "Design", "Animation"],
     gradient: "from-amber-600/30 via-orange-600/15 to-transparent",
@@ -34,6 +39,7 @@ const projects = [
   },
   {
     name: "Orbit Finance",
+    image: editorialAssets.showcaseFinance,
     description: "Fintech app with animated inputs, KPI cards, progress rings, and neon glow cards for engaging financial data.",
     tags: ["Fintech", "App", "Data Viz"],
     gradient: "from-emerald-600/30 via-teal-600/15 to-transparent",
@@ -42,6 +48,7 @@ const projects = [
   },
   {
     name: "Pulsar Dev Tools",
+    image: editorialAssets.showcaseDevtools,
     description: "Developer tools marketing with typewriter terminal, shimmer buttons, and code animations for a technical polish.",
     tags: ["DevTools", "Marketing", "Developer"],
     gradient: "from-rose-600/30 via-pink-600/15 to-transparent",
@@ -50,6 +57,7 @@ const projects = [
   },
   {
     name: "Cosmos Commerce",
+    image: editorialAssets.showcaseCommerce,
     description: "E-commerce storefront with morphing cards, animated tabs, confetti checkout, and holographic product previews.",
     tags: ["E-Commerce", "Retail", "Interactive"],
     gradient: "from-indigo-600/30 via-violet-600/15 to-transparent",
@@ -68,7 +76,7 @@ export default function ShowcasePage() {
         <div className="mb-16 text-center">
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/[0.06] bg-white/[0.02] px-4 py-1.5 text-xs text-zinc-500">
             <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
-            Community Projects
+            Design Gallery
           </div>
           <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">
             Built with{" "}
@@ -77,9 +85,11 @@ export default function ShowcasePage() {
             </span>
           </h1>
           <p className="mt-4 text-lg text-zinc-500">
-            Real projects crafted with cinematic components.
+            Interface concepts inspired by cinematic components.
           </p>
         </div>
+
+        <p className="mb-6 text-center text-xs text-zinc-500">Concept previews · Original generated artwork</p>
 
         {/* Projects grid */}
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -88,25 +98,7 @@ export default function ShowcasePage() {
               key={project.name}
               className="group flex flex-col overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02] transition-all duration-300 hover:border-white/[0.12] hover:shadow-[0_0_40px_-15px_rgba(56,189,248,0.1)]"
             >
-              {/* Gradient header with icon */}
-              <div className={`relative flex h-44 items-center justify-center bg-gradient-to-br ${project.gradient}`}>
-                <span className="text-5xl transition-transform duration-500 group-hover:scale-110">
-                  {project.icon}
-                </span>
-                {/* Floating component labels */}
-                <div className="absolute bottom-3 left-3 right-3 flex flex-wrap gap-1">
-                  {project.components.map((comp) => (
-                    <span
-                      key={comp}
-                      className="rounded bg-black/40 px-1.5 py-0.5 text-[9px] font-medium text-white/60 backdrop-blur-sm"
-                    >
-                      {comp}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Content */}
+              <EditorialCover asset={project.image} />
               <div className="flex flex-1 flex-col p-5">
                 <h2 className="text-lg font-bold tracking-tight text-white transition-colors group-hover:text-cyan-400">
                   {project.name}
@@ -140,7 +132,7 @@ export default function ShowcasePage() {
           </p>
           <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <a
-              href="https://github.com/flexui/flexui/issues/new?title=Showcase+Submission&template=showcase.md"
+              href="https://github.com/tamilgithubid/flex-ui/issues/new?title=Showcase+Submission"
               target="_blank"
               rel="noopener noreferrer"
               className="rounded-xl bg-white px-8 py-3 text-sm font-semibold text-black transition-shadow hover:shadow-[0_0_20px_-5px_rgba(255,255,255,0.2)]"
@@ -159,3 +151,4 @@ export default function ShowcasePage() {
     </div>
   );
 }
+

@@ -1,6 +1,7 @@
 "use client";
 
-import { useRef, useMemo, useEffect, useCallback } from "react";
+import { useRef, useEffect, useState } from "react";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { cn } from "@/lib/utils";
 
 interface Skull3DProps {
@@ -42,7 +43,9 @@ uniform vec2  uResolution;
 uniform vec3  uColor;
 uniform vec3  uGlow;
 uniform float uGlowIntensity;
-uniform float uRotateSpeed;
+uniform vec2 uRotation;
+mat2 yawRotation;
+mat2 pitchRotation;
 uniform int   uMode;
 uniform vec2  uMouse;
 
@@ -53,7 +56,7 @@ float sdSphere(vec3 p, float r) { return length(p) - r; }
 float sdEllipsoid(vec3 p, vec3 r) {
   float k0 = length(p / r);
   float k1 = length(p / (r * r));
-  return k0 * (k0 - 1.0) / k1;
+  return k0 * (k0 - 1.0) / max(k1, 0.00001);
 }
 
 float sdCapsule(vec3 p, vec3 a, vec3 b, float r) {
@@ -250,10 +253,8 @@ float sdSkull(vec3 p) {
 /* ── Scene ───────────────────────────────────────────────────────────── */
 
 float map(vec3 p) {
-  float angle = uTime * uRotateSpeed + uMouse.x * 2.0;
-  float tilt  = sin(uTime * 0.3) * 0.06 + uMouse.y * 0.4;
-  p.xz *= rot2(angle);
-  p.yz *= rot2(tilt);
+  p.xz *= yawRotation;
+  p.yz *= pitchRotation;
   return sdSkull(p);
 }
 
@@ -269,8 +270,8 @@ vec3 calcNormal(vec3 p) {
 float calcAO(vec3 p, vec3 n) {
   float occ = 0.0;
   float sca = 1.0;
-  for (int i = 0; i < 5; i++) {
-    float h = 0.01 + 0.11 * float(i) / 4.0;
+  for (int i = 0; i < 3; i++) {
+    float h = 0.01 + 0.11 * float(i) / 2.0;
     float d = map(p + h * n);
     occ += (h - d) * sca;
     sca *= 0.95;
@@ -281,7 +282,7 @@ float calcAO(vec3 p, vec3 n) {
 float softShadow(vec3 ro, vec3 rd, float mint, float maxt, float k) {
   float res = 1.0;
   float t = mint;
-  for (int i = 0; i < 48; i++) {
+  for (int i = 0; i < 24; i++) {
     float h = map(ro + rd * t);
     res = min(res, k * h / t);
     t += clamp(h, 0.005, 0.08);
@@ -294,10 +295,13 @@ float softShadow(vec3 ro, vec3 rd, float mint, float maxt, float k) {
 
 void main() {
   vec2 uv = (gl_FragCoord.xy - 0.5 * uResolution) / uResolution.y;
+  yawRotation = rot2(uRotation.x);
+  pitchRotation = rot2(uRotation.y);
 
   // Camera
-  vec3 ro = vec3(0.0, 0.0, 1.7);
-  vec3 rd = normalize(vec3(uv, -1.0));
+  vec3 ro = vec3(0.0, 0.18, 2.65);
+  float focalLength = 1.45 * min(1.0, (uResolution.x / uResolution.y) / 0.85);
+  vec3 rd = normalize(vec3(uv, -focalLength));
 
   // Background — dark with subtle glow
   vec3 bgCol = vec3(0.018, 0.018, 0.022);
@@ -306,22 +310,28 @@ void main() {
 
   vec3 col = bgCol;
 
-  // Raymarch
+  // Intersect a conservative skull bound before evaluating the expensive SDF.
+  vec3 centerOffset = ro - vec3(0.0, 0.12, 0.0);
+  float projection = dot(centerOffset, rd);
+  float discriminant = projection * projection - dot(centerOffset, centerOffset) + 1.1025;
   float t = 0.0;
-  float d;
   bool hit = false;
-  for (int i = 0; i < 150; i++) {
-    vec3 p = ro + rd * t;
-    d = map(p);
-    if (d < 0.0005) { hit = true; break; }
-    if (t > 5.0) break;
-    t += d * 0.9;
+  if (discriminant > 0.0) {
+    float reach = sqrt(discriminant);
+    t = max(0.0, -projection - reach);
+    float end = -projection + reach;
+    for (int i = 0; i < 96; i++) {
+      if (t > end) break;
+      float distance = map(ro + rd * t);
+      if (distance < 0.0012) { hit = true; break; }
+      t += max(distance * 0.9, 0.0006);
+    }
   }
 
   if (hit) {
     vec3 p = ro + rd * t;
     vec3 n = calcNormal(p);
-    float ao = calcAO(p, n);
+    float ao = uMode == 0 ? calcAO(p, n) : 1.0;
 
     // Three-point lighting
     vec3 keyLight   = normalize(vec3(0.5, 0.8, 0.6));
@@ -330,7 +340,7 @@ void main() {
     float keyDiff   = max(dot(n, keyLight), 0.0);
     float fillDiff  = max(dot(n, fillLight), 0.0);
     float rimDiff   = pow(max(1.0 - dot(normalize(ro - p), n), 0.0), 3.0);
-    float keyShadow = softShadow(p + n * 0.008, keyLight, 0.01, 2.0, 16.0);
+    float keyShadow = uMode == 0 ? softShadow(p + n * 0.008, keyLight, 0.01, 2.0, 16.0) : 1.0;
 
     vec3 viewDir = normalize(ro - p);
     vec3 halfDir = normalize(keyLight + viewDir);
@@ -358,11 +368,9 @@ void main() {
     }
     else if (uMode == 1) {
       // ── WIREFRAME ───────────────────────────────────────────────
-      float angle = uTime * uRotateSpeed + uMouse.x * 2.0;
-      float tilt2 = sin(uTime * 0.3) * 0.06 + uMouse.y * 0.4;
       vec3 wp = p;
-      wp.xz *= rot2(angle);
-      wp.yz *= rot2(tilt2);
+      wp.xz *= yawRotation;
+      wp.yz *= pitchRotation;
       float gridScale = 22.0;
       vec3 grid = abs(fract(wp * gridScale) - 0.5);
       float line = min(min(grid.x, grid.y), grid.z);
@@ -391,11 +399,9 @@ void main() {
       float flicker = sin(uTime * 17.0 + p.y * 45.0) * 0.025;
 
       // Grid overlay
-      float angle2 = uTime * uRotateSpeed + uMouse.x * 2.0;
-      float tilt2  = sin(uTime * 0.3) * 0.06 + uMouse.y * 0.4;
       vec3 wp = p;
-      wp.xz *= rot2(angle2);
-      wp.yz *= rot2(tilt2);
+      wp.xz *= yawRotation;
+      wp.yz *= pitchRotation;
       vec3 grid = abs(fract(wp * 14.0) - 0.5);
       float gridLine = min(min(grid.x, grid.y), grid.z);
       float wire = 1.0 - smoothstep(0.0, 0.06, gridLine);
@@ -406,11 +412,9 @@ void main() {
       col += uGlow * fresnel * 0.15;
 
       // Glowing eyes
-      float a3 = uTime * uRotateSpeed + uMouse.x * 2.0;
-      float t3 = sin(uTime * 0.3) * 0.06 + uMouse.y * 0.4;
       vec3 rp = p;
-      rp.xz *= rot2(a3);
-      rp.yz *= rot2(t3);
+      rp.xz *= yawRotation;
+      rp.yz *= pitchRotation;
       float eyeL = length(rp - vec3(0.17, 0.06, 0.38));
       float eyeR = length(rp - vec3(-0.17, 0.06, 0.38));
       float eyeGlow = exp(-eyeL * 14.0) + exp(-eyeR * 14.0);
@@ -466,126 +470,181 @@ export function Skull3D({
   className,
 }: Skull3DProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const mouseRef = useRef({ x: 0, y: 0 });
-  const frameRef = useRef<number>(0);
+  const wakeRef = useRef<(() => void) | null>(null);
+  const settingsRef = useRef({ color, glowColor, glowIntensity, rotateSpeed, mode, reducedMotion: false });
+  const reducedMotion = useReducedMotion();
+  const [unavailable, setUnavailable] = useState(false);
+  const [contextVersion, setContextVersion] = useState(0);
 
-  const hexToVec3 = useCallback((hex: string): [number, number, number] => {
-    const r = parseInt(hex.slice(1, 3), 16) / 255;
-    const g = parseInt(hex.slice(3, 5), 16) / 255;
-    const b = parseInt(hex.slice(5, 7), 16) / 255;
-    return [r, g, b];
-  }, []);
-
-  const modeInt = useMemo(() => {
-    const m: Record<string, number> = { solid: 0, wireframe: 1, xray: 2, hologram: 3 };
-    return m[mode] ?? 0;
-  }, [mode]);
-
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    const c = canvasRef.current;
-    if (!c) return;
-    const rect = c.getBoundingClientRect();
-    mouseRef.current = {
-      x: ((e.clientX - rect.left) / rect.width) * 2 - 1,
-      y: -(((e.clientY - rect.top) / rect.height) * 2 - 1),
-    };
-  }, []);
+  useEffect(() => {
+    settingsRef.current = { color, glowColor, glowIntensity, rotateSpeed, mode, reducedMotion };
+    wakeRef.current?.();
+  }, [color, glowColor, glowIntensity, rotateSpeed, mode, reducedMotion]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-
-    const gl = canvas.getContext("webgl", { antialias: true, alpha: false });
-    if (!gl) return;
-
-    function compileShader(src: string, type: number) {
-      const s = gl!.createShader(type)!;
-      gl!.shaderSource(s, src);
-      gl!.compileShader(s);
-      if (!gl!.getShaderParameter(s, gl!.COMPILE_STATUS)) {
-        console.error("Shader compile error:", gl!.getShaderInfoLog(s));
-        return null;
+    let disposed = false;
+    let release = () => {};
+    let initialFrame = 0;
+    const initialize = () => {
+      if (disposed) return;
+      const gl = canvas.getContext("webgl", { antialias: false, alpha: false, powerPreference: "high-performance" });
+      if (!gl) { setUnavailable(true); return; }
+      const shaders: WebGLShader[] = [];
+      const compile = (source: string, type: number) => {
+        const shader = gl.createShader(type);
+        if (!shader) return null;
+        shaders.push(shader);
+        gl.shaderSource(shader, source);
+        gl.compileShader(shader);
+        return gl.getShaderParameter(shader, gl.COMPILE_STATUS) ? shader : null;
+      };
+      const vertex = compile(VERT, gl.VERTEX_SHADER);
+      const fragment = compile(FRAG, gl.FRAGMENT_SHADER);
+      const program = gl.createProgram();
+      if (!vertex || !fragment || !program) {
+        shaders.forEach(shader => gl.deleteShader(shader));
+        if (program) gl.deleteProgram(program);
+        setUnavailable(true);
+        return;
       }
-      return s;
-    }
-
-    const vs = compileShader(VERT, gl.VERTEX_SHADER);
-    const fs = compileShader(FRAG, gl.FRAGMENT_SHADER);
-    if (!vs || !fs) return;
-
-    const prog = gl.createProgram()!;
-    gl.attachShader(prog, vs);
-    gl.attachShader(prog, fs);
-    gl.linkProgram(prog);
-    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
-      console.error("Program link error:", gl.getProgramInfoLog(prog));
-      return;
-    }
-    gl.useProgram(prog);
-
-    // Fullscreen quad
-    const buf = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
-    const aPos = gl.getAttribLocation(prog, "aPos");
-    gl.enableVertexAttribArray(aPos);
-    gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
-
-    // Uniforms
-    const uTime = gl.getUniformLocation(prog, "uTime");
-    const uRes = gl.getUniformLocation(prog, "uResolution");
-    const uCol = gl.getUniformLocation(prog, "uColor");
-    const uGlw = gl.getUniformLocation(prog, "uGlow");
-    const uGI = gl.getUniformLocation(prog, "uGlowIntensity");
-    const uRS = gl.getUniformLocation(prog, "uRotateSpeed");
-    const uModeU = gl.getUniformLocation(prog, "uMode");
-    const uMouseU = gl.getUniformLocation(prog, "uMouse");
-
-    let destroyed = false;
-    const colorVec = hexToVec3(color);
-    const glowVec = hexToVec3(glowColor);
-
-    function render() {
-      if (destroyed || !canvas) return;
-      const w = canvas.clientWidth;
-      const h = canvas.clientHeight;
-      if (canvas.width !== w || canvas.height !== h) {
-        canvas.width = w;
-        canvas.height = h;
+      gl.attachShader(program, vertex);
+      gl.attachShader(program, fragment);
+      gl.linkProgram(program);
+      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+        gl.deleteProgram(program);
+        shaders.forEach(shader => gl.deleteShader(shader));
+        setUnavailable(true);
+        return;
       }
-      gl!.viewport(0, 0, w, h);
-
-      gl!.uniform1f(uTime, performance.now() / 1000);
-      gl!.uniform2f(uRes, w, h);
-      gl!.uniform3f(uCol, colorVec[0], colorVec[1], colorVec[2]);
-      gl!.uniform3f(uGlw, glowVec[0], glowVec[1], glowVec[2]);
-      gl!.uniform1f(uGI, glowIntensity);
-      gl!.uniform1f(uRS, rotateSpeed);
-      gl!.uniform1i(uModeU, modeInt);
-      gl!.uniform2f(uMouseU, mouseRef.current.x * 0.3, mouseRef.current.y * 0.3);
-
-      gl!.drawArrays(gl!.TRIANGLE_STRIP, 0, 4);
-      frameRef.current = requestAnimationFrame(render);
-    }
-
-    frameRef.current = requestAnimationFrame(render);
-    canvas.addEventListener("mousemove", handleMouseMove);
-
-    return () => {
-      destroyed = true;
-      cancelAnimationFrame(frameRef.current);
-      canvas.removeEventListener("mousemove", handleMouseMove);
-      gl.deleteProgram(prog);
-      gl.deleteShader(vs);
-      gl.deleteShader(fs);
+      setUnavailable(false);
+      gl.useProgram(program);
+      const buffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+      const attribute = gl.getAttribLocation(program, "aPos");
+      gl.enableVertexAttribArray(attribute);
+      gl.vertexAttribPointer(attribute, 2, gl.FLOAT, false, 0, 0);
+      const uniform = (name: string) => gl.getUniformLocation(program, name);
+      const uniforms = {
+        time: uniform("uTime"), resolution: uniform("uResolution"), color: uniform("uColor"),
+        glow: uniform("uGlow"), intensity: uniform("uGlowIntensity"), mode: uniform("uMode"),
+        rotation: uniform("uRotation"),
+      };
+      let frame = 0, previous = 0, elapsed = 0;
+      let visible = false, lost = false;
+      let bounds = canvas.getBoundingClientRect();
+      const target = { x: 0, y: 0 };
+      const current = { x: 0, y: 0 };
+      const modes = { solid: 0, wireframe: 1, xray: 2, hologram: 3 };
+      const colorVector = (value: string): [number, number, number] => {
+        const hex = /^#[0-9a-f]{6}$/i.test(value) ? value : "#a78bfa";
+        return [parseInt(hex.slice(1, 3), 16) / 255, parseInt(hex.slice(3, 5), 16) / 255, parseInt(hex.slice(5, 7), 16) / 255];
+      };
+      const canRender = () => visible && !document.hidden && !disposed && !lost;
+      const schedule = () => {
+        if (canRender() && !frame) frame = requestAnimationFrame(render);
+      };
+      const stop = () => { cancelAnimationFrame(frame); frame = 0; previous = 0; };
+      function render(now: number) {
+        frame = 0;
+        if (!canRender()) return;
+        const settings = settingsRef.current;
+        const delta = previous ? Math.min(0.05, (now - previous) / 1000) : 1 / 60;
+        previous = now;
+        if (!settings.reducedMotion) elapsed += delta;
+        const response = 1 - Math.exp(-14 * delta);
+        current.x += (target.x - current.x) * response;
+        current.y += (target.y - current.y) * response;
+        gl!.viewport(0, 0, canvas!.width, canvas!.height);
+        gl!.uniform1f(uniforms.time, settings.reducedMotion ? 0 : elapsed);
+        gl!.uniform2f(uniforms.resolution, canvas!.width, canvas!.height);
+        gl!.uniform3fv(uniforms.color, colorVector(settings.color));
+        gl!.uniform3fv(uniforms.glow, colorVector(settings.glowColor));
+        gl!.uniform1f(uniforms.intensity, settings.glowIntensity);
+        gl!.uniform1i(uniforms.mode, modes[settings.mode]);
+        gl!.uniform2f(uniforms.rotation,
+          settings.reducedMotion ? 0 : Math.sin(elapsed * settings.rotateSpeed) * 0.25 + current.x,
+          settings.reducedMotion ? 0 : (settings.rotateSpeed ? Math.sin(elapsed * 0.3) * 0.025 : 0) + current.y);
+        gl!.drawArrays(gl!.TRIANGLE_STRIP, 0, 4);
+        const easing = Math.abs(target.x - current.x) + Math.abs(target.y - current.y) > 0.0001;
+        if (!settings.reducedMotion && (settings.rotateSpeed !== 0 || settings.mode === "hologram" || easing)) schedule();
+        else previous = 0;
+      }
+      const resize = () => {
+        bounds = canvas.getBoundingClientRect();
+        if (!bounds.width || !bounds.height) return;
+        // A bounded render surface avoids millions of expensive raymarches on large displays.
+        const scale = Math.min(1, Math.sqrt(240000 / (bounds.width * bounds.height)));
+        canvas.width = Math.max(1, Math.floor(bounds.width * scale));
+        canvas.height = Math.max(1, Math.floor(bounds.height * scale));
+        schedule();
+      };
+      const move = (event: PointerEvent) => {
+        if (settingsRef.current.reducedMotion || event.pointerType === "touch") return;
+        target.x = Math.max(-1, Math.min(1, (event.clientX - bounds.left) / Math.max(1, bounds.width) * 2 - 1)) * 0.45;
+        target.y = Math.max(-1, Math.min(1, 1 - (event.clientY - bounds.top) / Math.max(1, bounds.height) * 2)) * 0.18;
+        schedule();
+      };
+      const enter = () => { bounds = canvas.getBoundingClientRect(); };
+      const leave = () => { target.x = 0; target.y = 0; schedule(); };
+      const visibility = () => { if (canRender()) schedule(); else stop(); };
+      const contextLost = (event: Event) => {
+        event.preventDefault(); lost = true; stop(); setUnavailable(true);
+      };
+      const contextRestored = () => setContextVersion(version => version + 1);
+      const intersection = new IntersectionObserver(entries => {
+        visible = entries[0]?.isIntersecting ?? false;
+        visibility();
+      });
+      const sizing = new ResizeObserver(resize);
+      intersection.observe(canvas);
+      sizing.observe(canvas);
+      document.addEventListener("visibilitychange", visibility);
+      canvas.addEventListener("pointerenter", enter);
+      canvas.addEventListener("pointermove", move);
+      canvas.addEventListener("pointerleave", leave);
+      canvas.addEventListener("pointercancel", leave);
+      canvas.addEventListener("webglcontextlost", contextLost);
+      canvas.addEventListener("webglcontextrestored", contextRestored);
+      wakeRef.current = schedule;
+      resize();
+      release = () => {
+        stop();
+        wakeRef.current = null;
+        intersection.disconnect();
+        sizing.disconnect();
+        document.removeEventListener("visibilitychange", visibility);
+        canvas.removeEventListener("pointerenter", enter);
+        canvas.removeEventListener("pointermove", move);
+        canvas.removeEventListener("pointerleave", leave);
+        canvas.removeEventListener("pointercancel", leave);
+        canvas.removeEventListener("webglcontextlost", contextLost);
+        canvas.removeEventListener("webglcontextrestored", contextRestored);
+        gl.deleteBuffer(buffer);
+        gl.deleteProgram(program);
+        shaders.forEach(shader => gl.deleteShader(shader));
+      };
     };
-  }, [color, glowColor, glowIntensity, rotateSpeed, modeInt, hexToVec3, handleMouseMove]);
+    // Delay context allocation and shader compilation until this particular preview is visible.
+    const gate = new IntersectionObserver(entries => {
+      if (entries.some(entry => entry.isIntersecting)) {
+        gate.disconnect();
+        initialFrame = requestAnimationFrame(initialize);
+      }
+    });
+    gate.observe(canvas);
+    return () => { disposed = true; gate.disconnect(); cancelAnimationFrame(initialFrame); release(); };
+  }, [contextVersion]);
 
   return (
-    <canvas
-      ref={canvasRef}
-      className={cn("block w-full", className)}
-      style={{ height: `${height}px`, background: "#050507" }}
-    />
+    <div className={cn("relative w-full overflow-hidden bg-[#050507]", className)} style={{ height }}>
+      <canvas ref={canvasRef} role="img" aria-label="Interactive 3D skull"
+        className="absolute inset-0 block h-full w-full" />
+      {unavailable && <p role="status" className="absolute inset-0 flex items-center justify-center p-8 text-center text-sm text-zinc-400">
+        The 3D preview needs WebGL. Enable graphics acceleration or try another browser.
+      </p>}
+    </div>
   );
 }

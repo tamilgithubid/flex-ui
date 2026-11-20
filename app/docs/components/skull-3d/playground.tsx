@@ -9,7 +9,7 @@ import { FullscreenPreview, FullscreenControl } from "@/components/docs/fullscre
 const propDefs = [
   { name: "mode", label: "Render Mode", control: { type: "select" as const, options: ["solid", "wireframe", "xray", "hologram"] }, defaultValue: "hologram" },
   { name: "glowColor", label: "Glow Color", control: { type: "select" as const, options: ["#A78BFA", "#34D399", "#F472B6", "#60A5FA", "#FBBF24", "#F87171"] }, defaultValue: "#A78BFA" },
-  { name: "glowIntensity", label: "Glow Intensity", control: { type: "select" as const, options: ["0.3", "0.5", "0.8", "1.2", "2.0"] }, defaultValue: "0.5" },
+  { name: "glowIntensity", label: "Glow Intensity", control: { type: "select" as const, options: ["0.3", "0.5", "0.8", "1.2", "2.0"] }, defaultValue: "0.8" },
   { name: "rotateSpeed", label: "Rotate Speed", control: { type: "select" as const, options: ["0", "0.1", "0.3", "0.5", "0.8"] }, defaultValue: "0.3" },
 ];
 
@@ -37,7 +37,7 @@ export function Demo() {
 
 export function Skull3DPlayground() {
   const [values, setValues] = useState<Record<string, string | number | boolean>>({
-    mode: "hologram", glowColor: "#A78BFA", glowIntensity: "0.5", rotateSpeed: "0.3",
+    mode: "hologram", glowColor: "#A78BFA", glowIntensity: "0.8", rotateSpeed: "0.3",
   });
 
   // Fullscreen mode/color state (independent from playground)
@@ -48,7 +48,7 @@ export function Skull3DPlayground() {
     <div className="space-y-4">
       <PreviewCodeTabs
         preview={
-          <div className="relative overflow-hidden rounded-2xl">
+          <div className="relative w-full overflow-hidden rounded-2xl border border-white/5">
             <Skull3D
               mode={values.mode as "solid" | "wireframe" | "xray" | "hologram"}
               glowColor={values.glowColor as string}
@@ -57,8 +57,8 @@ export function Skull3DPlayground() {
               height={520}
               className="rounded-2xl"
             />
-            <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-end pb-6">
-              <p className="rounded-full bg-black/50 px-4 py-1.5 text-[10px] font-medium uppercase tracking-widest text-white/25 backdrop-blur">
+            <div className="flex justify-center border-t border-white/5 px-4 py-4">
+              <p className="rounded-full bg-black/50 px-4 py-1.5 text-[10px] font-medium uppercase tracking-widest text-zinc-400 backdrop-blur">
                 {colorLabels[values.glowColor as string] ?? "Violet"} {values.mode as string} &middot; Move mouse to rotate &middot; Raymarched SDF
               </p>
             </div>
@@ -104,3 +104,4 @@ export function Skull3DPlayground() {
     </div>
   );
 }
+

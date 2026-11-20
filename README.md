@@ -267,6 +267,7 @@ sandbox; screenshots are stored in `tests/browser/preview.spec.ts-snapshots`.
 ```bash
 npx playwright install chromium
 npm run test:visual
+npm run build && npm run test:pages
 # After reviewing an intentional visual change:
 npm run test:visual:update
 python -m pytest api/tests
@@ -300,3 +301,12 @@ MIT License. See [LICENSE](LICENSE) for details.
   <a href="https://flex-ui-wine.vercel.app/blog/flexui-registry-launch">Read the Blog</a>
 </p>
 
+
+## Visual assets and motion checks
+
+The blog, article covers, gallery and homepage card use local optimized artwork. See
+[generated artwork](docs/generated-artwork.md) for asset paths and the prompt set.
+`npm run test:pages` checks the production pages for headline transitions, card sizing,
+image loading, responsive layout and the skull drawing-buffer budget. Build the app
+before running these checks. Animation regression tests also check pointer updates,
+shader reuse, visibility pauses and GPU cleanup.

@@ -80,12 +80,13 @@ const examples = [
     title: "Full Width",
     tag: "Layout",
     tagColor: "bg-cyan-500/10 text-cyan-400",
-    description: "Stretches to fill container with landscape crop.",
+    description: "Uses a landscape image with an intentional cover crop.",
     span: "2" as const,
     preview: (
       <div className="w-full">
         <ThreeHoverCard
           imageSrc="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=1200&h=600&fit=crop&crop=faces"
+          imageFit="cover"
           title="Landscape Mode"
           description="Works at any aspect ratio — the image fills and crops."
           className="h-[280px] w-full"
@@ -94,7 +95,8 @@ const examples = [
     ),
     code: `<ThreeHoverCard
   imageSrc="/landscape.jpg"
-  title="Landscape Mode"
+  imageFit="cover"
+          title="Landscape Mode"
   description="Works at any aspect ratio."
   className="h-[280px] w-full"
 />`,
@@ -105,3 +107,4 @@ const examples = [
 export function ThreeHoverCardExamples() {
   return <ShowcaseGrid items={examples} />;
 }
+

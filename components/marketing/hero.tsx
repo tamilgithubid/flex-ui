@@ -40,7 +40,7 @@ export function Hero() {
           words={["Cinematic", "Beautiful", "Magnetic", "Stunning"]}
           duration={2500}
           direction="up"
-          className="h-[1.15em] bg-gradient-to-r from-[#8B5CF6] via-[#EC4899] to-[#389CFD] bg-clip-text text-transparent"
+          className="bg-gradient-to-r from-[#8B5CF6] via-[#EC4899] to-[#389CFD] bg-clip-text text-transparent"
         />
         <br />
         Interfaces 
@@ -110,3 +110,4 @@ export function Hero() {
     </section>
   );
 }
+

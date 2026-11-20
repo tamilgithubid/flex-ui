@@ -1,3 +1,5 @@
+import { EditorialCover } from "@/components/marketing/editorial-cover";
+import { editorialAssets } from "@/lib/editorial-assets";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -30,6 +32,7 @@ export default function WhySpringPhysics() {
             <span>4 min read</span>
           </div>
         </header>
+        <EditorialCover asset={editorialAssets.blogSpring} priority className="mt-10 rounded-2xl border border-white/10" sizes="(max-width: 768px) 100vw, 720px" />
 
         <div className="mt-12 space-y-6 text-lg leading-relaxed text-zinc-300">
           <p>
@@ -82,3 +85,4 @@ export default function WhySpringPhysics() {
     </div>
   );
 }
+

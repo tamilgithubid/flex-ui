@@ -30,7 +30,7 @@
     {
       "name": "three-hover-card",
       "type": "registry:ui",
-      "description": "A premium card component that reveals a live Three.js 3D scene with a rotating icosahedron on hover. The canvas is lazy-loaded for performance.",
+      "description": "A portrait card with spring-smoothed perspective, full-image framing and a cursor-following glass highlight.",
       "url": "https://flex-ui-wine.vercel.app/r/three-hover-card.json"
     },
     {

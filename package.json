@@ -19,7 +19,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:visual": "playwright test",
-    "test:visual:update": "playwright test --update-snapshots"
+    "test:visual:update": "playwright test --update-snapshots",
+    "test:pages": "playwright test --config playwright.site.config.ts"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",

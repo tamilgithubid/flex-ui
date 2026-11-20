@@ -21,14 +21,14 @@ export default function Skull3DDoc() {
             Cinematic
           </span>
           <span className="rounded-full border border-white/[0.06] bg-white/[0.03] px-3 py-1 text-[11px] font-medium text-zinc-500">
-            Three.js
+            WebGL
           </span>
         </div>
         <h1 className="mt-5 text-4xl font-bold tracking-tight text-white">
           3D Skull
         </h1>
         <p className="mt-3 max-w-2xl text-lg leading-relaxed text-zinc-400">
-          Ultra-detailed procedural human skull built from 30+ composed Three.js geometries.
+          Procedural human skull rendered with native WebGL signed distance fields.
           Anatomically-inspired cranium, orbital cavities, nasal aperture, zygomatic arches,
           mandible with individual teeth, and temporal bones. Four render modes: solid bone,
           wireframe, x-ray, and hologram.
@@ -110,7 +110,7 @@ export function Demo() {
               { name: "color", type: "string", default: '"#e8dcc8"', description: "Bone surface color (hex). Used in solid mode for the PBR material." },
               { name: "glowColor", type: "string", default: '"#A78BFA"', description: "Accent / glow color (hex). Controls wireframe, x-ray, hologram tint, eye glow, and ground grid." },
               { name: "glowIntensity", type: "number", default: "0.5", description: "Overall glow brightness multiplier (0-2). Higher values produce more vibrant colors." },
-              { name: "rotateSpeed", type: "number", default: "0.3", description: "Auto-rotation speed. Set to 0 to disable rotation (mouse still works)." },
+              { name: "rotateSpeed", type: "number", default: "0.3", description: "Auto turn speed. Set to 0 to disable automatic movement; pointer interaction remains available." },
               { name: "height", type: "number", default: "500", description: "Canvas height in pixels." },
               { name: "className", type: "string", default: "—", description: "Additional CSS classes for the canvas element." },
             ]}
@@ -120,3 +120,4 @@ export function Demo() {
     </div>
   );
 }
+
