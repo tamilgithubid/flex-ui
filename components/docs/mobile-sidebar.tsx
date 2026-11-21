@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { WEBGL_COMPONENTS } from "@/lib/webgl-components";
+import { COMPONENT_COUNT } from "@/lib/component-stats";
 import {
   BookOpen,
   Download,
@@ -29,6 +31,8 @@ const items = [
   { title: "Magnetic Button", href: "/docs/components/magnetic-button", icon: <MousePointer className="h-4 w-4" /> },
   { title: "3D Hover Card", href: "/docs/components/three-hover-card", icon: <Box className="h-4 w-4" /> },
   { title: "Floating Panel", href: "/docs/components/floating-panel", icon: <PanelTop className="h-4 w-4" /> },
+  { title: "WebGL Components", href: "/docs/components/webgl", icon: <Globe className="h-4 w-4" /> },
+  ...WEBGL_COMPONENTS.map(example => ({ title: example.title, href: "/docs/components/" + example.id, icon: <Globe className="h-4 w-4" /> })),
   { title: "Interactive Globe", href: "/docs/components/interactive-globe", icon: <Globe className="h-4 w-4" /> },
   { title: "Shader Blob", href: "/docs/components/shader-blob", icon: <Globe className="h-4 w-4" /> },
   { title: "Chromatic Text", href: "/docs/components/chromatic-text", icon: <Box className="h-4 w-4" /> },
@@ -69,6 +73,7 @@ export function MobileSidebar() {
                   {item.icon}
                 </span>
                 {item.title}
+                {item.href === "/docs/components" && <span className="ml-auto rounded bg-white/5 px-1.5 py-0.5 text-[10px] tabular-nums text-zinc-400" aria-label={COMPONENT_COUNT + " components"}>{COMPONENT_COUNT}</span>}
               </Link>
             );
           })}
@@ -77,3 +82,4 @@ export function MobileSidebar() {
     </div>
   );
 }
+

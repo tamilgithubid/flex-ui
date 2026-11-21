@@ -1,0 +1,81 @@
+{
+  "upstream": {
+    "repository": "oframe/ogl",
+    "revision": "385ce65c352c70734a36dc98c787fdd1d30ddb3b",
+    "version": "1.0.11"
+  },
+  "components": {
+    "skydome": {
+      "originalSha256": "5dd2d85671855cf04de21a6c62e5962bacb2c2cc4c5f916856b8cdb6c4cc8310",
+      "nativeSha256": "f99909c828e8f3db3df9afe7a5aa82d25faab87e0f1817aa00f3c76ae84fadc3"
+    },
+    "cube-map": {
+      "originalSha256": "6763506bc9e0c98f6526290cde98847ab5961b879a9eca3adbc9615cdb61c176",
+      "nativeSha256": "682117903e90a90e6dec52e74dfb36dbfbf11ce6906e94fc04e4d983c8d8fd9c"
+    },
+    "normal-maps": {
+      "originalSha256": "c7f290e75a9d709568d9759477df8171a5b70b8d7fd141065e0bfe8bdd082746",
+      "nativeSha256": "9b16c7b52308496f7de181499352c1724fe9dc5a13134765a553cf9d610a6989"
+    },
+    "point-lighting": {
+      "originalSha256": "963ad6f351efc3c7bf70ef9cca0de849658c99eea140584a48800d4eb6e285ae",
+      "nativeSha256": "2959972bd2b7426ff86f358e469bc1bfa56014a5cb9c186d1447c8bb6d8acc8d"
+    },
+    "pbr": {
+      "originalSha256": "e1191cc21ba86e40426a736ee5a13fc5b4ae44507bc12cf74c17946feaab0b3b",
+      "nativeSha256": "27c8001da18d45bef87c7641a4eea38e178bc6c2ccb6ffb033ba263128964ee5"
+    },
+    "shadow-maps": {
+      "originalSha256": "58993061103b511c5252ae847bace3587024b86c1fb26201606775caefc26664",
+      "nativeSha256": "381656e8f3916a3172b273fa37f6f44eb6ba243168205c8907395d6fd3d6bba9"
+    },
+    "gpgpu-particles": {
+      "originalSha256": "e69abac1ab09119a3269ac7ba64ad25e009038e565bec2dc82c7418458e3f4dd",
+      "nativeSha256": "f2056d5eadaadd6127ec12b983c12a2f44c21493d104163f760acf1b00d93332"
+    },
+    "skinning": {
+      "originalSha256": "5434c1ce937788288d1f4e3cddeff0b971c10d07cedfbede547d9bd8c9b27f89",
+      "nativeSha256": "7bd3a43caf57a940aef83223f9d9875367585060bb2f3aaffd1241a452538b96"
+    },
+    "load-json": {
+      "originalSha256": "30975388274236f23ffd2dbe843071f6e125062b584b8a0db29abddbdfe79629",
+      "nativeSha256": "680a17e08f818aad53cc735dda8df12d8cd528e757bb8bb36b57d771524ef358"
+    },
+    "particles": {
+      "originalSha256": "a4acc937a9a03627e0a489262c8be4e4d7db211ffdb8e74c612508cb3ae12607",
+      "nativeSha256": "399b75a0422fa8c6db4693dba47c50839aa17a8059a0bbe4fc4623754623c3f7"
+    },
+    "polylines": {
+      "originalSha256": "e06765687599464a4c41604db5e10a447cce7cb56ccae74eba764e6634cef6cd",
+      "nativeSha256": "6013af4f24e2002c5c30fd82e40c38e860cc109f07176f63ff3da13f95cc53c9"
+    },
+    "tube": {
+      "originalSha256": "152bf226b38ca8fe73e4687dc978ad6f910380969be1f43bdc8a238cc8518a9b",
+      "nativeSha256": "2b31c750a0d0a6c8b0e91ee4e8acb9fccf8681866bd2e8126fa3ada1d3083b4f"
+    },
+    "load-gltf": {
+      "originalSha256": "7a905d23cf0364b6c7d5cc8cbbc91a58490c0b98d33481853414c38ddb6ec4e6",
+      "nativeSha256": "46d3a5fea42ea8a2840428c7d319dc3c36a6295a12c35f765ff0eb1b56fb2512"
+    },
+    "gltf-ktx2-basis": {
+      "originalSha256": "94bab8bfcb1174851a40944da6fffcde6f8c0181ed1eb3b331972378a1d1353f",
+      "nativeSha256": "369045a006fb038a91133b87176f6444cb54616acf34115e31904d4fa023170f"
+    },
+    "sort-transparency": {
+      "originalSha256": "8eda78bf7ec07b63040c0777129332c278a637c6e97701e3ce73ca710ebb1bcc",
+      "nativeSha256": "e2c3be51d961178c55b35416ac9d026b62b6b8985f1bbef9f336b8530436daa4"
+    },
+    "frustum-culling": {
+      "originalSha256": "9aed37ce8356be34addf07a62590230cc23de5fde8e647d52fe627b70c48fd3f",
+      "nativeSha256": "06e6904fa1d0de0a5e5dcdc8c2b8f3961c0f4e1d841ca299e09d67e252b57447"
+    },
+    "orbit-controls": {
+      "originalSha256": "7cac7b06bb0864f5e38a6f93e7615d52c630b0a8b928ae515745f9b6e6b02c10",
+      "nativeSha256": "476d5888f759c9aa7558f1662868c66fd3fad46a1ea236de7c0ddd6df7fb354e"
+    },
+    "mouse-flowmap": {
+      "originalSha256": "119005d28d76aa1b2fa1bb04cd83ce40b4e269a07cd5cc910daf93bf6eb0c6b5",
+      "nativeSha256": "7c7b36d505e7046d2636648f04f4e56dfe97dcd91ada5b97f15e4966e61ec252"
+    }
+  }
+}

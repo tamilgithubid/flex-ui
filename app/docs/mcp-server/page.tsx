@@ -1,5 +1,7 @@
 "use client";
 
+import { MCP_COMPONENT_COUNT } from "@/lib/component-stats";
+
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/components/flexui/theme-provider";
@@ -16,7 +18,7 @@ const fadeUp = {
 const tools = [
   {
     name: "list_components",
-    desc: "Browse all 157+ components with filtering by category and tier.",
+    desc: "Browse all " + MCP_COMPONENT_COUNT + " components with filtering by category and tier.",
     icon: "M4 6h16M4 10h16M4 14h16M4 18h16",
     example: '"List all WebGL tier-3 components"',
   },
@@ -169,7 +171,7 @@ export default function McpServerPage() {
           <strong style={{ color: "var(--flexui-heading)" }}>Model Context Protocol</strong>{" "}
           server — letting AI assistants like Claude, Cursor, and Windsurf discover,
           search, and add any of our{" "}
-          <strong style={{ color: accent }}>157+ components</strong>{" "}
+          <strong style={{ color: accent }}>{MCP_COMPONENT_COUNT} components</strong>{" "}
           directly to your codebase.
         </p>
       </div>
@@ -372,7 +374,7 @@ export default function McpServerPage() {
           className="grid gap-3 sm:grid-cols-4"
         >
           {[
-            { label: "Components", value: "157+" },
+            { label: "MCP components", value: String(MCP_COMPONENT_COUNT) },
             { label: "Categories", value: "16" },
             { label: "Tiers", value: "3" },
             { label: "Searchable Tags", value: "500+" },
@@ -431,3 +433,4 @@ export default function McpServerPage() {
     </div>
   );
 }
+

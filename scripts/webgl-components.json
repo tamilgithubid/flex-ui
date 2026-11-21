@@ -1,0 +1,146 @@
+[
+  {
+    "id": "skydome",
+    "title": "Skydome",
+    "component": "Skydome",
+    "category": "Shading",
+    "description": "A textured mountain panorama wrapped around a sky sphere, with a smaller globe at its center.",
+    "interaction": "Drag to look around the panorama."
+  },
+  {
+    "id": "cube-map",
+    "title": "Cube Map",
+    "component": "CubeMap",
+    "category": "Shading",
+    "description": "Six cubemap faces surround a reflective scene with orbit and zoom controls.",
+    "interaction": "Drag to orbit; scroll to zoom. Switch between dolly and field-of-view zoom."
+  },
+  {
+    "id": "normal-maps",
+    "title": "Normal Maps",
+    "component": "NormalMaps",
+    "category": "Shading",
+    "description": "A granite material with tangent-space normal mapping and moving illumination.",
+    "interaction": "Drag to orbit around the granite object."
+  },
+  {
+    "id": "point-lighting",
+    "title": "Point Lighting",
+    "component": "PointLighting",
+    "category": "Shading",
+    "description": "A textured Earth with clouds, point lighting and specular highlights.",
+    "interaction": "Move your pointer to shift the light across the globe."
+  },
+  {
+    "id": "pbr",
+    "title": "PBR",
+    "component": "PBR",
+    "category": "Shading",
+    "description": "A physically based car scene, including its material textures, environment and ground shadow.",
+    "interaction": "Drag to orbit and scroll to zoom around the car."
+  },
+  {
+    "id": "shadow-maps",
+    "title": "Shadow Maps",
+    "component": "ShadowMaps",
+    "category": "Shading",
+    "description": "An airplane casts a moving shadow over a textured water surface.",
+    "interaction": "Drag to orbit and inspect the projected shadow."
+  },
+  {
+    "id": "gpgpu-particles",
+    "title": "GPGPU Particles",
+    "component": "GPGPUParticles",
+    "category": "Particles",
+    "description": "GPU particle simulation with position and velocity stored in ping-pong render targets.",
+    "interaction": "Move your pointer to attract and disturb the particles."
+  },
+  {
+    "id": "skinning",
+    "title": "Skinning",
+    "component": "Skinning",
+    "category": "Animation",
+    "description": "A skinned Snout character with skeletal animation and a soft ground shadow.",
+    "interaction": "Drag to orbit around the animated character."
+  },
+  {
+    "id": "load-json",
+    "title": "Load JSON",
+    "component": "LoadJSON",
+    "category": "Geometry",
+    "description": "A textured fox mesh loaded from the JSON geometry format.",
+    "interaction": "Watch the fox rotate."
+  },
+  {
+    "id": "particles",
+    "title": "Particles",
+    "component": "Particles",
+    "category": "Particles",
+    "description": "Animated particle geometry with point sprites and shader-driven colors.",
+    "interaction": "Watch the particle field animate."
+  },
+  {
+    "id": "polylines",
+    "title": "Polylines",
+    "component": "Polylines",
+    "category": "Geometry",
+    "description": "Colorful flowing polylines that follow your pointer.",
+    "interaction": "Move your pointer across the preview."
+  },
+  {
+    "id": "tube",
+    "title": "Tube",
+    "component": "Tube",
+    "category": "Geometry",
+    "description": "A tube geometry generated along curved paths.",
+    "interaction": "Drag to orbit and scroll to zoom."
+  },
+  {
+    "id": "load-gltf",
+    "title": "Load GLTF",
+    "component": "LoadGLTF",
+    "category": "Geometry",
+    "description": "The Hershel model with glTF materials and environment lighting.",
+    "interaction": "Drag to orbit and scroll to zoom around the model."
+  },
+  {
+    "id": "gltf-ktx2-basis",
+    "title": "GLTF KTX2 Basis",
+    "component": "GLTFKTX2Basis",
+    "category": "Geometry",
+    "description": "A painterly cottage loaded with KTX2 Basis compressed textures and its local transcoder.",
+    "interaction": "Drag to orbit and scroll to zoom around the cottage."
+  },
+  {
+    "id": "sort-transparency",
+    "title": "Sort Transparency",
+    "component": "SortTransparency",
+    "category": "Scene",
+    "description": "Layered transparent leaves with depth sorting as they rotate.",
+    "interaction": "Inspect the intersecting transparent surfaces as they rotate."
+  },
+  {
+    "id": "frustum-culling",
+    "title": "Frustum Culling",
+    "component": "FrustumCulling",
+    "category": "Scene",
+    "description": "An animated camera culls forest geometry outside its view.",
+    "interaction": "Drag to orbit and inspect the trees inside the moving camera’s frustum."
+  },
+  {
+    "id": "orbit-controls",
+    "title": "Orbit Controls",
+    "component": "OrbitControls",
+    "category": "Interaction",
+    "description": "A textured macaw with mouse and touch orbit controls and two zoom modes.",
+    "interaction": "Drag to orbit, scroll to zoom, and use the zoom-style selector."
+  },
+  {
+    "id": "mouse-flowmap",
+    "title": "Mouse Flowmap",
+    "component": "MouseFlowmap",
+    "category": "Interaction",
+    "description": "A water texture distorted by a mouse-driven flowmap simulation.",
+    "interaction": "Move your pointer or touch and drag across the water."
+  }
+]

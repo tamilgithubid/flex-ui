@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { COMPONENT_COUNT } from "@/lib/component-stats";
 import { CTABlock } from "@/components/flexui/cta-block";
 import { ShowcaseGrid } from "@/components/docs/expandable-showcase";
 
@@ -59,7 +60,7 @@ const examples = [
       <div className="-mx-4 -my-4">
         <CTABlock
           heading="Ship faster with FlexUI"
-          description="50+ production-ready animated components. Copy, paste, and customize. No lock-in, no bloat."
+          description={COMPONENT_COUNT + " production-ready animated components. Copy, paste, and customize. No lock-in, no bloat."}
           primaryCta={{ label: "Browse Components", href: "#" }}
           secondaryCta={{ label: "View on GitHub", href: "#" }}
         />
@@ -67,7 +68,7 @@ const examples = [
     ),
     code: `<CTABlock
   heading="Ship faster with FlexUI"
-  description="50+ production-ready animated components. Copy, paste, and customize. No lock-in, no bloat."
+  description="${COMPONENT_COUNT} production-ready animated components. Copy, paste, and customize. No lock-in, no bloat."
   primaryCta={{ label: "Browse Components", href: "/docs/components" }}
   secondaryCta={{ label: "View on GitHub", href: "https://github.com/..." }}
 />`,
@@ -78,3 +79,4 @@ const examples = [
 export function CTABlockExamples() {
   return <ShowcaseGrid items={examples} />;
 }
+

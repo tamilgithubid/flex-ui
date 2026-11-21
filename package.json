@@ -7,8 +7,8 @@
   },
   "scripts": {
     "preview:build": "node scripts/build-preview.mjs",
-    "predev": "npm run preview:build",
-    "prebuild": "npm run preview:build",
+    "predev": "npm run catalog:build && npm run webgl:assets && npm run preview:build",
+    "prebuild": "npm run catalog:build && npm run webgl:assets && npm run preview:build",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -20,7 +20,10 @@
     "test:watch": "vitest",
     "test:visual": "playwright test",
     "test:visual:update": "playwright test --update-snapshots",
-    "test:pages": "playwright test --config playwright.site.config.ts"
+    "test:pages": "playwright test --config playwright.site.config.ts",
+    "pretest": "npm run webgl:assets",
+    "webgl:assets": "node scripts/flexui-webgl-assets.mjs --all",
+    "catalog:build": "node --import tsx scripts/build-component-stats.ts"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",
@@ -29,7 +32,7 @@
     "framer-motion": "^12.37.0",
     "lucide-react": "^0.577.0",
     "next": "16.4.6",
-    "ogl": "^1.0.11",
+    "ogl": "1.0.11",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "sucrase": "^3.35.1",

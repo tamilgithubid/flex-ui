@@ -21,6 +21,9 @@
 /playwright-report/
 /tests/browser/.generated/
 
+# Verified WebGL model/texture cache, prepared automatically for development and builds.
+/public/webgl/assets/**
+
 # next.js
 /.next/
 /out/

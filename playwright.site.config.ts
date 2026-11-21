@@ -3,7 +3,7 @@ import base from "./playwright.config";
 
 export default defineConfig({
   ...base,
-  testMatch: "**/site.spec.ts",
+  testMatch: ["**/site.spec.ts", "**/ogl.spec.ts"],
   testIgnore: [],
   timeout: 90000,
   outputDir: process.env.FLEXUI_TEST_OUTPUT ?? "test-results/site",

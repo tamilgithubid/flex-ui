@@ -1,10 +1,12 @@
 "use client";
 
+import { COMPONENT_COUNT } from "@/lib/component-stats";
+
 import React from "react";
 import { FAQBlock } from "@/components/flexui/faq-block";
 
 const items = [
-  { question: "What is FlexUI?", answer: "FlexUI is a modern React component registry with 140+ animated components." },
+  { question: "What is FlexUI?", answer: "FlexUI is a modern React component registry with " + COMPONENT_COUNT + " animated components." },
   { question: "Is it free?", answer: "Yes, completely free and open source." },
   { question: "Does it support theming?", answer: "Yes, with 6 built-in theme presets and full customization." },
   { question: "What frameworks?", answer: "Next.js, Remix, Vite, and any React 18+ project." },
@@ -36,3 +38,4 @@ export function FAQBlockExamples() {
     </div>
   );
 }
+

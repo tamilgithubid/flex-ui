@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
+import { WEBGL_COMPONENTS } from "../lib/webgl-components";
 
 // ─── Configuration ──────────────────────────────────────────────────────────
 
@@ -1410,6 +1411,37 @@ export const COMPONENTS: RegistryComponent[] = [
 const ROOT = path.resolve(__dirname, "..");
 const OUT_DIR = path.join(ROOT, "public", "r");
 
+// Each component ships editable native scene code and the shared canvas lifecycle.
+function webglFiles(directory: string): string[] {
+  return fs.readdirSync(path.join(ROOT, directory), { withFileTypes: true }).flatMap(entry =>
+    entry.isDirectory() ? webglFiles(directory + "/" + entry.name) : [directory + "/" + entry.name]);
+}
+SHARED.push({
+  name: "webgl-runtime", type: "registry:ui", title: "WebGL Canvas Runtime",
+  description: "Native canvas lifecycle, isolated controls and loaders, and a verified asset installer.",
+  dependencies: ["ogl@1.0.11"], registryDependencies: [],
+  files: [
+    { path: "components/flexui/webgl-canvas.tsx", target: "components/flexui/webgl-canvas.tsx" },
+    { path: "hooks/use-reduced-motion.ts", target: "hooks/use-reduced-motion.ts", type: "registry:hook" },
+    ...[
+      "components/flexui/webgl/runtime.js", "components/flexui/webgl/runtime.d.ts", "components/flexui/webgl/types.ts",
+      "public/webgl/assets-manifest.json", "public/webgl/provenance.json", "public/webgl/UNLICENSE.txt",
+      "public/webgl/ATTRIBUTION.md", "scripts/flexui-webgl-assets.mjs", ...webglFiles("public/webgl/licenses"),
+    ].map(file => ({ path: file, target: file, type: "registry:lib" as RegistryType })),
+  ],
+});
+COMPONENTS.push(...WEBGL_COMPONENTS.map(component => ({
+  name: component.id, type: "registry:ui" as RegistryType, title: component.title,
+  description: component.description, dependencies: [], registryDependencies: ["webgl-runtime"],
+  files: [
+    { path: "components/flexui/" + component.id + ".tsx", target: "components/flexui/" + component.id + ".tsx" },
+    ...[".js", ".d.ts"].map(extension => ({
+      path: "components/flexui/webgl/scenes/" + component.id + extension,
+      target: "components/flexui/webgl/scenes/" + component.id + extension, type: "registry:lib" as RegistryType,
+    })),
+  ],
+})));
+
 function ensureDir(dir: string) {
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
@@ -1462,6 +1494,10 @@ export function buildComponent(component: RegistryComponent, ancestors: string[]
     const target = "hooks/use-client-ready.ts";
     files.push({ path: target, target, type: "registry:hook", content: fs.readFileSync(path.join(ROOT, target), "utf-8") });
   }
+  if (files.some(file => file.content.includes("@/lib/component-stats"))) {
+    const target = "lib/component-stats.ts";
+    files.push({ path: target, target, type: "registry:lib", content: fs.readFileSync(path.join(ROOT, target), "utf8") });
+  }
 
   // Auto-inline registryDependencies (so shadcn doesn't look them up on ui.shadcn.com)
   if (component.registryDependencies.length > 0) {
@@ -1491,9 +1527,29 @@ export function buildComponent(component: RegistryComponent, ancestors: string[]
   };
 }
 
+export function buildComponentStats() {
+  const componentCount = new Set(COMPONENTS.map(component => component.name)).size;
+  const mcp = JSON.parse(fs.readFileSync(path.join(ROOT, "mcp-server/registry.json"), "utf8"));
+  const mcpCount = new Set(mcp.components.map((component: { name: string }) => component.name)).size;
+  const generated = "// Generated from the installable registry by npm run catalog:build. Shared helpers are excluded.\n" +
+    "export const COMPONENT_COUNT = " + componentCount + ";\n" +
+    "export const WEBGL_COMPONENT_COUNT = " + WEBGL_COMPONENTS.length + ";\n" +
+    "export const MCP_COMPONENT_COUNT = " + mcpCount + ";\n";
+  const destination = path.join(ROOT, "lib/component-stats.ts");
+  if (!fs.existsSync(destination) || fs.readFileSync(destination, "utf8") !== generated) fs.writeFileSync(destination, generated);
+  const readmePath = path.join(ROOT, "README.md");
+  const readme = fs.readFileSync(readmePath, "utf8");
+  const updated = readme
+    .replace(/(\s)\d+\+? animated React components\. One command install\./, "$1" + componentCount + " animated React components. One command install.")
+    .replace(/badge\/components-\d+\+?-blue/, "badge/components-" + componentCount + "-blue")
+    .replace(/## \d+\+? Components Across 3 Tiers/, "## " + componentCount + " Components Across 3 Tiers");
+  if (updated !== readme) fs.writeFileSync(readmePath, updated);
+}
+
 function main() {
   console.log("🔨 Building FlexUI registry...\n");
   ensureDir(OUT_DIR);
+  buildComponentStats();
 
   const index: { name: string; type: string; description: string; url: string }[] = [];
 

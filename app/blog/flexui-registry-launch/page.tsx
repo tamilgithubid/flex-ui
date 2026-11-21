@@ -1,3 +1,4 @@
+import { COMPONENT_COUNT } from "@/lib/component-stats";
 import { EditorialCover } from "@/components/marketing/editorial-cover";
 import { editorialAssets } from "@/lib/editorial-assets";
 import type { Metadata } from "next";
@@ -5,9 +6,9 @@ import Link from "next/link";
 import { CodeBlock } from "@/components/ui/code-block";
 
 export const metadata: Metadata = {
-  title: "FlexUI is Live: 150+ Cinematic Components, One Command Away",
+  title: "FlexUI is Live: " + COMPONENT_COUNT + " Cinematic Components, One Command Away",
   description:
-    "FlexUI is now production-ready and deployed. Install 150+ animated React components with a single CLI command. Works with Next.js, Vite, and any React framework.",
+    "FlexUI is now production-ready and deployed. Install " + COMPONENT_COUNT + " animated React components with a single CLI command. Works with Next.js, Vite, and any React framework.",
 };
 
 export default function FlexUIRegistryLaunch() {
@@ -23,7 +24,7 @@ export default function FlexUIRegistryLaunch() {
 
         <header className="mt-8">
           <h1 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
-            FlexUI is Live: 150+ Cinematic Components, One Command Away
+            FlexUI is Live: {COMPONENT_COUNT} Cinematic Components, One Command Away
           </h1>
           <div className="mt-4 flex items-center gap-3 text-sm text-zinc-500">
             <span>FlexUI Team</span>
@@ -40,7 +41,7 @@ export default function FlexUIRegistryLaunch() {
           {/* ── Intro ─────────────────────────────────────── */}
           <p>
             Today we are making FlexUI publicly available as a production-ready
-            component registry. Over 150 cinematic React components — spring-physics
+            component registry. {COMPONENT_COUNT} cinematic React components — spring-physics
             buttons, WebGL shaders, 3D hover cards, full page templates — installable
             with a single CLI command, owned entirely by you.
           </p>
@@ -107,7 +108,7 @@ npx shadcn@latest add @flexui/magnetic-button`}
 
           {/* ── What's Inside ─────────────────────────────── */}
           <h2 className="text-2xl font-bold text-white pt-4">
-            What&apos;s Inside: 150+ Components Across 16 Categories
+            What&apos;s Inside: {COMPONENT_COUNT} Components
           </h2>
 
           <p>
@@ -312,7 +313,7 @@ npx shadcn@latest add @flexui/page:saas-landing`}
               Ready to build something cinematic?
             </p>
             <p className="mt-2 text-zinc-400">
-              Browse all 150+ components, try the interactive playground, and start shipping.
+              Browse all {COMPONENT_COUNT} components, try the interactive playground, and start shipping.
             </p>
             <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <a

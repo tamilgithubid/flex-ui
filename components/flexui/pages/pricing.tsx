@@ -100,7 +100,7 @@ function computeYearlyMonthly(raw: string, discount: number): string {
 /* ------------------------------------------------------------------ */
 
 const comparisonFeatures = [
-  { name: "Components", values: ["50+", "140+", "Unlimited"] },
+  { name: "Components", values: ["50+", "All components", "Unlimited"] },
   { name: "Themes", values: ["1", "6", "Custom"] },
   { name: "Page templates", values: [false, true, true] },
   { name: "CLI access", values: [false, true, true] },
@@ -145,7 +145,7 @@ export function Pricing({
       period: "month",
       description: "Everything you need for production apps.",
       features: [
-        "140+ components",
+        "All components",
         "6 themes",
         "Page templates",
         "Priority support",

@@ -1,6 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import * as fs from 'fs';
 import * as path from 'path';
+import { COMPONENTS } from '../scripts/build-registry';
+import { COMPONENT_COUNT, MCP_COMPONENT_COUNT, WEBGL_COMPONENT_COUNT } from '../lib/component-stats';
+import { WEBGL_COMPONENTS } from '../lib/webgl-components';
 
 const ROOT = path.resolve(__dirname, '..');
 const COMPONENTS_DIR = path.join(ROOT, 'components', 'flexui');
@@ -30,6 +33,12 @@ describe('Registry: component files', () => {
 
 describe('Registry: build-registry script', () => {
   const scriptPath = path.join(ROOT, 'scripts', 'build-registry.ts');
+  it('publishes current totals for installable components, WebGL and the MCP catalog', () => {
+    expect(COMPONENT_COUNT).toBe(new Set(COMPONENTS.map(component => component.name)).size);
+    expect(WEBGL_COMPONENT_COUNT).toBe(WEBGL_COMPONENTS.length);
+    const mcp = JSON.parse(fs.readFileSync(path.join(ROOT, "mcp-server/registry.json"), "utf8"));
+    expect(MCP_COMPONENT_COUNT).toBe(mcp.components.length);
+  });
 
   it('build-registry.ts exists', () => {
     expect(fs.existsSync(scriptPath)).toBe(true);
@@ -49,16 +58,8 @@ describe('Registry: build-registry script', () => {
   });
 
   it('each component in COMPONENTS references existing files', () => {
-    const content = fs.readFileSync(scriptPath, 'utf-8');
-
-    // Extract file paths from the script: path: "components/flexui/xxx.tsx"
-    const filePathRegex = /path:\s*"(components\/flexui\/[^"]+)"/g;
-    let match;
-    const referencedPaths: string[] = [];
-
-    while ((match = filePathRegex.exec(content)) !== null) {
-      referencedPaths.push(match[1]);
-    }
+    // Validate resolved definitions, including collections generated from metadata.
+    const referencedPaths = COMPONENTS.flatMap(component => component.files.map(file => file.path));
 
     expect(referencedPaths.length).toBeGreaterThan(0);
 
@@ -91,3 +92,4 @@ describe('Registry: build-registry script', () => {
     expect(content).toContain('index.json');
   });
 });
+

@@ -16,6 +16,12 @@
       "url": "https://flex-ui-wine.vercel.app/r/use-reduced-motion.json"
     },
     {
+      "name": "webgl-runtime",
+      "type": "registry:ui",
+      "description": "Native canvas lifecycle, isolated controls and loaders, and a verified asset installer.",
+      "url": "https://flex-ui-wine.vercel.app/r/webgl-runtime.json"
+    },
+    {
       "name": "magnetic-button",
       "type": "registry:ui",
       "description": "A button that uses Framer Motion spring physics to magnetically pull toward the cursor on hover with a glowing spotlight border effect.",
@@ -998,6 +1004,114 @@
       "type": "registry:ui",
       "description": "Real-time cursor positions of other users in a collaborative session. Color-coded with name labels and smooth spring animation.",
       "url": "https://flex-ui-wine.vercel.app/r/live-cursors.json"
+    },
+    {
+      "name": "skydome",
+      "type": "registry:ui",
+      "description": "A textured mountain panorama wrapped around a sky sphere, with a smaller globe at its center.",
+      "url": "https://flex-ui-wine.vercel.app/r/skydome.json"
+    },
+    {
+      "name": "cube-map",
+      "type": "registry:ui",
+      "description": "Six cubemap faces surround a reflective scene with orbit and zoom controls.",
+      "url": "https://flex-ui-wine.vercel.app/r/cube-map.json"
+    },
+    {
+      "name": "normal-maps",
+      "type": "registry:ui",
+      "description": "A granite material with tangent-space normal mapping and moving illumination.",
+      "url": "https://flex-ui-wine.vercel.app/r/normal-maps.json"
+    },
+    {
+      "name": "point-lighting",
+      "type": "registry:ui",
+      "description": "A textured Earth with clouds, point lighting and specular highlights.",
+      "url": "https://flex-ui-wine.vercel.app/r/point-lighting.json"
+    },
+    {
+      "name": "pbr",
+      "type": "registry:ui",
+      "description": "A physically based car scene, including its material textures, environment and ground shadow.",
+      "url": "https://flex-ui-wine.vercel.app/r/pbr.json"
+    },
+    {
+      "name": "shadow-maps",
+      "type": "registry:ui",
+      "description": "An airplane casts a moving shadow over a textured water surface.",
+      "url": "https://flex-ui-wine.vercel.app/r/shadow-maps.json"
+    },
+    {
+      "name": "gpgpu-particles",
+      "type": "registry:ui",
+      "description": "GPU particle simulation with position and velocity stored in ping-pong render targets.",
+      "url": "https://flex-ui-wine.vercel.app/r/gpgpu-particles.json"
+    },
+    {
+      "name": "skinning",
+      "type": "registry:ui",
+      "description": "A skinned Snout character with skeletal animation and a soft ground shadow.",
+      "url": "https://flex-ui-wine.vercel.app/r/skinning.json"
+    },
+    {
+      "name": "load-json",
+      "type": "registry:ui",
+      "description": "A textured fox mesh loaded from the JSON geometry format.",
+      "url": "https://flex-ui-wine.vercel.app/r/load-json.json"
+    },
+    {
+      "name": "particles",
+      "type": "registry:ui",
+      "description": "Animated particle geometry with point sprites and shader-driven colors.",
+      "url": "https://flex-ui-wine.vercel.app/r/particles.json"
+    },
+    {
+      "name": "polylines",
+      "type": "registry:ui",
+      "description": "Colorful flowing polylines that follow your pointer.",
+      "url": "https://flex-ui-wine.vercel.app/r/polylines.json"
+    },
+    {
+      "name": "tube",
+      "type": "registry:ui",
+      "description": "A tube geometry generated along curved paths.",
+      "url": "https://flex-ui-wine.vercel.app/r/tube.json"
+    },
+    {
+      "name": "load-gltf",
+      "type": "registry:ui",
+      "description": "The Hershel model with glTF materials and environment lighting.",
+      "url": "https://flex-ui-wine.vercel.app/r/load-gltf.json"
+    },
+    {
+      "name": "gltf-ktx2-basis",
+      "type": "registry:ui",
+      "description": "A painterly cottage loaded with KTX2 Basis compressed textures and its local transcoder.",
+      "url": "https://flex-ui-wine.vercel.app/r/gltf-ktx2-basis.json"
+    },
+    {
+      "name": "sort-transparency",
+      "type": "registry:ui",
+      "description": "Layered transparent leaves with depth sorting as they rotate.",
+      "url": "https://flex-ui-wine.vercel.app/r/sort-transparency.json"
+    },
+    {
+      "name": "frustum-culling",
+      "type": "registry:ui",
+      "description": "An animated camera culls forest geometry outside its view.",
+      "url": "https://flex-ui-wine.vercel.app/r/frustum-culling.json"
+    },
+    {
+      "name": "orbit-controls",
+      "type": "registry:ui",
+      "description": "A textured macaw with mouse and touch orbit controls and two zoom modes.",
+      "url": "https://flex-ui-wine.vercel.app/r/orbit-controls.json"
+    },
+    {
+      "name": "mouse-flowmap",
+      "type": "registry:ui",
+      "description": "A water texture distorted by a mouse-driven flowmap simulation.",
+      "url": "https://flex-ui-wine.vercel.app/r/mouse-flowmap.json"
     }
   ]
 }

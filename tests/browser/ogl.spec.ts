@@ -1,0 +1,104 @@
+import { expect, test } from "@playwright/test";
+import sharp from "sharp";
+import { WEBGL_COMPONENTS } from "../../lib/webgl-components";
+
+for (const example of WEBGL_COMPONENTS) {
+  test("WebGL " + example.id + " loads the real scene and local assets", async ({ page }, testInfo) => {
+    const failed: string[] = [];
+    page.on("pageerror", error => failed.push(error.message));
+    page.on("response", response => {
+      if (response.url().includes("/webgl/") && response.status() >= 400) failed.push(response.status() + " " + response.url());
+    });
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await page.goto("/docs/components/" + example.id);
+    await expect(page.getByRole("heading", { name: example.title, exact: true })).toBeVisible();
+    await page.getByLabel("Preview pixel ratio").selectOption("1");
+    const preview = page.locator('[data-webgl-component="' + example.id + '"]');
+    await preview.scrollIntoViewIfNeeded();
+    await expect(preview).toHaveAttribute("data-preview-status", "ready", { timeout: 60000 });
+    const html = preview.locator("[data-webgl-host]");
+    await expect.poll(() => html.getAttribute("data-webgl-frame-count").then(Number)).toBeGreaterThan(2);
+    await expect.poll(() => html.getAttribute("data-webgl-draw-count").then(Number)).toBeGreaterThan(0);
+    const canvas = preview.locator("canvas").first();
+    await expect(canvas).toBeVisible();
+    const pixels = await canvas.screenshot({ path: testInfo.outputPath(example.id + "-canvas.png") });
+    const statistics = await sharp(pixels).stats();
+    expect(Math.max(...statistics.channels.slice(0, 3).map(channel => channel.max - channel.min))).toBeGreaterThan(20);
+    expect(failed).toEqual([]);
+    await expect(preview.locator("iframe")).toHaveCount(0);
+    await expect(page.locator('a[href*="oframe.github.io/ogl"]')).toHaveCount(0);
+    await expect(preview.getByRole("alert")).toHaveCount(0);
+  });
+}
+
+test("WebGL controls pause without reload, restart, orbit, and fit mobile", async ({ page }, testInfo) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto("/docs/components/orbit-controls");
+  await page.getByLabel("Preview pixel ratio").selectOption("1");
+  const preview = page.locator('[data-webgl-component="orbit-controls"]');
+  await preview.scrollIntoViewIfNeeded();
+  await expect(preview).toHaveAttribute("data-preview-status", "ready", { timeout: 60000 });
+  const html = preview.locator("[data-webgl-host]");
+  await preview.getByLabel("Orbit Controls zoom style").selectOption("fov");
+  await preview.getByRole("button", { name: "Pause Orbit Controls" }).click();
+  await page.waitForTimeout(100);
+  const before = Number(await html.getAttribute("data-webgl-frame-count"));
+  await page.waitForTimeout(200);
+  expect(Number(await html.getAttribute("data-webgl-frame-count"))).toBe(before);
+  const canvas = preview.locator("canvas").first();
+  const first = await canvas.screenshot();
+  const bounds = (await canvas.boundingBox())!;
+  await page.mouse.move(bounds.x + bounds.width * 0.4, bounds.y + bounds.height * 0.6);
+  await page.mouse.down();
+  await page.mouse.move(bounds.x + bounds.width * 0.7, bounds.y + bounds.height * 0.4, { steps: 8 });
+  await page.mouse.up();
+  await expect.poll(() => html.getAttribute("data-webgl-frame-count").then(Number)).toBeGreaterThan(before);
+  expect((await canvas.screenshot()).equals(first)).toBe(false);
+  await preview.getByRole("button", { name: "Play Orbit Controls" }).click();
+  await preview.getByRole("button", { name: "Restart", exact: true }).click();
+  await expect(preview).toHaveAttribute("data-preview-status", "ready", { timeout: 60000 });
+  await expect(preview.getByLabel("Orbit Controls zoom style")).toHaveValue("dolly");
+  await preview.getByRole("button", { name: "Full screen", exact: true }).click();
+  await expect.poll(() => page.evaluate(() => !!document.fullscreenElement)).toBe(true);
+  await expect.poll(async () => (await preview.locator("canvas").boundingBox())!.height).toBeGreaterThan(page.viewportSize()!.height - 100);
+  await page.evaluate(() => document.exitFullscreen());
+  await page.setViewportSize({ width: 390, height: 844 });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
+  await preview.screenshot({ path: testInfo.outputPath("webgl-mobile.png") });
+});
+
+test("WebGL gallery filters scenes and releases offscreen canvases", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/docs/components/webgl");
+  const gallery = page.getByRole("region", { name: "WebGL components" });
+  await expect(gallery.locator("article")).toHaveCount(18);
+  await expect(gallery.locator('[data-webgl-component="skydome"]')).toHaveAttribute("data-preview-status", "ready", { timeout: 60000 });
+  const still = gallery.locator('[data-webgl-component="skydome"] [data-webgl-host]');
+  const frames = Number(await still.getAttribute("data-webgl-frame-count"));
+  await page.waitForTimeout(200);
+  expect(Number(await still.getAttribute("data-webgl-frame-count"))).toBe(frames);
+  const other = gallery.locator('[data-webgl-component="cube-map"]');
+  await expect(other).toHaveAttribute("data-preview-status", "ready", { timeout: 60000 });
+  const otherHost = other.locator("[data-webgl-host]");
+  const otherFrames = Number(await otherHost.getAttribute("data-webgl-frame-count"));
+  await gallery.getByRole("button", { name: "Play Skydome", exact: true }).click();
+  await expect.poll(() => still.getAttribute("data-webgl-frame-count").then(Number)).toBeGreaterThan(frames + 2);
+  expect(Number(await otherHost.getAttribute("data-webgl-frame-count"))).toBe(otherFrames);
+  await gallery.getByRole("button", { name: "Pause Skydome", exact: true }).click();
+  await expect(gallery.locator("iframe")).toHaveCount(0);
+  await expect(page.locator('a[href*="oframe.github.io/ogl"]')).toHaveCount(0);
+  await page.screenshot({ path: testInfo.outputPath("webgl-gallery.png") });
+  await gallery.getByRole("button", { name: "Particles", exact: true }).click();
+  await expect(gallery.locator("article")).toHaveCount(2);
+  await gallery.getByRole("searchbox", { name: "Find a WebGL component" }).fill("GPGPU");
+  await expect(gallery.locator("article")).toHaveCount(1);
+  await gallery.getByRole("button", { name: "All", exact: true }).click();
+  await gallery.getByRole("searchbox", { name: "Find a WebGL component" }).fill("");
+  const first = gallery.locator('[data-webgl-component="skydome"]');
+  await first.scrollIntoViewIfNeeded();
+  await expect(first.locator("canvas")).toHaveCount(1);
+  await gallery.locator('[data-webgl-component="mouse-flowmap"]').scrollIntoViewIfNeeded();
+  await expect(first.locator("canvas")).toHaveCount(0);
+  expect(await gallery.locator("canvas").count()).toBeLessThanOrEqual(6);
+});

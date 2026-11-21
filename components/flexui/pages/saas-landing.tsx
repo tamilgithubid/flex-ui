@@ -1,5 +1,6 @@
 "use client";
 
+import { COMPONENT_COUNT } from "@/lib/component-stats";
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -127,7 +128,7 @@ export function SaasLanding({
     },
   ],
   stats = [
-    { value: "140", label: "Components", suffix: "+" },
+    { value: String(COMPONENT_COUNT), label: "Components" },
     { value: "6", label: "Theme Presets" },
     { value: "99", label: "Lighthouse Score" },
     { value: "10k", label: "Downloads", suffix: "+" },

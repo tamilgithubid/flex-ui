@@ -1,6 +1,8 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { WEBGL_COMPONENTS } from "@/lib/webgl-components";
+import { COMPONENT_COUNT } from "@/lib/component-stats";
 import { motion } from "framer-motion";
 import {
   Activity,
@@ -95,7 +97,6 @@ import {
   Wind,
   Zap
 } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useCallback, useRef, useState } from "react";
@@ -105,6 +106,7 @@ interface SidebarItem {
   href: string;
   icon: React.ReactNode;
   isNew?: boolean;
+  count?: number;
 }
 
 const sidebarSections: { heading: string; items: SidebarItem[] }[] = [
@@ -113,7 +115,7 @@ const sidebarSections: { heading: string; items: SidebarItem[] }[] = [
     items: [
       { title: "Introduction", href: "/docs/introduction", icon: <BookOpen className="h-4 w-4" /> },
       { title: "Installation", href: "/docs/installation", icon: <Download className="h-4 w-4" /> },
-      { title: "All Components", href: "/docs/components", icon: <LayoutGrid className="h-4 w-4" /> },
+      { title: "All Components", href: "/docs/components", icon: <LayoutGrid className="h-4 w-4" />, count: COMPONENT_COUNT },
       { title: "MCP Server", href: "/docs/mcp-server", icon: <Server className="h-4 w-4" /> },
       { title: "Skills", href: "/docs/skills", icon: <Waypoints className="h-4 w-4" />, isNew: true },
       { title: "Changelog", href: "/docs/changelog", icon: <FileText className="h-4 w-4" /> },
@@ -347,6 +349,8 @@ const sidebarSections: { heading: string; items: SidebarItem[] }[] = [
   {
     heading: "WebGL",
     items: [
+      { title: "All WebGL Components", href: "/docs/components/webgl", icon: <Globe className="h-4 w-4" />, isNew: true },
+      ...WEBGL_COMPONENTS.map(component => ({ title: component.title, href: "/docs/components/" + component.id, icon: <Globe className="h-4 w-4" />, isNew: true })),
       { title: "Interactive Globe", href: "/docs/components/interactive-globe", icon: <Globe className="h-4 w-4" /> },
       { title: "Cosmic Eye", href: "/docs/components/cosmic-eye", icon: <EyeIcon className="h-4 w-4" />, isNew: true },
       { title: "Shader Blob", href: "/docs/components/shader-blob", icon: <Circle className="h-4 w-4" />, isNew: true },
@@ -395,15 +399,6 @@ export function DocsSidebar() {
 
   return (
     <aside className="sticky top-16 hidden h-[calc(100vh-4rem)] w-64 shrink-0 overflow-y-auto border-r border-border py-8 pr-6 lg:block">
-      {/* Logo */}
-      <Link href="/" className="mb-4 flex items-center gap-2.5 px-3">
-        <Image src="/brand/flexui-mark.png" alt="FlexUI" width={28} height={28} className="object-contain" />
-        <span className="text-sm font-bold text-white">
-          Flex<span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">UI</span>
-          <span className="ml-1.5 rounded bg-white/5 px-1.5 py-0.5 text-[10px] font-medium text-zinc-500">v0.2.0</span>
-        </span>
-      </Link>
-
       {/* Search */}
       <button
         onClick={() => document.dispatchEvent(new KeyboardEvent("keydown", { key: "k", metaKey: true }))}
@@ -479,6 +474,11 @@ export function DocsSidebar() {
 
                     {/* Title */}
                     {item.title}
+                    {item.count !== undefined && (
+                      <span className="ml-auto rounded bg-white/5 px-1.5 py-0.5 text-[10px] tabular-nums text-zinc-400" aria-label={item.count + " components"}>
+                        {item.count}
+                      </span>
+                    )}
                     {item.isNew && (
                       <span className="ml-auto shrink-0 rounded bg-violet-500/15 px-1.5 py-0.5 text-[9px] font-bold text-violet-400 ring-1 ring-violet-500/20">
                         New
