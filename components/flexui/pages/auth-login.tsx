@@ -1,5 +1,7 @@
 "use client";
 
+import { COMPONENT_COUNT } from "@/lib/component-stats";
+
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -106,7 +108,7 @@ function defaultIconFor(label: string) {
 export function AuthLogin({
   brand = "FlexUI",
   tagline = "Build beautiful interfaces",
-  description = "140+ animated React components with 6 theme presets, page templates, and an AI-powered studio.",
+  description = COMPONENT_COUNT + " animated React components with 6 theme presets, page templates, and an AI-powered studio.",
   heading = "Welcome back",
   subtitle = "Sign in to your account to continue.",
   showSocial = true,
@@ -121,7 +123,7 @@ export function AuthLogin({
     role: "CTO at Acme",
   },
   features = [
-    "140+ animated components",
+    COMPONENT_COUNT + " animated components",
     "6 theme presets",
     "Page templates",
     "AI Studio",

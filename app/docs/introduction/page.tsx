@@ -1,9 +1,10 @@
+import { COMPONENT_COUNT } from "@/lib/component-stats";
 import { CodeBlock } from "@/components/ui/code-block";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Introduction — FlexUI",
-  description: "Learn about FlexUI, a cinematic component registry with 150+ animated React components.",
+  description: "Learn about FlexUI, a cinematic component registry with " + COMPONENT_COUNT + " animated React components.",
 };
 
 export default function IntroductionPage() {
@@ -17,7 +18,7 @@ export default function IntroductionPage() {
         </h1>
         <p className="mt-4 text-lg leading-relaxed text-zinc-400">
           FlexUI is an open-source component registry with{" "}
-          <span className="text-white">150+ cinematic React components</span> —
+          <span className="text-white">{COMPONENT_COUNT} cinematic React components</span> —
           spring-physics animations, WebGL 3D effects, and full page templates.
           One command install. Zero lock-in.
         </p>
@@ -143,7 +144,7 @@ export default function Page() {
 
       {/* Component tiers */}
       <section className="space-y-4">
-        <h2 className="text-2xl font-semibold text-white">150+ Components Across 3 Tiers</h2>
+        <h2 className="text-2xl font-semibold text-white">{COMPONENT_COUNT} Components Across 3 Tiers</h2>
         <div className="space-y-3">
           <div className="rounded-xl border border-green-500/20 bg-green-500/[0.04] p-5">
             <h3 className="text-sm font-bold text-green-400">Tier 1 — Enhanced Primitives</h3>
@@ -291,3 +292,4 @@ npx shadcn@latest add @flexui/page:auth-login`}
     </div>
   );
 }
+

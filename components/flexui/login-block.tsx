@@ -1,5 +1,7 @@
 "use client";
 
+import { COMPONENT_COUNT } from "@/lib/component-stats";
+
 import React, { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -150,7 +152,7 @@ export function LoginBlock({
           <div className="max-w-md px-12">
             <div className="text-3xl font-bold text-white">FlexUI</div>
             <p className="mt-4 text-lg leading-relaxed text-zinc-400">
-              Build beautiful interfaces with 140+ animated components.
+              Build beautiful interfaces with {COMPONENT_COUNT} animated components.
             </p>
           </div>
         </div>

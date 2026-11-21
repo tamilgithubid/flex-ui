@@ -1,5 +1,7 @@
 "use client";
 
+import { COMPONENT_COUNT } from "@/lib/component-stats";
+
 import { AmbientTilt } from "@/components/flexui/ambient-tilt";
 import { GlitchTransition } from "@/components/flexui/glitch-transition";
 import { GlowButton } from "@/components/flexui/glow-button";
@@ -375,7 +377,7 @@ export function AIStudio() {
               className="mt-6 flex items-center justify-center gap-8"
             >
               {[
-                { value: "157+", label: "Components" },
+                { value: String(COMPONENT_COUNT), label: "Components" },
                 { value: "10", label: "Themes" },
                 { value: "4", label: "AI Tools" },
               ].map((stat) => (

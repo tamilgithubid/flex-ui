@@ -1,3 +1,4 @@
+import { COMPONENT_COUNT } from "@/lib/component-stats";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { EditorialCover } from "@/components/marketing/editorial-cover";
@@ -13,9 +14,9 @@ const posts = [
   {
     slug: "flexui-registry-launch",
     image: editorialAssets.blogLaunch,
-    title: "FlexUI is Live: 150+ Cinematic Components, One Command Away",
+    title: "FlexUI is Live: " + COMPONENT_COUNT + " Cinematic Components, One Command Away",
     date: "2026-03-29",
-    excerpt: "FlexUI is now production-ready and deployed. Install 150+ animated React components with a single CLI command. Works with Next.js, Vite, and any React framework.",
+    excerpt: "FlexUI is now production-ready and deployed. Install " + COMPONENT_COUNT + " animated React components with a single CLI command. Works with Next.js, Vite, and any React framework.",
     readTime: "8 min",
     category: "Launch",
     categoryColor: "bg-emerald-950/90 text-emerald-400 ring-emerald-500/20",
@@ -24,7 +25,7 @@ const posts = [
   {
     slug: "introducing-flexui",
     image: editorialAssets.blogIntro,
-    title: "Introducing FlexUI: 130+ Cinematic React Components",
+    title: "Introducing FlexUI: " + COMPONENT_COUNT + " Cinematic React Components",
     date: "2026-03-15",
     excerpt: "We built FlexUI to give developers a library of production-ready, cinematic components — spring animations, 3D effects, WebGL shaders. Here's what's inside.",
     readTime: "5 min",

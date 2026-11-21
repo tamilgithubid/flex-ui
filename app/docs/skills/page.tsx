@@ -1,5 +1,7 @@
 "use client";
 
+import { COMPONENT_COUNT } from "@/lib/component-stats";
+
 import { useTheme } from "@/components/flexui/theme-provider";
 import { themes } from "@/lib/themes";
 import { AnimatePresence, motion } from "framer-motion";
@@ -17,7 +19,7 @@ const fadeUp = {
 const skills = [
   {
     name: "Component Discovery",
-    desc: "AI knows all 160+ FlexUI components — names, props, dependencies, tiers, and categories. Instant lookup for any component in the registry.",
+    desc: "Discover FlexUI component APIs — names, props, dependencies, tiers, and categories. Instant lookup for any component in the registry.",
     icon: "M4 5a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 15a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4zM14 15a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z",
     example: '"What FlexUI components have glow effects?"',
   },
@@ -90,7 +92,7 @@ const learnMore = [
   { title: "Installation", desc: "Get FlexUI set up in your project", href: "/docs/installation" },
   { title: "MCP Server", desc: "AI-powered component discovery", href: "/docs/mcp-server" },
   { title: "Theme Preview", desc: "Explore 6 built-in theme presets", href: "/docs/theme-preview" },
-  { title: "All Components", desc: "Browse the full 160+ registry", href: "/docs/components" },
+  { title: "All Components", desc: "Browse the full " + COMPONENT_COUNT + " component registry", href: "/docs/components" },
 ];
 
 /* ── Copy Button ────────────────────────────────────────────────────────── */
@@ -148,7 +150,7 @@ export default function SkillsPage() {
           style={{ color: "var(--flexui-body)" }}
         >
           Give your AI assistant deep knowledge of FlexUI&apos;s{" "}
-          <strong style={{ color: accent }}>160+ components</strong>,
+          <strong style={{ color: accent }}>component APIs</strong>,
           animation patterns, and best practices — so it writes{" "}
           <strong style={{ color: "var(--flexui-heading)" }}>production-ready code</strong>{" "}
           from the first prompt.
@@ -361,7 +363,7 @@ export default function SkillsPage() {
           className="grid gap-3 sm:grid-cols-4"
         >
           {[
-            { label: "Components", value: "160+" },
+            { label: "Components", value: String(COMPONENT_COUNT) },
             { label: "AI Skills", value: "7" },
             { label: "Theme Presets", value: "6" },
             { label: "Skills Ecosystem", value: "700K+" },

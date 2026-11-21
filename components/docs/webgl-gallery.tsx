@@ -1,5 +1,6 @@
 "use client";
 
+import { WEBGL_COMPONENT_COUNT } from "@/lib/component-stats";
 import Link from "next/link";
 import { useState } from "react";
 import { WEBGL_COMPONENTS } from "@/lib/webgl-components";
@@ -16,7 +17,7 @@ export function WebGLGallery() {
     <div className="flex flex-wrap items-end justify-between gap-4">
       <div><p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-400">FlexUI WebGL</p>
         <h2 className="mt-2 text-2xl font-semibold tracking-tight text-white">A new dimension for your interface.</h2>
-        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-zinc-400">18 interactive components. Live previews, editable shaders and copyable React code.</p>
+        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-zinc-400">{WEBGL_COMPONENT_COUNT} interactive components. Live previews, editable shaders and copyable React code.</p>
       </div>
       <label className="flex flex-col gap-2 text-xs text-zinc-400">Find a WebGL component
         <input type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder="Search components…" className="w-64 max-w-full rounded-lg border border-white/10 bg-zinc-950 px-3 py-2.5 text-sm text-white outline-none focus:border-cyan-400/60" />

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { WEBGL_COMPONENTS } from "@/lib/webgl-components";
+import { COMPONENT_COUNT } from "@/lib/component-stats";
 import {
   BookOpen,
   Download,
@@ -72,6 +73,7 @@ export function MobileSidebar() {
                   {item.icon}
                 </span>
                 {item.title}
+                {item.href === "/docs/components" && <span className="ml-auto rounded bg-white/5 px-1.5 py-0.5 text-[10px] tabular-nums text-zinc-400" aria-label={COMPONENT_COUNT + " components"}>{COMPONENT_COUNT}</span>}
               </Link>
             );
           })}

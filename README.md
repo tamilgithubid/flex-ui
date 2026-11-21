@@ -6,12 +6,12 @@
 
 <p align="center">
   <strong>Build Cinematic Interfaces.</strong><br/>
-  150+ animated React components. One command install. Zero lock-in.
+  182 animated React components. One command install. Zero lock-in.
 </p>
 
 <p align="center">
   <a href="https://flex-ui-wine.vercel.app"><img src="https://img.shields.io/badge/Live_Demo-flex--ui--wine.vercel.app-purple" alt="Live Demo" /></a>
-  <img src="https://img.shields.io/badge/components-150+-blue" alt="Components" />
+  <img src="https://img.shields.io/badge/components-182-blue" alt="Components" />
   <img src="https://img.shields.io/badge/license-MIT-green" alt="License" />
   <img src="https://img.shields.io/badge/React-18+-61dafb" alt="React" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
@@ -93,7 +93,7 @@ npx shadcn@latest add @flexui/page:saas-landing
 
 ---
 
-## 150+ Components Across 3 Tiers
+## 182 Components Across 3 Tiers
 
 ### Tier 1 — Enhanced Primitives
 

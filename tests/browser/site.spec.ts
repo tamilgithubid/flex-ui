@@ -1,4 +1,25 @@
 import { expect, test } from "@playwright/test";
+import { COMPONENT_COUNT } from "../../lib/component-stats";
+
+test("docs navigation uses one brand logo and shows the registry total on desktop and mobile", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto("/docs/components");
+  await expect(page.locator("nav.fixed").first().getByRole("img", { name: "FlexUI", exact: true })).toHaveCount(1);
+  const sidebar = page.locator("aside");
+  await expect(sidebar.getByRole("img", { name: "FlexUI", exact: true })).toHaveCount(0);
+  await expect(sidebar.getByRole("button", { name: /Search/ })).toBeVisible();
+  await expect(sidebar.locator('a[href="/"]')).toHaveCount(0);
+  await expect(sidebar.getByRole("link", { name: /All Components/ })).toContainText(String(COMPONENT_COUNT));
+  await expect(page.getByRole("heading", { level: 1 })).toContainText(String(COMPONENT_COUNT));
+  await page.screenshot({ path: testInfo.outputPath("docs-single-logo-and-count.png") });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.getByRole("button", { name: "Navigation", exact: true }).click();
+  await expect(page.locator('main nav a[href="/docs/components"]')).toContainText(String(COMPONENT_COUNT));
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
+  await page.screenshot({ path: testInfo.outputPath("docs-count-mobile.png") });
+  await page.goto("/");
+  await expect(page.getByText("FlexUI v0.2 — " + COMPONENT_COUNT + " Components", { exact: true })).toBeVisible();
+});
 
 test("hero transitions keep a single word, a fixed width, and a complete card surface", async ({ page }, testInfo) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });

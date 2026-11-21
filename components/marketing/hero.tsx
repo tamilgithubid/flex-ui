@@ -1,5 +1,7 @@
 "use client";
 
+import { COMPONENT_COUNT } from "@/lib/component-stats";
+
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { GradientBorderButton } from "@/components/flexui/gradient-border-button";
@@ -26,7 +28,7 @@ export function Hero() {
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#8B5CF6] opacity-50" />
             <span className="relative inline-flex h-2 w-2 rounded-full bg-[#8B5CF6]" />
           </span>
-          FlexUI v0.2 — 134+ Components
+          FlexUI v0.2 — {COMPONENT_COUNT} Components
         </span>
       </motion.div>
 
@@ -54,7 +56,7 @@ export function Hero() {
               "Zero npm bloat.",
               "Copy. Paste. Ship.",
               "Spring physics everywhere.",
-              "134+ animated components.",
+              COMPONENT_COUNT + " animated components.",
             ]}
             typingSpeed={55}
             deletingSpeed={30}

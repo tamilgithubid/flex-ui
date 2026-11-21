@@ -1,5 +1,7 @@
 "use client";
 
+import { COMPONENT_COUNT } from "@/lib/component-stats";
+
 import { NeonGlowCard } from "@/components/flexui/neon-glow-card";
 import { NumberTicker } from "@/components/flexui/number-ticker";
 import { ShimmerButton } from "@/components/flexui/shimmer-button";
@@ -82,7 +84,7 @@ const features = [
 const testimonials = [
   { name: "Sarah Chen", role: "Staff Engineer, Vercel", text: "FlexUI's theme engine is what shadcn should have shipped. We migrated in an afternoon." },
   { name: "Marcus Rivera", role: "Design Lead, Linear", text: "The cinematic animations are buttery smooth. Our designers can't stop creating with it." },
-  { name: "Aiko Tanaka", role: "CTO, Raycast", text: "139+ components, zero config. FlexUI saved us months of engineering time." },
+  { name: "Aiko Tanaka", role: "CTO, Raycast", text: COMPONENT_COUNT + " components, zero config. FlexUI saved us months of engineering time." },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -359,7 +361,7 @@ function FullscreenExperience({
           className="grid gap-3 sm:grid-cols-4"
         >
           {[
-            { label: "Components", value: 140, suffix: "+" },
+            { label: "Components", value: COMPONENT_COUNT, suffix: "" },
             { label: "Theme Tokens", value: 30, suffix: "+" },
             { label: "Page Templates", value: 7, suffix: "" },
             { label: "Lighthouse", value: 99, suffix: "" },

@@ -7,8 +7,8 @@
   },
   "scripts": {
     "preview:build": "node scripts/build-preview.mjs",
-    "predev": "npm run webgl:assets && npm run preview:build",
-    "prebuild": "npm run webgl:assets && npm run preview:build",
+    "predev": "npm run catalog:build && npm run webgl:assets && npm run preview:build",
+    "prebuild": "npm run catalog:build && npm run webgl:assets && npm run preview:build",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -22,7 +22,8 @@
     "test:visual:update": "playwright test --update-snapshots",
     "test:pages": "playwright test --config playwright.site.config.ts",
     "pretest": "npm run webgl:assets",
-    "webgl:assets": "node scripts/flexui-webgl-assets.mjs --all"
+    "webgl:assets": "node scripts/flexui-webgl-assets.mjs --all",
+    "catalog:build": "node --import tsx scripts/build-component-stats.ts"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",

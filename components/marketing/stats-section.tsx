@@ -1,5 +1,6 @@
 "use client";
 
+import { COMPONENT_COUNT } from "@/lib/component-stats";
 import React, { useRef, useEffect } from "react";
 import {
   motion,
@@ -16,7 +17,7 @@ interface StatItem {
 }
 
 const stats: StatItem[] = [
-  { value: 134, suffix: "+", label: "Components" },
+  { value: COMPONENT_COUNT, suffix: "", label: "Components" },
   { value: 100, suffix: "%", label: "TypeScript" },
   { value: 0, suffix: "", label: "Runtime CSS" },
   { value: 0, suffix: "", label: "Copy & Paste" },
@@ -93,3 +94,4 @@ export function StatsSection() {
     </section>
   );
 }
+

@@ -1,3 +1,4 @@
+import { COMPONENT_COUNT } from "@/lib/component-stats";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/flexui/theme-provider";
@@ -72,7 +73,7 @@ export default function RootLayout({
               name: "FlexUI",
               applicationCategory: "DeveloperApplication",
               description:
-                "Premium cinematic React component library with 90+ animated components",
+                "Premium cinematic React component library with " + COMPONENT_COUNT + " animated components",
               url: "https://flexui.dev",
               offers: {
                 "@type": "Offer",

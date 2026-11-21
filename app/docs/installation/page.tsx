@@ -1,3 +1,4 @@
+import { COMPONENT_COUNT } from "@/lib/component-stats";
 import { CodeBlock } from "@/components/ui/code-block";
 import type { Metadata } from "next";
 
@@ -289,7 +290,7 @@ export default function Hero() {
           </table>
         </div>
         <p className="text-sm text-zinc-500">
-          Browse all 150+ components in the{" "}
+          Browse all {COMPONENT_COUNT} components in the{" "}
           <a href="/docs/components" className="text-purple-400 hover:text-purple-300 underline underline-offset-4">
             Components
           </a>{" "}
@@ -366,3 +367,4 @@ export default function Hero() {
     </div>
   );
 }
+

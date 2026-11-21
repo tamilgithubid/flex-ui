@@ -1,10 +1,11 @@
+import { COMPONENT_COUNT } from "@/lib/component-stats";
 import { EditorialCover } from "@/components/marketing/editorial-cover";
 import { editorialAssets } from "@/lib/editorial-assets";
 import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Introducing FlexUI: 90+ Cinematic React Components",
+  title: "Introducing FlexUI: " + COMPONENT_COUNT + " Cinematic React Components",
   description:
     "We launched FlexUI to give developers a library of production-ready, cinematic components built with Framer Motion, Three.js, and Tailwind CSS.",
 };
@@ -22,7 +23,7 @@ export default function IntroducingFlexUI() {
 
         <header className="mt-8">
           <h1 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
-            Introducing FlexUI: 90+ Cinematic React Components
+            Introducing FlexUI: {COMPONENT_COUNT} Cinematic React Components
           </h1>
           <div className="mt-4 flex items-center gap-3 text-sm text-zinc-500">
             <span>FlexUI Team</span>
@@ -38,7 +39,7 @@ export default function IntroducingFlexUI() {
           <p>
             After months of development and real-world testing across dozens of
             production applications, we are thrilled to release FlexUI — an
-            open-source library of over 90 cinematic React components designed
+            open-source library of {COMPONENT_COUNT} cinematic React components designed
             for developers who refuse to compromise between performance and
             visual impact. Every component ships with Framer Motion animations,
             Tailwind CSS styling, and full TypeScript support, so you can

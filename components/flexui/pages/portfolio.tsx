@@ -1,5 +1,7 @@
 "use client";
 
+import { COMPONENT_COUNT } from "@/lib/component-stats";
+
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
@@ -136,7 +138,7 @@ export function Portfolio({
     {
       title: "Design System",
       description:
-        "A comprehensive component library with 100+ animated components.",
+        "A comprehensive component library with " + COMPONENT_COUNT + " animated components.",
       tags: ["React", "TypeScript", "Framer Motion"],
     },
     {

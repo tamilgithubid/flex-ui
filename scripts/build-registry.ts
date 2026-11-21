@@ -1494,6 +1494,10 @@ export function buildComponent(component: RegistryComponent, ancestors: string[]
     const target = "hooks/use-client-ready.ts";
     files.push({ path: target, target, type: "registry:hook", content: fs.readFileSync(path.join(ROOT, target), "utf-8") });
   }
+  if (files.some(file => file.content.includes("@/lib/component-stats"))) {
+    const target = "lib/component-stats.ts";
+    files.push({ path: target, target, type: "registry:lib", content: fs.readFileSync(path.join(ROOT, target), "utf8") });
+  }
 
   // Auto-inline registryDependencies (so shadcn doesn't look them up on ui.shadcn.com)
   if (component.registryDependencies.length > 0) {
@@ -1523,9 +1527,29 @@ export function buildComponent(component: RegistryComponent, ancestors: string[]
   };
 }
 
+export function buildComponentStats() {
+  const componentCount = new Set(COMPONENTS.map(component => component.name)).size;
+  const mcp = JSON.parse(fs.readFileSync(path.join(ROOT, "mcp-server/registry.json"), "utf8"));
+  const mcpCount = new Set(mcp.components.map((component: { name: string }) => component.name)).size;
+  const generated = "// Generated from the installable registry by npm run catalog:build. Shared helpers are excluded.\n" +
+    "export const COMPONENT_COUNT = " + componentCount + ";\n" +
+    "export const WEBGL_COMPONENT_COUNT = " + WEBGL_COMPONENTS.length + ";\n" +
+    "export const MCP_COMPONENT_COUNT = " + mcpCount + ";\n";
+  const destination = path.join(ROOT, "lib/component-stats.ts");
+  if (!fs.existsSync(destination) || fs.readFileSync(destination, "utf8") !== generated) fs.writeFileSync(destination, generated);
+  const readmePath = path.join(ROOT, "README.md");
+  const readme = fs.readFileSync(readmePath, "utf8");
+  const updated = readme
+    .replace(/(\s)\d+\+? animated React components\. One command install\./, "$1" + componentCount + " animated React components. One command install.")
+    .replace(/badge\/components-\d+\+?-blue/, "badge/components-" + componentCount + "-blue")
+    .replace(/## \d+\+? Components Across 3 Tiers/, "## " + componentCount + " Components Across 3 Tiers");
+  if (updated !== readme) fs.writeFileSync(readmePath, updated);
+}
+
 function main() {
   console.log("🔨 Building FlexUI registry...\n");
   ensureDir(OUT_DIR);
+  buildComponentStats();
 
   const index: { name: string; type: string; description: string; url: string }[] = [];
 
