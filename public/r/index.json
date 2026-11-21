@@ -16,6 +16,12 @@
       "url": "https://flex-ui-wine.vercel.app/r/use-reduced-motion.json"
     },
     {
+      "name": "ogl-runtime",
+      "type": "registry:ui",
+      "description": "Pinned OGL 1.0.11 modules, preview lifecycle adapter and verified asset installer.",
+      "url": "https://flex-ui-wine.vercel.app/r/ogl-runtime.json"
+    },
+    {
       "name": "magnetic-button",
       "type": "registry:ui",
       "description": "A button that uses Framer Motion spring physics to magnetically pull toward the cursor on hover with a glowing spotlight border effect.",
@@ -998,6 +1004,114 @@
       "type": "registry:ui",
       "description": "Real-time cursor positions of other users in a collaborative session. Color-coded with name labels and smooth spring animation.",
       "url": "https://flex-ui-wine.vercel.app/r/live-cursors.json"
+    },
+    {
+      "name": "ogl-skydome",
+      "type": "registry:ui",
+      "description": "A textured mountain panorama wrapped around a sky sphere, with a smaller globe at its center.",
+      "url": "https://flex-ui-wine.vercel.app/r/ogl-skydome.json"
+    },
+    {
+      "name": "ogl-cube-map",
+      "type": "registry:ui",
+      "description": "Six original cubemap faces surround a reflective scene with orbit and zoom controls.",
+      "url": "https://flex-ui-wine.vercel.app/r/ogl-cube-map.json"
+    },
+    {
+      "name": "ogl-normal-maps",
+      "type": "registry:ui",
+      "description": "The original granite material with tangent-space normal mapping and moving illumination.",
+      "url": "https://flex-ui-wine.vercel.app/r/ogl-normal-maps.json"
+    },
+    {
+      "name": "ogl-point-lighting",
+      "type": "registry:ui",
+      "description": "A textured Earth with clouds, point lighting and specular highlights.",
+      "url": "https://flex-ui-wine.vercel.app/r/ogl-point-lighting.json"
+    },
+    {
+      "name": "ogl-pbr",
+      "type": "registry:ui",
+      "description": "The original physically based car scene, including its material textures, environment and ground shadow.",
+      "url": "https://flex-ui-wine.vercel.app/r/ogl-pbr.json"
+    },
+    {
+      "name": "ogl-shadow-maps",
+      "type": "registry:ui",
+      "description": "The original airplane scene rendered with a shadow map over the water surface.",
+      "url": "https://flex-ui-wine.vercel.app/r/ogl-shadow-maps.json"
+    },
+    {
+      "name": "ogl-gpgpu-particles",
+      "type": "registry:ui",
+      "description": "GPU particle position and velocity simulation using the original ping-pong render targets.",
+      "url": "https://flex-ui-wine.vercel.app/r/ogl-gpgpu-particles.json"
+    },
+    {
+      "name": "ogl-skinning",
+      "type": "registry:ui",
+      "description": "The original Snout character, skinned mesh, skeletal animation and ground shadow.",
+      "url": "https://flex-ui-wine.vercel.app/r/ogl-skinning.json"
+    },
+    {
+      "name": "ogl-load-json",
+      "type": "registry:ui",
+      "description": "The original textured fox mesh loaded from the OGL JSON geometry format.",
+      "url": "https://flex-ui-wine.vercel.app/r/ogl-load-json.json"
+    },
+    {
+      "name": "ogl-particles",
+      "type": "registry:ui",
+      "description": "The original animated particle geometry, point sprites and shader colors.",
+      "url": "https://flex-ui-wine.vercel.app/r/ogl-particles.json"
+    },
+    {
+      "name": "ogl-polylines",
+      "type": "registry:ui",
+      "description": "The original colored polylines, curve geometry and interactive movement.",
+      "url": "https://flex-ui-wine.vercel.app/r/ogl-polylines.json"
+    },
+    {
+      "name": "ogl-tube",
+      "type": "registry:ui",
+      "description": "The original tube geometry generated along curved paths.",
+      "url": "https://flex-ui-wine.vercel.app/r/ogl-tube.json"
+    },
+    {
+      "name": "ogl-load-gltf",
+      "type": "registry:ui",
+      "description": "The original Hershel model, glTF materials and environment lighting.",
+      "url": "https://flex-ui-wine.vercel.app/r/ogl-load-gltf.json"
+    },
+    {
+      "name": "ogl-gltf-ktx2-basis",
+      "type": "registry:ui",
+      "description": "The original painterly cottage loaded with KTX2 Basis compressed textures and its local transcoder.",
+      "url": "https://flex-ui-wine.vercel.app/r/ogl-gltf-ktx2-basis.json"
+    },
+    {
+      "name": "ogl-sort-transparency",
+      "type": "registry:ui",
+      "description": "The original transparent leaf meshes and OGL transparent-object sorting.",
+      "url": "https://flex-ui-wine.vercel.app/r/ogl-sort-transparency.json"
+    },
+    {
+      "name": "ogl-frustum-culling",
+      "type": "registry:ui",
+      "description": "The original forest scene with camera frustum culling and its live visibility counter.",
+      "url": "https://flex-ui-wine.vercel.app/r/ogl-frustum-culling.json"
+    },
+    {
+      "name": "ogl-orbit-controls",
+      "type": "registry:ui",
+      "description": "The original textured macaw with mouse and touch orbit controls and two zoom modes.",
+      "url": "https://flex-ui-wine.vercel.app/r/ogl-orbit-controls.json"
+    },
+    {
+      "name": "ogl-mouse-flowmap",
+      "type": "registry:ui",
+      "description": "The original water texture distorted by a mouse-driven flowmap simulation.",
+      "url": "https://flex-ui-wine.vercel.app/r/ogl-mouse-flowmap.json"
     }
   ]
 }

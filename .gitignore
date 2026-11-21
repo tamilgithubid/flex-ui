@@ -21,6 +21,10 @@
 /playwright-report/
 /tests/browser/.generated/
 
+# Verified OGL model/texture cache, prepared automatically for development and builds.
+/public/ogl/examples/assets/**
+!/public/ogl/examples/assets/main.css
+
 # next.js
 /.next/
 /out/

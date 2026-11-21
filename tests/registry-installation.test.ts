@@ -2,6 +2,7 @@ import path from "node:path";
 import os from "node:os";
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import ts from "typescript";
+import { isBuiltin } from "node:module";
 import { describe, expect, it } from "vitest";
 import { buildComponent, COMPONENTS, SHARED } from "../scripts/build-registry";
 
@@ -24,7 +25,7 @@ describe("Registry installation", () => {
         const { importedFiles } = ts.preProcessFile(file.content, true, true);
         for (const { fileName: reference } of importedFiles) {
           // shadcn init supplies the consumer's utility and React is a peer.
-          if (reference === "@/lib/utils" || /^(react|react-dom)(\/|$)/.test(reference)) continue;
+          if (reference === "@/lib/utils" || /^(react|react-dom)(\/|$)/.test(reference) || isBuiltin(reference)) continue;
           if (reference.startsWith("@/") || reference.startsWith(".")) {
             const base = reference.startsWith("@/") ? reference.slice(2) : path.posix.join(path.posix.dirname(file.path), reference);
             const candidates = [base, ...[".ts", ".tsx", ".js", ".jsx", ".json", "/index.ts", "/index.tsx"].map((extension) => base + extension)];
@@ -38,7 +39,7 @@ describe("Registry installation", () => {
     });
   }
 
-  it.each(["theme-provider", "kpi-card"])("%s type-checks in a fresh consumer", (name) => {
+  it.each(["theme-provider", "kpi-card", "ogl-skydome"])("%s type-checks in a fresh consumer", (name) => {
     const component = registry.find((item) => item.name === name)!;
     const item = buildComponent(component);
     const directory = mkdtempSync(path.join(os.tmpdir(), "flexui-consumer-"));

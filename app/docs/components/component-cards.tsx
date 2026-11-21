@@ -78,6 +78,7 @@ import {
   Film,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { OGLGallery } from "@/components/docs/ogl-gallery";
 
 interface CardData {
   name: string;
@@ -2071,10 +2072,13 @@ function ComponentCard({
 
 export function ComponentCards() {
   return (
-    <div className="grid gap-6 sm:grid-cols-2">
+    <div className="space-y-16">
+      <OGLGallery />
+      <div className="grid gap-6 sm:grid-cols-2">
       {components.map((card, i) => (
         <ComponentCard key={card.href} card={card} index={i} />
       ))}
+      </div>
     </div>
   );
 }

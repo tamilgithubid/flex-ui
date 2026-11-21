@@ -1,0 +1,147 @@
+{
+  "upstream": {
+    "repository": "oframe/ogl",
+    "revision": "385ce65c352c70734a36dc98c787fdd1d30ddb3b",
+    "version": "1.0.11"
+  },
+  "examples": {
+    "skydome": {
+      "originalSha256": "5dd2d85671855cf04de21a6c62e5962bacb2c2cc4c5f916856b8cdb6c4cc8310",
+      "adaptedSha256": "42b460ce563e1c6069200e618016074cc625826a3db1748cb3705c1fdcb0c5ef"
+    },
+    "cube-map": {
+      "originalSha256": "6763506bc9e0c98f6526290cde98847ab5961b879a9eca3adbc9615cdb61c176",
+      "adaptedSha256": "194dcb62a19331d37bee2fba65474a770a7d0bc6ffe63d242fabdb8319b2b60a"
+    },
+    "normal-maps": {
+      "originalSha256": "c7f290e75a9d709568d9759477df8171a5b70b8d7fd141065e0bfe8bdd082746",
+      "adaptedSha256": "4479b7287c719de920af2f3de0103c131de883bc94a68be541a9d2c1b7a0fbfd"
+    },
+    "point-lighting": {
+      "originalSha256": "963ad6f351efc3c7bf70ef9cca0de849658c99eea140584a48800d4eb6e285ae",
+      "adaptedSha256": "8455e26a6f490167d4da68e583a621a80efb06b3cfdfbb9ce8092d2e864d54b6"
+    },
+    "pbr": {
+      "originalSha256": "e1191cc21ba86e40426a736ee5a13fc5b4ae44507bc12cf74c17946feaab0b3b",
+      "adaptedSha256": "c92533d600169fbb19c7b689384ac1ddabc156cb38a2dd4901dee23650b15d09"
+    },
+    "shadow-maps": {
+      "originalSha256": "58993061103b511c5252ae847bace3587024b86c1fb26201606775caefc26664",
+      "adaptedSha256": "78ce067c09b585e362171fb0f4b0881d47d583482666fd956d78fbca025a5283"
+    },
+    "gpgpu-particles": {
+      "originalSha256": "e69abac1ab09119a3269ac7ba64ad25e009038e565bec2dc82c7418458e3f4dd",
+      "adaptedSha256": "811ef3a693231a6a7512238f5d5583a2a95329aba8b17b7b783bef20bc167559"
+    },
+    "skinning": {
+      "originalSha256": "5434c1ce937788288d1f4e3cddeff0b971c10d07cedfbede547d9bd8c9b27f89",
+      "adaptedSha256": "992db3772ef298169b0e7802b666f0bea657c44e242141c1f8ece26474948558"
+    },
+    "load-json": {
+      "originalSha256": "30975388274236f23ffd2dbe843071f6e125062b584b8a0db29abddbdfe79629",
+      "adaptedSha256": "94492f3ab760a338aae9f53434d3b7a8a3f3ba05a0df0ad84532d406ca2c9d55"
+    },
+    "particles": {
+      "originalSha256": "a4acc937a9a03627e0a489262c8be4e4d7db211ffdb8e74c612508cb3ae12607",
+      "adaptedSha256": "d4085520b406bcadb4a2c43c380293ef4fa38682f7885394df23445f17324495"
+    },
+    "polylines": {
+      "originalSha256": "e06765687599464a4c41604db5e10a447cce7cb56ccae74eba764e6634cef6cd",
+      "adaptedSha256": "2f4ef8f713e80c11497a5d1549a8502a6612591392c21f6012c508deafd6f8d0"
+    },
+    "tube": {
+      "originalSha256": "152bf226b38ca8fe73e4687dc978ad6f910380969be1f43bdc8a238cc8518a9b",
+      "adaptedSha256": "daf48a9902e15e8a0bc6479203effced278ba82933a13c2ff902586f177dcb60"
+    },
+    "load-gltf": {
+      "originalSha256": "7a905d23cf0364b6c7d5cc8cbbc91a58490c0b98d33481853414c38ddb6ec4e6",
+      "adaptedSha256": "4e61d73a9480f64c5196edfd8bf97fa8187af06261e3e322af84a0fc127305fe"
+    },
+    "gltf-ktx2-basis": {
+      "originalSha256": "94bab8bfcb1174851a40944da6fffcde6f8c0181ed1eb3b331972378a1d1353f",
+      "adaptedSha256": "294e8a46f05a96c1c7c1b83da049975d50a07bce607728437f70827f51449ff7"
+    },
+    "sort-transparency": {
+      "originalSha256": "8eda78bf7ec07b63040c0777129332c278a637c6e97701e3ce73ca710ebb1bcc",
+      "adaptedSha256": "ccd3907be096eb993f1973cdb390ae08ab258beeb15c00bdff09cf54f2d0d0e7"
+    },
+    "frustum-culling": {
+      "originalSha256": "9aed37ce8356be34addf07a62590230cc23de5fde8e647d52fe627b70c48fd3f",
+      "adaptedSha256": "3a318b5bc1d65ecb0594350547042329c854f46a8df86c75ef44dd08c0e01ffb"
+    },
+    "orbit-controls": {
+      "originalSha256": "7cac7b06bb0864f5e38a6f93e7615d52c630b0a8b928ae515745f9b6e6b02c10",
+      "adaptedSha256": "f957e13510b771c3c5b16d64f8ac0355427d559f7a3e9556f6909210eead2315"
+    },
+    "mouse-flowmap": {
+      "originalSha256": "119005d28d76aa1b2fa1bb04cd83ce40b4e269a07cd5cc910daf93bf6eb0c6b5",
+      "adaptedSha256": "3c21563c319f78283b42f1ce42ec7ea501902502a53923581824a11e1edcea5c"
+    }
+  },
+  "source": {
+    "src/core/Camera.js": "6c2108c268b1eec7663b4c74fe26b16b0ffb12725fcb17480b7a41cca2a8079b",
+    "src/core/Geometry.js": "b38b6be72e7b0bf0ca5a273eb60df06cd6bd23429b8441f918e9c1b182d49c04",
+    "src/core/Mesh.js": "87ee0f924b3b7531ab18f21b2bb8afda8f180f8d52f100596d723368dccb87f4",
+    "src/core/Program.js": "88bf5aa14f86490d6d344d2bd97603fab5c4363b728a53930a714a6cdf79b27d",
+    "src/core/RenderTarget.js": "ca4bab8bc2b867836e2fdc4b3bdcff69215714bc161431bf519bc76e66876296",
+    "src/core/Renderer.js": "e8c411d1dfff6bc210a6165657587b80a1bc87c00f8c66c3fbb76cfdf236c6b8",
+    "src/core/Texture.js": "f496566c67561c5c621267e679e9102fb5e22c92d27c54e2bbcc0b8fa06b789c",
+    "src/core/Transform.js": "83d6add0dc37a6c8ef96cd112934ed35bf33835aabbe89c14f85a4f80e2bce54",
+    "src/extras/Animation.js": "97b198b2fa13fd9e9effef36dc41aefbeba5a34ae021c775c593258c9a1fa0a2",
+    "src/extras/BasisManager.js": "f773ea1254fc6e9f02f3a2190c80563dba00feb7d729cd5ff34a2c6d668d4833",
+    "src/extras/Box.js": "3f3709ef90bd58dfa36422ffab4d53e5796d3ca8813d89f494c397ca3d6e8a62",
+    "src/extras/Curve.js": "f2639644276c4e20cf1341ef35f7401d3305616c116dd67f47a4d92b35afc326",
+    "src/extras/Cylinder.js": "4c4363b9bb010a57f2fc61310583f92d6dfe6ae6c548c9e03f39b59f0467090a",
+    "src/extras/DracoManager.js": "6390254f6fd11a506ca99ec44326e2cb9f93c42f4399e290a1ef12edcc905255",
+    "src/extras/Flowmap.js": "cdac90ac8ae6e4e5c66c96b48e613aa0a4ba5b06a8575bde86d5dec848d9d146",
+    "src/extras/GLTFAnimation.js": "992de3b90a9f3cc7025ffa6ce3dfa9e348441bcd41bf5db26ab49410dd3b5e79",
+    "src/extras/GLTFLoader.js": "82414606a1fd06f14b6088171227a9058cd1c45ddf739f5d8d042e878fd04375",
+    "src/extras/GLTFSkin.js": "17de9850986d40c7f96427465b63b9241a6f92f45c243b02895341e3698bf0ca",
+    "src/extras/GPGPU.js": "4fb17a6eede733c94975363b9294d568d7e348a076f3a75dbf743c50963e311a",
+    "src/extras/InstancedMesh.js": "67e6433644306ae935642e5f1653d090c8835b1d8066c3fccd65d3821f9eda9a",
+    "src/extras/KTXTexture.js": "4b6e61cbcadd20082f8ddaf3961026a818ded56b606e0de7332fb50e88ec0675",
+    "src/extras/NormalProgram.js": "55f7196adc77a03d4e7996acc639eddee84bfdb5486d2f4a32469f36c3d06f2c",
+    "src/extras/Orbit.js": "ee77bac07180ecf7c27baa9ed56c6930467c2fa7659d29e391f2156fa199b854",
+    "src/extras/Plane.js": "5f35acd7443a8938c340d42244ecbfbffaab1406bc1cd3c23b35653fd796b2d1",
+    "src/extras/Polyline.js": "637fd705c02d12fcd12a70b785396ab5827d65cce34a623749a636bd319573eb",
+    "src/extras/Post.js": "cb77f6638d539e17b33e0a665e87e3759f747df42e53b50069af09c565ea7476",
+    "src/extras/Raycast.js": "04e3c5b726ca5d88737b19180c5828cffd213abdf9ab041323dcf3fa44ec16e4",
+    "src/extras/Shadow.js": "b7aa54df35646b4b559b8ab2f9a3b511941260c78dbbd48651d42bc75fc28214",
+    "src/extras/Skin.js": "36087347a4ccec1543b187c04da0b6da6baf2290b3e9cd4c6641a0d66719a1dd",
+    "src/extras/Sphere.js": "1054422ebf951b7dae594eee806e382b89a5268765c6cdbdbba8a9155c35f603",
+    "src/extras/Text.js": "4a9d54abef0fe55445c0a090baf3f30e6089d0d2e693e78dce1d447bfd9e1c5c",
+    "src/extras/Texture3D.js": "f258b9f7ed8f5d3613b31c8e8a6a860db3cccda3d3d107c169e7dabc42a60489",
+    "src/extras/TextureLoader.js": "45be4555339d298ed9807412103a55900d9c914564b6acf4a405054e8b902300",
+    "src/extras/Torus.js": "ce6d6bff6199ab7a9b42bc9a611832e1fd3034c4cf39890d6c8be308b043c9dd",
+    "src/extras/Triangle.js": "548ea8385dcdc4a7a09fcb6a679d80e87400428a8c9ed9598b707df428cc40ea",
+    "src/extras/Tube.js": "734e71939a0e590799f6de5101409f8f9ef004f6c180ccc8f76148e000c7ab5b",
+    "src/extras/WireMesh.js": "4c8241398cf9f8f765a6831082d5b5eb59cce03cca597b2d82765cbfa48541ad",
+    "src/extras/helpers/AxesHelper.js": "edaa8a8e814553dc813355f6936dbc0aa0578c72a407a5c4a6c7eba29360ffb2",
+    "src/extras/helpers/FaceNormalsHelper.js": "ab0ed8c6119ff1b3c4b19d01fb02cb22d2544fc6bbb2e857611c48ad776b0316",
+    "src/extras/helpers/GridHelper.js": "1b262bed9ddb0b125f7fe054346f30ea0afd69883c32f88f862bf2d8e937b9c1",
+    "src/extras/helpers/VertexNormalsHelper.js": "23c38c8a7686403ff81c84d4c04a952d04ceb455a0f2cc435f7a77c8208ef210",
+    "src/extras/path/BaseSegment.js": "b4aedb4014688e169ac7440ca63a3e10273d1709cbd52c1027a4a7c3e4b3ff48",
+    "src/extras/path/CubicBezierSegment.js": "b1960101912101b4e15c2e6d6ea7759089be401049224163fc2e635766a9738a",
+    "src/extras/path/LineSegment.js": "41dc67e6ce69473c8db6c3a73e33824a73ff0c83c6f9dfcae0886c6a6825cd4e",
+    "src/extras/path/Path.js": "18fdf679e38dc03585eb7998bde3115683acf459c8c77935f36f84a51e6270f8",
+    "src/extras/path/QuadraticBezierSegment.js": "02ba06250991556037d1d530e66be3d01d8166fa48c175023df023311c7171e9",
+    "src/extras/path/utils.js": "99ea926108149a3ac2c5c5859d82ab47e2036c9e7a547bc91a8514ede6616293",
+    "src/index.js": "e8931fa4f323220fc5279813a811f6995f081fb21298587429e34b5f9e4ebadf",
+    "src/math/Color.js": "885c08d8e02fd44486a9adf4b2f5c606bb2035edea1471934f55253fef454d1b",
+    "src/math/Euler.js": "617dae187caa463bdf4b7c8536a10f56ef9012cf43cebebf6404a09acbc7b366",
+    "src/math/Mat3.js": "b96f08ef6bae2f249ab552f692656430ae1e7c5f729b6a5b8fb3afd17f1f0d56",
+    "src/math/Mat4.js": "c091a2283bc334e19e17501f33158ba407ae0d3703ac589c15d636ef1bfefca6",
+    "src/math/Quat.js": "43ac0a8fe0b733d550e3a8021344da9db1063dbc16cc6aa640309432cfbd151c",
+    "src/math/Vec2.js": "82f10e29f5157b755a7db66d67a423f51008a4aef2ccc579a8f12b8b90d33dba",
+    "src/math/Vec3.js": "a05a9e0726df48e62b3ccf7003dd922fddeead3618c8d06a1921644af4cfb121",
+    "src/math/Vec4.js": "49a87d3ddd9b4f5d1c2ab81852fa7f4c45535893e5aa065637094c8a0f646a1d",
+    "src/math/functions/ColorFunc.js": "63aca4a50a00f37f38f810b0dd04b031094a40ae7e21437e6931db27105efe1c",
+    "src/math/functions/EulerFunc.js": "56f44178c29e64494c9fea9bc72b3574546201b0aed21aab7470bf74827f18d5",
+    "src/math/functions/Mat3Func.js": "c24f81aea1a9b4b62ebea37aabef2bc96e88d20c357adf07eda4a71bcca4e96d",
+    "src/math/functions/Mat4Func.js": "3c6af31af0a96e1c3bba9655b7afc5e490f569364293780415a712c82fa6718f",
+    "src/math/functions/QuatFunc.js": "25d57a0d2e470a4097e7fb188add6b1d78d4188586dd4b244ca5f58bc5835231",
+    "src/math/functions/Vec2Func.js": "71d1aa1609ca542997f6b43544cc141a43a0e3dee52be94aadb8d20820028b51",
+    "src/math/functions/Vec3Func.js": "1e1cbb442fa6661b4b8eeff69f2d56dd3468f8999271120bcd77f2a5bad1b56b",
+    "src/math/functions/Vec4Func.js": "9fc2276648e34f1dbe6993b3695c192f98abd413b4742e3e63abd4a46d3fef7a"
+  }
+}

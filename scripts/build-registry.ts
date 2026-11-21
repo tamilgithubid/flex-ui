@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
+import { OGL_EXAMPLES } from "../lib/ogl-examples";
 
 // ─── Configuration ──────────────────────────────────────────────────────────
 
@@ -1409,6 +1410,35 @@ export const COMPONENTS: RegistryComponent[] = [
 
 const ROOT = path.resolve(__dirname, "..");
 const OUT_DIR = path.join(ROOT, "public", "r");
+
+// The original engine is shared; every scene bundles its own HTML and React host.
+function oglFiles(directory: string): string[] {
+  return fs.readdirSync(path.join(ROOT, directory), { withFileTypes: true }).flatMap(entry =>
+    entry.isDirectory() ? oglFiles(directory + "/" + entry.name) : [directory + "/" + entry.name]);
+}
+SHARED.push({
+  name: "ogl-runtime", type: "registry:ui", title: "OGL Example Runtime",
+  description: "Pinned OGL 1.0.11 modules, preview lifecycle adapter and verified asset installer.",
+  dependencies: [], registryDependencies: [],
+  files: [
+    { path: "components/flexui/ogl-example.tsx", target: "components/flexui/ogl-example.tsx" },
+    { path: "hooks/use-reduced-motion.ts", target: "hooks/use-reduced-motion.ts", type: "registry:hook" },
+    ...[
+      "lib/ogl-examples.ts", "public/ogl/flexui-bridge.js", "public/ogl/assets-manifest.json",
+      "public/ogl/provenance.json", "public/ogl/UNLICENSE.txt", "public/ogl/ATTRIBUTION.md",
+      "public/ogl/examples/assets/main.css", "scripts/flexui-ogl-assets.mjs",
+      ...oglFiles("public/ogl/src"), ...oglFiles("public/ogl/licenses"),
+    ].map(file => ({ path: file, target: file, type: "registry:lib" as RegistryType })),
+  ],
+});
+COMPONENTS.push(...OGL_EXAMPLES.map(example => ({
+  name: "ogl-" + example.id, type: "registry:ui" as RegistryType, title: example.title + " (OGL)",
+  description: example.description, dependencies: [], registryDependencies: ["ogl-runtime"],
+  files: [
+    { path: "components/flexui/ogl-" + example.id + ".tsx", target: "components/flexui/ogl-" + example.id + ".tsx" },
+    { path: "public/ogl/examples/" + example.id + ".html", target: "public/ogl/examples/" + example.id + ".html", type: "registry:lib" as RegistryType },
+  ],
+})));
 
 function ensureDir(dir: string) {
   if (!fs.existsSync(dir)) {

@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { OGL_EXAMPLES } from "@/lib/ogl-examples";
 import {
   BookOpen,
   Download,
@@ -21,6 +22,8 @@ import {
 } from "lucide-react";
 
 const items = [
+  { title: "OGL Examples", href: "/docs/components/ogl", icon: <Globe className="h-4 w-4" /> },
+  ...OGL_EXAMPLES.map(example => ({ title: "OGL " + example.title, href: "/docs/components/ogl-" + example.id, icon: <Globe className="h-4 w-4" /> })),
   { title: "Introduction", href: "/docs/introduction", icon: <BookOpen className="h-4 w-4" /> },
   { title: "Installation", href: "/docs/installation", icon: <Download className="h-4 w-4" /> },
   { title: "MCP Server", href: "/docs/mcp-server", icon: <Server className="h-4 w-4" /> },
@@ -77,3 +80,4 @@ export function MobileSidebar() {
     </div>
   );
 }
+

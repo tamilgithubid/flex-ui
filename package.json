@@ -7,8 +7,8 @@
   },
   "scripts": {
     "preview:build": "node scripts/build-preview.mjs",
-    "predev": "npm run preview:build",
-    "prebuild": "npm run preview:build",
+    "predev": "npm run ogl:assets && npm run preview:build",
+    "prebuild": "npm run ogl:assets && npm run preview:build",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -20,7 +20,9 @@
     "test:watch": "vitest",
     "test:visual": "playwright test",
     "test:visual:update": "playwright test --update-snapshots",
-    "test:pages": "playwright test --config playwright.site.config.ts"
+    "test:pages": "playwright test --config playwright.site.config.ts",
+    "ogl:assets": "node scripts/flexui-ogl-assets.mjs --all",
+    "pretest": "npm run ogl:assets"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",

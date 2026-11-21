@@ -18,6 +18,10 @@ const eslintConfig = defineConfig([
     "build/**",
     "**/dist/**",
     "next-env.d.ts",
+    // Pinned, unmodified upstream code and scene HTML. Adapter code remains linted.
+    "public/ogl/src/**",
+    "public/ogl/examples/**",
+    "vendor/ogl/**",
   ]),
 ]);
 
