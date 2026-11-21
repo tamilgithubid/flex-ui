@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { OGL_EXAMPLES } from "@/lib/ogl-examples";
+import { WEBGL_COMPONENTS } from "@/lib/webgl-components";
 import {
   BookOpen,
   Download,
@@ -22,8 +22,6 @@ import {
 } from "lucide-react";
 
 const items = [
-  { title: "OGL Examples", href: "/docs/components/ogl", icon: <Globe className="h-4 w-4" /> },
-  ...OGL_EXAMPLES.map(example => ({ title: "OGL " + example.title, href: "/docs/components/ogl-" + example.id, icon: <Globe className="h-4 w-4" /> })),
   { title: "Introduction", href: "/docs/introduction", icon: <BookOpen className="h-4 w-4" /> },
   { title: "Installation", href: "/docs/installation", icon: <Download className="h-4 w-4" /> },
   { title: "MCP Server", href: "/docs/mcp-server", icon: <Server className="h-4 w-4" /> },
@@ -32,6 +30,8 @@ const items = [
   { title: "Magnetic Button", href: "/docs/components/magnetic-button", icon: <MousePointer className="h-4 w-4" /> },
   { title: "3D Hover Card", href: "/docs/components/three-hover-card", icon: <Box className="h-4 w-4" /> },
   { title: "Floating Panel", href: "/docs/components/floating-panel", icon: <PanelTop className="h-4 w-4" /> },
+  { title: "WebGL Components", href: "/docs/components/webgl", icon: <Globe className="h-4 w-4" /> },
+  ...WEBGL_COMPONENTS.map(example => ({ title: example.title, href: "/docs/components/" + example.id, icon: <Globe className="h-4 w-4" /> })),
   { title: "Interactive Globe", href: "/docs/components/interactive-globe", icon: <Globe className="h-4 w-4" /> },
   { title: "Shader Blob", href: "/docs/components/shader-blob", icon: <Globe className="h-4 w-4" /> },
   { title: "Chromatic Text", href: "/docs/components/chromatic-text", icon: <Box className="h-4 w-4" /> },

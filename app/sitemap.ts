@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { OGL_EXAMPLES } from "@/lib/ogl-examples";
+import { WEBGL_COMPONENTS } from "@/lib/webgl-components";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://flexui.dev";
@@ -79,9 +79,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/docs/components/progress-ring",
     // Search
     "/docs/components/search-spotlight",
-    // OGL WebGL examples
-    "/docs/components/ogl",
-    ...OGL_EXAMPLES.map(example => "/docs/components/ogl-" + example.id),
+    // WebGL examples
+    "/docs/components/webgl",
+    ...WEBGL_COMPONENTS.map(example => "/docs/components/" + example.id),
     // WebGL
     "/docs/components/interactive-globe",
     // Blog

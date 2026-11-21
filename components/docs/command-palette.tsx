@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, Command, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { OGL_EXAMPLES } from "@/lib/ogl-examples";
+import { WEBGL_COMPONENTS } from "@/lib/webgl-components";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 
 interface SearchItem {
@@ -29,7 +29,7 @@ const searchItems: SearchItem[] = [
   { title: "Text Reveal", href: "/docs/components/text-reveal", category: "Components", description: "Staggered text animation on scroll" },
   { title: "Number Ticker", href: "/docs/components/number-ticker", category: "Components", description: "Animated counting number" },
   { title: "Spotlight Card", href: "/docs/components/spotlight-card", category: "Components", description: "Cursor-following spotlight card" },
-  ...OGL_EXAMPLES.map(example => ({ title: example.title + " · OGL", href: "/docs/components/ogl-" + example.id, category: "OGL WebGL", description: example.description })),
+  ...WEBGL_COMPONENTS.map(example => ({ title: example.title + "", href: "/docs/components/" + example.id, category: "WebGL", description: example.description })),
 ];
 
 function groupByCategory(items: SearchItem[]) {

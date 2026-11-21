@@ -32,14 +32,14 @@ describe("Registry installation", () => {
             expect(candidates.some((candidate) => targets.has(candidate)), `${item.name}: ${file.path} imports missing ${reference}`).toBe(true);
           } else {
             const name = reference.startsWith("@") ? reference.split("/").slice(0, 2).join("/") : reference.split("/")[0];
-            expect(item.dependencies, `${item.name}: missing npm dependency ${name}`).toContain(name);
+            expect(item.dependencies.some(dependency => dependency === name || dependency.startsWith(name + "@")), `${item.name}: missing npm dependency ${name}`).toBe(true);
           }
         }
       }
     });
   }
 
-  it.each(["theme-provider", "kpi-card", "ogl-skydome"])("%s type-checks in a fresh consumer", (name) => {
+  it.each(["theme-provider", "kpi-card", "skydome", "gltf-ktx2-basis"])("%s type-checks in a fresh consumer", (name) => {
     const component = registry.find((item) => item.name === name)!;
     const item = buildComponent(component);
     const directory = mkdtempSync(path.join(os.tmpdir(), "flexui-consumer-"));

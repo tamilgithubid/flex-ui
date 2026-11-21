@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { OGL_EXAMPLES } from "@/lib/ogl-examples";
+import { WEBGL_COMPONENTS } from "@/lib/webgl-components";
 import { motion } from "framer-motion";
 import {
   Activity,
@@ -348,17 +348,12 @@ const sidebarSections: { heading: string; items: SidebarItem[] }[] = [
   {
     heading: "WebGL",
     items: [
+      { title: "All WebGL Components", href: "/docs/components/webgl", icon: <Globe className="h-4 w-4" />, isNew: true },
+      ...WEBGL_COMPONENTS.map(component => ({ title: component.title, href: "/docs/components/" + component.id, icon: <Globe className="h-4 w-4" />, isNew: true })),
       { title: "Interactive Globe", href: "/docs/components/interactive-globe", icon: <Globe className="h-4 w-4" /> },
       { title: "Cosmic Eye", href: "/docs/components/cosmic-eye", icon: <EyeIcon className="h-4 w-4" />, isNew: true },
       { title: "Shader Blob", href: "/docs/components/shader-blob", icon: <Circle className="h-4 w-4" />, isNew: true },
       { title: "Evolution Hero", href: "/docs/components/evolution-hero", icon: <Sparkles className="h-4 w-4" />, isNew: true },
-    ],
-  },
-  {
-    heading: "OGL Examples",
-    items: [
-      { title: "All OGL Examples", href: "/docs/components/ogl", icon: <Globe className="h-4 w-4" />, isNew: true },
-      ...OGL_EXAMPLES.map(example => ({ title: example.title, href: "/docs/components/ogl-" + example.id, icon: <Globe className="h-4 w-4" />, isNew: true })),
     ],
   },
   {

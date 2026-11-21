@@ -7,6 +7,8 @@ const eslintConfig = defineConfig([
   ...nextTs,
   // Registry components also target React and Vite; they cannot require next/image.
   { files: ["components/flexui/**/*.tsx"], rules: { "@next/next/no-img-element": "off" } },
+  // Generated scene ports preserve the original callback signatures.
+  { files: ["components/flexui/webgl/scenes/*.js"], rules: { "@typescript-eslint/no-unused-vars": ["warn", { args: "none" }] } },
   // Override default ignores of eslint-config-next.
   globalIgnores([
     // Default ignores of eslint-config-next:
@@ -19,8 +21,7 @@ const eslintConfig = defineConfig([
     "**/dist/**",
     "next-env.d.ts",
     // Pinned, unmodified upstream code and scene HTML. Adapter code remains linted.
-    "public/ogl/src/**",
-    "public/ogl/examples/**",
+    "public/webgl/assets/**",
     "vendor/ogl/**",
   ]),
 ]);
